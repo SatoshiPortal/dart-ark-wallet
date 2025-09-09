@@ -7,8 +7,10 @@ import 'ark/addresses.dart';
 import 'ark/balance.dart';
 import 'ark/client.dart';
 import 'ark/esplora.dart';
+import 'ark/send.dart';
 import 'ark/storage.dart';
 import 'ark/transactions.dart';
+import 'ark/utils.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
@@ -70,7 +72,7 @@ class LibArk extends BaseEntrypoint<LibArkApi, LibArkApiImpl, LibArkWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -664063813;
+  int get rustContentHash => -866043494;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -81,7 +83,7 @@ class LibArk extends BaseEntrypoint<LibArkApi, LibArkApiImpl, LibArkWire> {
 }
 
 abstract class LibArkApi extends BaseApi {
-  Future<Addresses> crateArkClientArkClientAddresses({required ArkClient that});
+  Addresses crateArkClientArkClientAddresses({required ArkClient that});
 
   ArcClientEsploraClientWalletInMemoryDb
   crateArkClientArkClientAutoAccessorGetInner({required ArkClient that});
@@ -101,6 +103,18 @@ abstract class LibArkApi extends BaseApi {
     required ArkClientConfig config,
   });
 
+  Future<Txid> crateArkClientArkClientSendOffChain({
+    required ArkClient that,
+    required String address,
+    required BigInt sats,
+  });
+
+  Future<Txid> crateArkClientArkClientSendOnChain({
+    required ArkClient that,
+    required String address,
+    required BigInt sats,
+  });
+
   Future<void> crateArkEsploraEsploraClientCheckConnection({
     required EsploraClient that,
   });
@@ -112,6 +126,10 @@ abstract class LibArkApi extends BaseApi {
   Future<ArkClient> crateArkClientSetupClient({
     required ArkClientConfig config,
   });
+
+  bool crateArkUtilsUtilsIsArkAddress({required String address});
+
+  bool crateArkUtilsUtilsIsBtcAddress({required String address});
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDb;
@@ -146,6 +164,12 @@ abstract class LibArkApi extends BaseApi {
   get rust_arc_decrement_strong_count_InMemoryDb;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_InMemoryDbPtr;
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Txid;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Txid;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_TxidPtr;
 }
 
 class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
@@ -157,23 +181,16 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   });
 
   @override
-  Future<Addresses> crateArkClientArkClientAddresses({
-    required ArkClient that,
-  }) {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
+  Addresses crateArkClientArkClientAddresses({required ArkClient that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
             that,
             serializer,
           );
-          pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 1,
-            port: port_,
-          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_addresses,
@@ -355,6 +372,88 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       const TaskConstMeta(debugName: "ArkClient_init", argNames: ["config"]);
 
   @override
+  Future<Txid> crateArkClientArkClientSendOffChain({
+    required ArkClient that,
+    required String address,
+    required BigInt sats,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+            that,
+            serializer,
+          );
+          sse_encode_String(address, serializer);
+          sse_encode_u_64(sats, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 7,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkClientSendOffChainConstMeta,
+        argValues: [that, address, sats],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkClientSendOffChainConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkClient_send_off_chain",
+        argNames: ["that", "address", "sats"],
+      );
+
+  @override
+  Future<Txid> crateArkClientArkClientSendOnChain({
+    required ArkClient that,
+    required String address,
+    required BigInt sats,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+            that,
+            serializer,
+          );
+          sse_encode_String(address, serializer);
+          sse_encode_u_64(sats, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 8,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkClientSendOnChainConstMeta,
+        argValues: [that, address, sats],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkClientSendOnChainConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkClient_send_on_chain",
+        argNames: ["that", "address", "sats"],
+      );
+
+  @override
   Future<void> crateArkEsploraEsploraClientCheckConnection({
     required EsploraClient that,
   }) {
@@ -369,7 +468,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 7,
+            funcId: 9,
             port: port_,
           );
         },
@@ -400,7 +499,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 8,
+            funcId: 10,
             port: port_,
           );
         },
@@ -428,7 +527,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 9,
+            funcId: 11,
             port: port_,
           );
         },
@@ -459,7 +558,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 10,
+            funcId: 12,
             port: port_,
           );
         },
@@ -477,6 +576,58 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   TaskConstMeta get kCrateArkClientSetupClientConstMeta =>
       const TaskConstMeta(debugName: "setup_client", argNames: ["config"]);
+
+  @override
+  bool crateArkUtilsUtilsIsArkAddress({required String address}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(address, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateArkUtilsUtilsIsArkAddressConstMeta,
+        argValues: [address],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkUtilsUtilsIsArkAddressConstMeta =>
+      const TaskConstMeta(
+        debugName: "utils_is_ark_address",
+        argNames: ["address"],
+      );
+
+  @override
+  bool crateArkUtilsUtilsIsBtcAddress({required String address}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(address, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateArkUtilsUtilsIsBtcAddressConstMeta,
+        argValues: [address],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkUtilsUtilsIsBtcAddressConstMeta =>
+      const TaskConstMeta(
+        debugName: "utils_is_btc_address",
+        argNames: ["address"],
+      );
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDb =>
@@ -509,6 +660,14 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   RustArcDecrementStrongCountFnType
   get rust_arc_decrement_strong_count_InMemoryDb => wire
       .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_Txid => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_Txid => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid;
 
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
@@ -552,6 +711,15 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return InMemoryDbImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Txid
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TxidImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -617,6 +785,15 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return InMemoryDbImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Txid
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TxidImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -759,6 +936,15 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  Utils dco_decode_utils(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.isNotEmpty)
+      throw Exception('unexpected arr length: expect 0 but see ${arr.length}');
+    return Utils();
+  }
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_String(deserializer);
@@ -808,6 +994,18 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return InMemoryDbImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  Txid
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TxidImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -892,6 +1090,18 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return InMemoryDbImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  Txid
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TxidImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1060,6 +1270,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  Utils sse_decode_utils(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Utils();
+  }
+
+  @protected
   int sse_decode_i_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getInt32();
@@ -1124,6 +1340,19 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as InMemoryDbImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    Txid self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as TxidImpl).frbInternalSseEncode(move: true),
       serializer,
     );
   }
@@ -1217,6 +1446,19 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as InMemoryDbImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    Txid self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as TxidImpl).frbInternalSseEncode(move: null),
       serializer,
     );
   }
@@ -1379,6 +1621,11 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  void sse_encode_utils(Utils self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+  }
+
+  @protected
   void sse_encode_i_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt32(self);
@@ -1434,7 +1681,7 @@ class ArkClientImpl extends RustOpaque implements ArkClient {
         LibArk.instance.api.rust_arc_decrement_strong_count_ArkClientPtr,
   );
 
-  Future<Addresses> addresses() =>
+  Addresses addresses() =>
       LibArk.instance.api.crateArkClientArkClientAddresses(that: this);
 
   ArcClientEsploraClientWalletInMemoryDb get inner => LibArk.instance.api
@@ -1448,6 +1695,20 @@ class ArkClientImpl extends RustOpaque implements ArkClient {
 
   Future<List<Transaction>> fetchTransactions() =>
       LibArk.instance.api.crateArkClientArkClientFetchTransactions(that: this);
+
+  Future<Txid> sendOffChain({required String address, required BigInt sats}) =>
+      LibArk.instance.api.crateArkClientArkClientSendOffChain(
+        that: this,
+        address: address,
+        sats: sats,
+      );
+
+  Future<Txid> sendOnChain({required String address, required BigInt sats}) =>
+      LibArk.instance.api.crateArkClientArkClientSendOnChain(
+        that: this,
+        address: address,
+        sats: sats,
+      );
 }
 
 @sealed
@@ -1490,5 +1751,25 @@ class InMemoryDbImpl extends RustOpaque implements InMemoryDb {
         LibArk.instance.api.rust_arc_decrement_strong_count_InMemoryDb,
     rustArcDecrementStrongCountPtr:
         LibArk.instance.api.rust_arc_decrement_strong_count_InMemoryDbPtr,
+  );
+}
+
+@sealed
+class TxidImpl extends RustOpaque implements Txid {
+  // Not to be used by end users
+  TxidImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  TxidImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        LibArk.instance.api.rust_arc_increment_strong_count_Txid,
+    rustArcDecrementStrongCount:
+        LibArk.instance.api.rust_arc_decrement_strong_count_Txid,
+    rustArcDecrementStrongCountPtr:
+        LibArk.instance.api.rust_arc_decrement_strong_count_TxidPtr,
   );
 }

@@ -7,8 +7,10 @@ import 'ark/addresses.dart';
 import 'ark/balance.dart';
 import 'ark/client.dart';
 import 'ark/esplora.dart';
+import 'ark/send.dart';
 import 'ark/storage.dart';
 import 'ark/transactions.dart';
+import 'ark/utils.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi' as ffi;
@@ -40,6 +42,9 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   get rust_arc_decrement_strong_count_InMemoryDbPtr => wire
       ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDbPtr;
 
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_TxidPtr => wire
+      ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxidPtr;
+
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw);
 
@@ -64,6 +69,12 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   @protected
   InMemoryDb
   dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb(
+    dynamic raw,
+  );
+
+  @protected
+  Txid
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
     dynamic raw,
   );
 
@@ -106,6 +117,12 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   @protected
   InMemoryDb
   dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb(
+    dynamic raw,
+  );
+
+  @protected
+  Txid
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
     dynamic raw,
   );
 
@@ -158,6 +175,9 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   BigInt dco_decode_usize(dynamic raw);
 
   @protected
+  Utils dco_decode_utils(dynamic raw);
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
@@ -181,6 +201,12 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   @protected
   InMemoryDb
   sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  Txid
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
     SseDeserializer deserializer,
   );
 
@@ -223,6 +249,12 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   @protected
   InMemoryDb
   sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  Txid
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
     SseDeserializer deserializer,
   );
 
@@ -277,6 +309,9 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   BigInt sse_decode_usize(SseDeserializer deserializer);
 
   @protected
+  Utils sse_decode_utils(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
@@ -310,6 +345,13 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   void
   sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb(
     InMemoryDb self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    Txid self,
     SseSerializer serializer,
   );
 
@@ -359,6 +401,13 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   void
   sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb(
     InMemoryDb self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    Txid self,
     SseSerializer serializer,
   );
 
@@ -427,6 +476,9 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
 
   @protected
   void sse_encode_usize(BigInt self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_utils(Utils self, SseSerializer serializer);
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
@@ -580,5 +632,39 @@ class LibArkWire implements BaseWire {
       );
   late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb =
       _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDbPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxidPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_ark_wallet_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid',
+      );
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid =
+      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxidPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxidPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_ark_wallet_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid',
+      );
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid =
+      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxidPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 }

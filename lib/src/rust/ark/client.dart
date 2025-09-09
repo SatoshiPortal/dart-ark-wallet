@@ -8,6 +8,7 @@ import '../lib.dart';
 import 'addresses.dart';
 import 'balance.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'send.dart';
 import 'transactions.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`
@@ -17,7 +18,7 @@ Future<ArkClient> setupClient({required ArkClientConfig config}) =>
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>
 abstract class ArkClient implements RustOpaqueInterface {
-  Future<Addresses> addresses();
+  Addresses addresses();
 
   ArcClientEsploraClientWalletInMemoryDb get inner;
 
@@ -29,6 +30,10 @@ abstract class ArkClient implements RustOpaqueInterface {
 
   static Future<ArkClient> init({required ArkClientConfig config}) =>
       LibArk.instance.api.crateArkClientArkClientInit(config: config);
+
+  Future<Txid> sendOffChain({required String address, required BigInt sats});
+
+  Future<Txid> sendOnChain({required String address, required BigInt sats});
 }
 
 class ArkClientConfig {
