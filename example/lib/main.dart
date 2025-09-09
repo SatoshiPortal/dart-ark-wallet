@@ -6,11 +6,31 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+void test() async {
+  try {
+    final client = await ArkClient.init(
+      config: ArkClientConfig(
+        nsec: "nsec1cz2uryzw7j20wdwgh94xua8nt3ch9xcuvlkg85zalg2c336ahjdq6nu2qx",
+        network: "signet",
+        esplora: "https://mutinynet.com/api",
+        server: "https://mutinynet.arkade.sh",
+      ),
+    );
+
+    final txs = await client.fetchTransactions();
+    print("Tx history: $txs");
+  } catch (e) {
+    print(e);
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    test();
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('flutter_rust_bridge quickstart')),
