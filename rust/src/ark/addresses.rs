@@ -1,4 +1,5 @@
 use anyhow::{Result, anyhow};
+use flutter_rust_bridge::frb;
 use crate::ark::client::ArkClient;
 
 pub use bitcoin::Address;
@@ -10,7 +11,8 @@ pub struct Addresses {
 }
 
 impl ArkClient {
-    pub async fn addresses(&self) -> Result<Addresses> {
+    #[frb(sync)]
+    pub fn addresses(&self) -> Result<Addresses> {
         let boarding_address = self.inner
         .get_boarding_address()
         .map_err(|error| anyhow!("Could not get boarding address {error:#}"))?;
