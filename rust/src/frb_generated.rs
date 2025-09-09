@@ -41,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -634745658;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -664063813;
 
 // Section: executor
 
@@ -49,6 +49,62 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
+fn wire__crate__ark__client__ArkClient_addresses_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ArkClient_addresses",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| async move {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let mut api_that_guard = None;
+                        let decode_indices_ =
+                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
+                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                    &api_that, 0, false,
+                                )],
+                            );
+                        for i in decode_indices_ {
+                            match i {
+                                0 => {
+                                    api_that_guard =
+                                        Some(api_that.lockable_decode_async_ref().await)
+                                }
+                                _ => unreachable!(),
+                            }
+                        }
+                        let api_that_guard = api_that_guard.unwrap();
+                        let output_ok =
+                            crate::ark::client::ArkClient::addresses(&*api_that_guard).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 fn wire__crate__ark__client__ArkClient_auto_accessor_get_inner_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -144,6 +200,62 @@ fn wire__crate__ark__client__ArkClient_auto_accessor_set_inner_impl(
                 })?;
                 Ok(output_ok)
             })())
+        },
+    )
+}
+fn wire__crate__ark__client__ArkClient_balance_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ArkClient_balance",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| async move {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let mut api_that_guard = None;
+                        let decode_indices_ =
+                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
+                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                    &api_that, 0, false,
+                                )],
+                            );
+                        for i in decode_indices_ {
+                            match i {
+                                0 => {
+                                    api_that_guard =
+                                        Some(api_that.lockable_decode_async_ref().await)
+                                }
+                                _ => unreachable!(),
+                            }
+                        }
+                        let api_that_guard = api_that_guard.unwrap();
+                        let output_ok =
+                            crate::ark::client::ArkClient::balance(&*api_that_guard).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
         },
     )
 }
@@ -523,6 +635,18 @@ impl SseDecode for String {
     }
 }
 
+impl SseDecode for crate::ark::addresses::Addresses {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_boarding = <String>::sse_decode(deserializer);
+        let mut var_offchain = <String>::sse_decode(deserializer);
+        return crate::ark::addresses::Addresses {
+            boarding: var_boarding,
+            offchain: var_offchain,
+        };
+    }
+}
+
 impl SseDecode for crate::ark::client::ArkClientConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -535,6 +659,20 @@ impl SseDecode for crate::ark::client::ArkClientConfig {
             network: var_network,
             esplora: var_esplora,
             server: var_server,
+        };
+    }
+}
+
+impl SseDecode for crate::ark::balance::Balance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_pending = <u64>::sse_decode(deserializer);
+        let mut var_confirmed = <u64>::sse_decode(deserializer);
+        let mut var_total = <u64>::sse_decode(deserializer);
+        return crate::ark::balance::Balance {
+            pending: var_pending,
+            confirmed: var_confirmed,
+            total: var_total,
         };
     }
 }
@@ -676,22 +814,24 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        3 => wire__crate__ark__client__ArkClient_fetch_transactions_impl(
+        1 => wire__crate__ark__client__ArkClient_addresses_impl(port, ptr, rust_vec_len, data_len),
+        4 => wire__crate__ark__client__ArkClient_balance_impl(port, ptr, rust_vec_len, data_len),
+        5 => wire__crate__ark__client__ArkClient_fetch_transactions_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        4 => wire__crate__ark__client__ArkClient_init_impl(port, ptr, rust_vec_len, data_len),
-        5 => wire__crate__ark__esplora__EsploraClient_check_connection_impl(
+        6 => wire__crate__ark__client__ArkClient_init_impl(port, ptr, rust_vec_len, data_len),
+        7 => wire__crate__ark__esplora__EsploraClient_check_connection_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        6 => wire__crate__ark__esplora__EsploraClient_new_impl(port, ptr, rust_vec_len, data_len),
-        7 => wire__crate__ark__storage__InMemoryDb_default_impl(port, ptr, rust_vec_len, data_len),
-        8 => wire__crate__ark__client__setup_client_impl(port, ptr, rust_vec_len, data_len),
+        8 => wire__crate__ark__esplora__EsploraClient_new_impl(port, ptr, rust_vec_len, data_len),
+        9 => wire__crate__ark__storage__InMemoryDb_default_impl(port, ptr, rust_vec_len, data_len),
+        10 => wire__crate__ark__client__setup_client_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -704,12 +844,12 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        1 => wire__crate__ark__client__ArkClient_auto_accessor_get_inner_impl(
+        2 => wire__crate__ark__client__ArkClient_auto_accessor_get_inner_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        2 => wire__crate__ark__client__ArkClient_auto_accessor_set_inner_impl(
+        3 => wire__crate__ark__client__ArkClient_auto_accessor_set_inner_impl(
             ptr,
             rust_vec_len,
             data_len,
@@ -786,6 +926,27 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<InMemoryDb>> for InMemoryDb {
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::ark::addresses::Addresses {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.boarding.into_into_dart().into_dart(),
+            self.offchain.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::ark::addresses::Addresses
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::ark::addresses::Addresses>
+    for crate::ark::addresses::Addresses
+{
+    fn into_into_dart(self) -> crate::ark::addresses::Addresses {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::ark::client::ArkClientConfig {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -805,6 +966,25 @@ impl flutter_rust_bridge::IntoIntoDart<crate::ark::client::ArkClientConfig>
     for crate::ark::client::ArkClientConfig
 {
     fn into_into_dart(self) -> crate::ark::client::ArkClientConfig {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::ark::balance::Balance {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.pending.into_into_dart().into_dart(),
+            self.confirmed.into_into_dart().into_dart(),
+            self.total.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::ark::balance::Balance {}
+impl flutter_rust_bridge::IntoIntoDart<crate::ark::balance::Balance>
+    for crate::ark::balance::Balance
+{
+    fn into_into_dart(self) -> crate::ark::balance::Balance {
         self
     }
 }
@@ -962,6 +1142,14 @@ impl SseEncode for String {
     }
 }
 
+impl SseEncode for crate::ark::addresses::Addresses {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.boarding, serializer);
+        <String>::sse_encode(self.offchain, serializer);
+    }
+}
+
 impl SseEncode for crate::ark::client::ArkClientConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -969,6 +1157,15 @@ impl SseEncode for crate::ark::client::ArkClientConfig {
         <String>::sse_encode(self.network, serializer);
         <String>::sse_encode(self.esplora, serializer);
         <String>::sse_encode(self.server, serializer);
+    }
+}
+
+impl SseEncode for crate::ark::balance::Balance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u64>::sse_encode(self.pending, serializer);
+        <u64>::sse_encode(self.confirmed, serializer);
+        <u64>::sse_encode(self.total, serializer);
     }
 }
 

@@ -6,6 +6,8 @@
 // Static analysis wrongly picks the IO variant, thus ignore this
 // ignore_for_file: argument_type_not_assignable
 
+import 'ark/addresses.dart';
+import 'ark/balance.dart';
 import 'ark/client.dart';
 import 'ark/esplora.dart';
 import 'ark/storage.dart';
@@ -113,7 +115,13 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  Addresses dco_decode_addresses(dynamic raw);
+
+  @protected
   ArkClientConfig dco_decode_ark_client_config(dynamic raw);
+
+  @protected
+  Balance dco_decode_balance(dynamic raw);
 
   @protected
   bool dco_decode_bool(dynamic raw);
@@ -224,7 +232,13 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
+  Addresses sse_decode_addresses(SseDeserializer deserializer);
+
+  @protected
   ArkClientConfig sse_decode_ark_client_config(SseDeserializer deserializer);
+
+  @protected
+  Balance sse_decode_balance(SseDeserializer deserializer);
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
@@ -354,10 +368,16 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
+  void sse_encode_addresses(Addresses self, SseSerializer serializer);
+
+  @protected
   void sse_encode_ark_client_config(
     ArkClientConfig self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_balance(Balance self, SseSerializer serializer);
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);

@@ -5,6 +5,8 @@
 
 import '../frb_generated.dart';
 import '../lib.dart';
+import 'addresses.dart';
+import 'balance.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'transactions.dart';
 
@@ -15,9 +17,13 @@ Future<ArkClient> setupClient({required ArkClientConfig config}) =>
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>
 abstract class ArkClient implements RustOpaqueInterface {
+  Future<Addresses> addresses();
+
   ArcClientEsploraClientWalletInMemoryDb get inner;
 
   set inner(ArcClientEsploraClientWalletInMemoryDb inner);
+
+  Future<Balance> balance();
 
   Future<List<Transaction>> fetchTransactions();
 
