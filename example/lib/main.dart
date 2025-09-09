@@ -19,6 +19,14 @@ void test() async {
 
     final txs = await client.fetchTransactions();
     print("Tx history: $txs");
+
+    final balance = await client.balance();
+    print("Balance pending  : ${balance.pending}");
+    print("Balance confirmed: ${balance.confirmed}");
+    print("Balance total    : ${balance.total}");
+
+    final addresses = await client.addresses();
+    print("Addresses: ${addresses.boarding} ${addresses.offchain}");
   } catch (e) {
     print(e);
   }
