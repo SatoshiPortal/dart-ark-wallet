@@ -19,6 +19,7 @@ pub struct ArkClient {
     pub inner: Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
 }
 
+
 impl ArkClient {
     pub async fn init(
         nsec: String,

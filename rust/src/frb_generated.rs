@@ -42,7 +42,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -4795084;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -377137558;
 
 // Section: executor
 
@@ -528,6 +528,54 @@ fn wire__crate__ark__client__ArkClient_send_on_chain_impl(
         },
     )
 }
+fn wire__crate__ark__client__ArkClient_server_info_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ArkClient_server_info",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = crate::ark::client::ArkClient::server_info(&*api_that_guard)?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
 fn wire__crate__ark__esplora__EsploraClient_check_connection_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -923,6 +971,51 @@ impl SseDecode for Option<i64> {
     }
 }
 
+impl SseDecode for Option<u64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<u64>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for crate::ark::server_info::ServerInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_pk = <String>::sse_decode(deserializer);
+        let mut var_vtxoTreeExpiry = <u32>::sse_decode(deserializer);
+        let mut var_unilateralExitDelay = <u32>::sse_decode(deserializer);
+        let mut var_boardingExitDelay = <u32>::sse_decode(deserializer);
+        let mut var_roundInterval = <i64>::sse_decode(deserializer);
+        let mut var_network = <String>::sse_decode(deserializer);
+        let mut var_dust = <u64>::sse_decode(deserializer);
+        let mut var_forfeitAddress = <String>::sse_decode(deserializer);
+        let mut var_version = <String>::sse_decode(deserializer);
+        let mut var_utxoMinAmount = <Option<u64>>::sse_decode(deserializer);
+        let mut var_utxoMaxAmount = <Option<u64>>::sse_decode(deserializer);
+        let mut var_vtxoMinAmount = <Option<u64>>::sse_decode(deserializer);
+        let mut var_vtxoMaxAmount = <Option<u64>>::sse_decode(deserializer);
+        return crate::ark::server_info::ServerInfo {
+            pk: var_pk,
+            vtxo_tree_expiry: var_vtxoTreeExpiry,
+            unilateral_exit_delay: var_unilateralExitDelay,
+            boarding_exit_delay: var_boardingExitDelay,
+            round_interval: var_roundInterval,
+            network: var_network,
+            dust: var_dust,
+            forfeit_address: var_forfeitAddress,
+            version: var_version,
+            utxo_min_amount: var_utxoMinAmount,
+            utxo_max_amount: var_utxoMaxAmount,
+            vtxo_min_amount: var_vtxoMinAmount,
+            vtxo_max_amount: var_vtxoMaxAmount,
+        };
+    }
+}
+
 impl SseDecode for crate::ark::transactions::Transaction {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -964,6 +1057,13 @@ impl SseDecode for crate::ark::transactions::Transaction {
                 unimplemented!("");
             }
         }
+    }
+}
+
+impl SseDecode for u32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_u32::<NativeEndian>().unwrap()
     }
 }
 
@@ -1036,14 +1136,14 @@ fn pde_ffi_dispatcher_primary_impl(
             rust_vec_len,
             data_len,
         ),
-        10 => wire__crate__ark__esplora__EsploraClient_check_connection_impl(
+        11 => wire__crate__ark__esplora__EsploraClient_check_connection_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        11 => wire__crate__ark__esplora__EsploraClient_new_impl(port, ptr, rust_vec_len, data_len),
-        12 => wire__crate__ark__storage__InMemoryDb_default_impl(port, ptr, rust_vec_len, data_len),
+        12 => wire__crate__ark__esplora__EsploraClient_new_impl(port, ptr, rust_vec_len, data_len),
+        13 => wire__crate__ark__storage__InMemoryDb_default_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1068,8 +1168,9 @@ fn pde_ffi_dispatcher_sync_impl(
         ),
         4 => wire__crate__ark__client__ArkClient_boarding_address_impl(ptr, rust_vec_len, data_len),
         7 => wire__crate__ark__client__ArkClient_offchain_address_impl(ptr, rust_vec_len, data_len),
-        13 => wire__crate__ark__utils__utils_is_ark_impl(ptr, rust_vec_len, data_len),
-        14 => wire__crate__ark__utils__utils_is_btc_impl(ptr, rust_vec_len, data_len),
+        10 => wire__crate__ark__client__ArkClient_server_info_impl(ptr, rust_vec_len, data_len),
+        14 => wire__crate__ark__utils__utils_is_ark_impl(ptr, rust_vec_len, data_len),
+        15 => wire__crate__ark__utils__utils_is_btc_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1172,6 +1273,38 @@ impl flutter_rust_bridge::IntoIntoDart<crate::ark::balance::Balance>
     for crate::ark::balance::Balance
 {
     fn into_into_dart(self) -> crate::ark::balance::Balance {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::ark::server_info::ServerInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.pk.into_into_dart().into_dart(),
+            self.vtxo_tree_expiry.into_into_dart().into_dart(),
+            self.unilateral_exit_delay.into_into_dart().into_dart(),
+            self.boarding_exit_delay.into_into_dart().into_dart(),
+            self.round_interval.into_into_dart().into_dart(),
+            self.network.into_into_dart().into_dart(),
+            self.dust.into_into_dart().into_dart(),
+            self.forfeit_address.into_into_dart().into_dart(),
+            self.version.into_into_dart().into_dart(),
+            self.utxo_min_amount.into_into_dart().into_dart(),
+            self.utxo_max_amount.into_into_dart().into_dart(),
+            self.vtxo_min_amount.into_into_dart().into_dart(),
+            self.vtxo_max_amount.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::ark::server_info::ServerInfo
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::ark::server_info::ServerInfo>
+    for crate::ark::server_info::ServerInfo
+{
+    fn into_into_dart(self) -> crate::ark::server_info::ServerInfo {
         self
     }
 }
@@ -1413,6 +1546,35 @@ impl SseEncode for Option<i64> {
     }
 }
 
+impl SseEncode for Option<u64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <u64>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for crate::ark::server_info::ServerInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.pk, serializer);
+        <u32>::sse_encode(self.vtxo_tree_expiry, serializer);
+        <u32>::sse_encode(self.unilateral_exit_delay, serializer);
+        <u32>::sse_encode(self.boarding_exit_delay, serializer);
+        <i64>::sse_encode(self.round_interval, serializer);
+        <String>::sse_encode(self.network, serializer);
+        <u64>::sse_encode(self.dust, serializer);
+        <String>::sse_encode(self.forfeit_address, serializer);
+        <String>::sse_encode(self.version, serializer);
+        <Option<u64>>::sse_encode(self.utxo_min_amount, serializer);
+        <Option<u64>>::sse_encode(self.utxo_max_amount, serializer);
+        <Option<u64>>::sse_encode(self.vtxo_min_amount, serializer);
+        <Option<u64>>::sse_encode(self.vtxo_max_amount, serializer);
+    }
+}
+
 impl SseEncode for crate::ark::transactions::Transaction {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1453,6 +1615,13 @@ impl SseEncode for crate::ark::transactions::Transaction {
                 unimplemented!("");
             }
         }
+    }
+}
+
+impl SseEncode for u32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_u32::<NativeEndian>(self).unwrap();
     }
 }
 

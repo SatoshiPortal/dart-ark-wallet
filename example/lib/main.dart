@@ -64,6 +64,21 @@ class _HomePageState extends State<HomePage> {
 
       assert(ark.Utils.isArk(address: _arkAddress));
       assert(ark.Utils.isBtc(address: _btcAddress));
+
+      final serverInfo = _client.serverInfo();
+      debugPrint(serverInfo.forfeitAddress);
+      debugPrint(serverInfo.version);
+      debugPrint(serverInfo.pk);
+      debugPrint(serverInfo.network);
+      debugPrint(serverInfo.dust.toString());
+      debugPrint(serverInfo.roundInterval.toString());
+      debugPrint(serverInfo.boardingExitDelay.toString());
+      debugPrint(serverInfo.unilateralExitDelay.toString());
+      debugPrint(serverInfo.utxoMinAmount.toString());
+      debugPrint(serverInfo.utxoMaxAmount.toString());
+      debugPrint(serverInfo.vtxoMinAmount.toString());
+      debugPrint(serverInfo.vtxoMaxAmount.toString());
+      debugPrint(serverInfo.vtxoTreeExpiry.toString());
     } catch (e) {
       debugPrint(e.toString());
     }
