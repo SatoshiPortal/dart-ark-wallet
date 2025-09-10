@@ -1,4 +1,5 @@
 import 'package:ark_wallet_example/send_page.dart';
+import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:ark_wallet/ark_wallet.dart' as ark;
 
@@ -44,7 +45,9 @@ class _HomePageState extends State<HomePage> {
       setState(() => _isLoading = true);
 
       _client = await ark.ArkClient.init(
-        nsec: "nsec1cz2uryzw7j20wdwgh94xua8nt3ch9xcuvlkg85zalg2c336ahjdq6nu2qx",
+        secretKey: hex.decode(
+          "c095c1904ef494f735c8b96a6e74f35c71729b1c67ec83d05dfa1588c75dbc9a",
+        ),
         network: "signet",
         esplora: "https://mutinynet.com/api",
         server: "https://mutinynet.arkade.sh",
