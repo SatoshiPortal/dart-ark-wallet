@@ -9,11 +9,11 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 class Utils {
   const Utils();
 
-  static bool isArkAddress({required String address}) =>
-      LibArk.instance.api.crateArkUtilsUtilsIsArkAddress(address: address);
+  static bool isArk({required String address}) =>
+      LibArk.instance.api.crateArkUtilsUtilsIsArk(address: address);
 
-  static bool isBtcAddress({required String address}) =>
-      LibArk.instance.api.crateArkUtilsUtilsIsBtcAddress(address: address);
+  static bool isBtc({required String address}) =>
+      LibArk.instance.api.crateArkUtilsUtilsIsBtc(address: address);
 
   @override
   int get hashCode => 0;

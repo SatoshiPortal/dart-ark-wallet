@@ -1,0 +1,28 @@
+use anyhow::{Result, anyhow};
+use flutter_rust_bridge::frb;
+
+pub use bitcoin::Address;
+pub use ark_core::ArkAddress;
+
+use crate::ark::client::ArkClient;
+
+
+impl ArkClient {
+    #[frb(sync)]
+    pub fn offchain_address(&self) -> Result<String> {
+        let (offchain_address, _vtxo)= self.inner
+        .get_offchain_address()
+        .map_err(|error| anyhow!("Could not get offchain address {error:#}"))?;
+
+    Ok(offchain_address.encode())
+    }
+
+    #[frb(sync)]
+    pub fn boarding_address(&self) -> Result<String> {
+        let boarding_address = self.inner
+        .get_boarding_address()
+        .map_err(|error| anyhow!("Could not get boarding address {error:#}"))?;
+
+    Ok(boarding_address.to_string())
+    }
+}

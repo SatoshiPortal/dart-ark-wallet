@@ -5,7 +5,6 @@
 
 import '../frb_generated.dart';
 import '../lib.dart';
-import 'addresses.dart';
 import 'balance.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'send.dart';
@@ -15,13 +14,13 @@ import 'transactions.dart';
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>
 abstract class ArkClient implements RustOpaqueInterface {
-  Addresses addresses();
-
   ArcClientEsploraClientWalletInMemoryDb get inner;
 
   set inner(ArcClientEsploraClientWalletInMemoryDb inner);
 
   Future<Balance> balance();
+
+  String boardingAddress();
 
   Future<List<Transaction>> fetchTransactions();
 
@@ -36,6 +35,8 @@ abstract class ArkClient implements RustOpaqueInterface {
     esplora: esplora,
     server: server,
   );
+
+  String offchainAddress();
 
   Future<Txid> sendOffChain({required String address, required BigInt sats});
 

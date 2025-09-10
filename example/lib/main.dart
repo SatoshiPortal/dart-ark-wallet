@@ -57,14 +57,13 @@ class _HomePageState extends State<HomePage> {
       _balanceConfirmed = balance.confirmed.toInt();
       _balanceTotal = balance.total.toInt();
 
-      final addresses = _client.addresses();
-      _arkAddress = addresses.offchain;
-      _btcAddress = addresses.boarding;
+      _arkAddress = _client.offchainAddress();
+      _btcAddress = _client.boardingAddress();
 
       setState(() => _isLoading = false);
 
-      assert(ark.Utils.isArkAddress(address: _arkAddress));
-      assert(ark.Utils.isBtcAddress(address: _btcAddress));
+      assert(ark.Utils.isArk(address: _arkAddress));
+      assert(ark.Utils.isBtc(address: _btcAddress));
     } catch (e) {
       debugPrint(e.toString());
     }

@@ -37,7 +37,7 @@ class _SendPageState extends State<SendPage> {
   }
 
   String? _validateAddress(String? address) {
-    if (!ark.Utils.isArkAddress(address: address!)) {
+    if (!ark.Utils.isArk(address: address!)) {
       return 'Invalid ARK address';
     }
 
