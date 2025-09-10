@@ -9,3 +9,6 @@ build-android:
 
 run-example:
 	cd example && flutter run && cd -
+
+integration-test:
+	cd example && flutter test integration_test && cd -
