@@ -108,7 +108,7 @@ class _SendPageState extends State<SendPage> {
                       try {
                         widget.client.sendOffChain(
                           address: _addressController.text,
-                          sats: BigInt.from(int.parse(_amountController.text)),
+                          sats: int.parse(_amountController.text),
                         );
                         Navigator.push(
                           context,

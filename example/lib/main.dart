@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
             delegate: SliverChildBuilderDelegate((context, index) {
               final tx = _txs[index];
               return ListTile(
-                title: Text('${tx.amountSats} sats'),
+                title: Text('${tx.sats} sats'),
                 subtitle: Text(tx.txid),
                 trailing: Text(tx.runtimeType.toString()),
               );
