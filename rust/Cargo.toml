@@ -12,9 +12,8 @@ anyhow = "1"
 ark-bdk-wallet = { git = "https://github.com/ArkLabsHQ/ark-rs.git", rev = "3717287" }
 ark-core = { git = "https://github.com/ArkLabsHQ/ark-rs.git", rev = "3717287" }
 ark-client = { git = "https://github.com/ArkLabsHQ/ark-rs.git", rev = "3717287", default-features = false, features = ["tls-webpki-roots"] }
-bitcoin = { version = "0.32.4", features = ["rand"] }
+bitcoin = { version = "0.32.4" }
 esplora-client = { version = "0.11.0", features = ["async-https-native"] }
-nostr = { version = "0.40.0", default-features = false, features = ["std"] }
 rand = "0.8.5"
 openssl = { version = "0.10", features = ["vendored"] } 
 

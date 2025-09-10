@@ -1,12 +1,10 @@
 
 use crate::ark::storage::InMemoryDb;
 use crate::ark::esplora::EsploraClient;
-
+use bitcoin::secp256k1::{Secp256k1, Keypair};
 use anyhow::{Result, anyhow};
 use ark_client::OfflineClient;
-use bitcoin::key::Secp256k1;
 use bitcoin::Network;
-use nostr::Keys;
 use std::str::FromStr;
 use std::sync::Arc;
 
@@ -22,15 +20,14 @@ pub struct ArkClient {
 
 impl ArkClient {
     pub async fn init(
-        nsec: String,
+        secret_key: Vec<u8>,
         network: String,
         esplora: String,
         server: String,
     ) -> Result<ArkClient> {    
         let network = Network::from_str(network.as_str())?;
         let secp = Secp256k1::new();
-        let keys = Keys::parse(nsec.as_str())?;
-        let kp = *keys.key_pair(&secp);
+        let kp = Keypair::from_seckey_slice(&secp, secret_key.as_slice())?;
 
         let db = InMemoryDb::default();
         let wallet = ark_bdk_wallet::Wallet::new(kp, secp, network, esplora.as_str(), db)?;
