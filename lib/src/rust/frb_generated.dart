@@ -72,7 +72,7 @@ class LibArk extends BaseEntrypoint<LibArkApi, LibArkApiImpl, LibArkWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -866043494;
+  int get rustContentHash => -1254897005;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -100,7 +100,10 @@ abstract class LibArkApi extends BaseApi {
   });
 
   Future<ArkClient> crateArkClientArkClientInit({
-    required ArkClientConfig config,
+    required String nsec,
+    required String network,
+    required String esplora,
+    required String server,
   });
 
   Future<Txid> crateArkClientArkClientSendOffChain({
@@ -122,10 +125,6 @@ abstract class LibArkApi extends BaseApi {
   Future<EsploraClient> crateArkEsploraEsploraClientNew({required String url});
 
   Future<InMemoryDb> crateArkStorageInMemoryDbDefault();
-
-  Future<ArkClient> crateArkClientSetupClient({
-    required ArkClientConfig config,
-  });
 
   bool crateArkUtilsUtilsIsArkAddress({required String address});
 
@@ -342,13 +341,19 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   @override
   Future<ArkClient> crateArkClientArkClientInit({
-    required ArkClientConfig config,
+    required String nsec,
+    required String network,
+    required String esplora,
+    required String server,
   }) {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_box_autoadd_ark_client_config(config, serializer);
+          sse_encode_String(nsec, serializer);
+          sse_encode_String(network, serializer);
+          sse_encode_String(esplora, serializer);
+          sse_encode_String(server, serializer);
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
@@ -362,14 +367,17 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           decodeErrorData: sse_decode_AnyhowException,
         ),
         constMeta: kCrateArkClientArkClientInitConstMeta,
-        argValues: [config],
+        argValues: [nsec, network, esplora, server],
         apiImpl: this,
       ),
     );
   }
 
   TaskConstMeta get kCrateArkClientArkClientInitConstMeta =>
-      const TaskConstMeta(debugName: "ArkClient_init", argNames: ["config"]);
+      const TaskConstMeta(
+        debugName: "ArkClient_init",
+        argNames: ["nsec", "network", "esplora", "server"],
+      );
 
   @override
   Future<Txid> crateArkClientArkClientSendOffChain({
@@ -547,44 +555,13 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       const TaskConstMeta(debugName: "InMemoryDb_default", argNames: []);
 
   @override
-  Future<ArkClient> crateArkClientSetupClient({
-    required ArkClientConfig config,
-  }) {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_box_autoadd_ark_client_config(config, serializer);
-          pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 12,
-            port: port_,
-          );
-        },
-        codec: SseCodec(
-          decodeSuccessData:
-              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateArkClientSetupClientConstMeta,
-        argValues: [config],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateArkClientSetupClientConstMeta =>
-      const TaskConstMeta(debugName: "setup_client", argNames: ["config"]);
-
-  @override
   bool crateArkUtilsUtilsIsArkAddress({required String address}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(address, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -610,7 +587,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(address, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -815,20 +792,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArkClientConfig dco_decode_ark_client_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
-    return ArkClientConfig(
-      nsec: dco_decode_String(arr[0]),
-      network: dco_decode_String(arr[1]),
-      esplora: dco_decode_String(arr[2]),
-      server: dco_decode_String(arr[3]),
-    );
-  }
-
-  @protected
   Balance dco_decode_balance(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -845,12 +808,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   bool dco_decode_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
-  }
-
-  @protected
-  ArkClientConfig dco_decode_box_autoadd_ark_client_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_ark_client_config(raw);
   }
 
   @protected
@@ -1123,21 +1080,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArkClientConfig sse_decode_ark_client_config(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_nsec = sse_decode_String(deserializer);
-    var var_network = sse_decode_String(deserializer);
-    var var_esplora = sse_decode_String(deserializer);
-    var var_server = sse_decode_String(deserializer);
-    return ArkClientConfig(
-      nsec: var_nsec,
-      network: var_network,
-      esplora: var_esplora,
-      server: var_server,
-    );
-  }
-
-  @protected
   Balance sse_decode_balance(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_pending = sse_decode_u_64(deserializer);
@@ -1154,14 +1096,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
-  }
-
-  @protected
-  ArkClientConfig sse_decode_box_autoadd_ark_client_config(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_ark_client_config(deserializer));
   }
 
   @protected
@@ -1477,18 +1411,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  void sse_encode_ark_client_config(
-    ArkClientConfig self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_String(self.nsec, serializer);
-    sse_encode_String(self.network, serializer);
-    sse_encode_String(self.esplora, serializer);
-    sse_encode_String(self.server, serializer);
-  }
-
-  @protected
   void sse_encode_balance(Balance self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_64(self.pending, serializer);
@@ -1500,15 +1422,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   void sse_encode_bool(bool self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self ? 1 : 0);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_ark_client_config(
-    ArkClientConfig self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_ark_client_config(self, serializer);
   }
 
   @protected

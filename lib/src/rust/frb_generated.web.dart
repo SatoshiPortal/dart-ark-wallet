@@ -135,16 +135,10 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   Addresses dco_decode_addresses(dynamic raw);
 
   @protected
-  ArkClientConfig dco_decode_ark_client_config(dynamic raw);
-
-  @protected
   Balance dco_decode_balance(dynamic raw);
 
   @protected
   bool dco_decode_bool(dynamic raw);
-
-  @protected
-  ArkClientConfig dco_decode_box_autoadd_ark_client_config(dynamic raw);
 
   @protected
   PlatformInt64 dco_decode_box_autoadd_i_64(dynamic raw);
@@ -267,18 +261,10 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   Addresses sse_decode_addresses(SseDeserializer deserializer);
 
   @protected
-  ArkClientConfig sse_decode_ark_client_config(SseDeserializer deserializer);
-
-  @protected
   Balance sse_decode_balance(SseDeserializer deserializer);
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
-
-  @protected
-  ArkClientConfig sse_decode_box_autoadd_ark_client_config(
-    SseDeserializer deserializer,
-  );
 
   @protected
   PlatformInt64 sse_decode_box_autoadd_i_64(SseDeserializer deserializer);
@@ -420,22 +406,10 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   void sse_encode_addresses(Addresses self, SseSerializer serializer);
 
   @protected
-  void sse_encode_ark_client_config(
-    ArkClientConfig self,
-    SseSerializer serializer,
-  );
-
-  @protected
   void sse_encode_balance(Balance self, SseSerializer serializer);
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_box_autoadd_ark_client_config(
-    ArkClientConfig self,
-    SseSerializer serializer,
-  );
 
   @protected
   void sse_encode_box_autoadd_i_64(
