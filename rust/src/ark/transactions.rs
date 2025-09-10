@@ -1,26 +1,24 @@
 use crate::ark::client::ArkClient;
 use anyhow::{Result, anyhow};
 
-#[derive(Debug, Clone)]
 pub enum Transaction {
     Boarding {
-        txid: String,
-        amount_sats: u64,
-        confirmed_at: Option<i64>,
-    },
-    Commitment {
-        txid: String,
-        amount_sats: i64,
-        created_at: i64,
-    },
-    Redeem {
-        txid: String,
-        amount_sats: i64,
-        is_settled: bool,
-        created_at: i64,
-    },
+         txid: String,
+         sats: i64,
+         confirmed_at: Option<i64>,
+     },
+      Commitment {
+         txid: String,
+         sats: i64,
+         created_at: i64,
+     },
+      Redeem {
+         txid: String,
+         sats: i64,
+         is_settled: bool,
+         created_at: i64,
+     },
 }
-
 
 
 impl ArkClient {
@@ -43,28 +41,28 @@ impl ArkClient {
                     txid,
                     amount,
                     confirmed_at,
-                } => Transaction::Boarding {
+                } => Transaction::Boarding{
                     txid: txid.to_string(),
-                    amount_sats: amount.to_sat(),
-                    confirmed_at,
+                    sats: amount.to_sat() as i64,
+                    confirmed_at: confirmed_at.map(|ts| ts),
                 },
                 ark_core::history::Transaction::Commitment {
                     txid,
                     amount,
                     created_at,
-                } => Transaction::Commitment {
+                } => Transaction::Commitment{
                     txid: txid.to_string(),
-                    amount_sats: amount.to_sat(),
-                    created_at,
+                    sats: amount.to_sat() as i64,
+created_at,
                 },
                 ark_core::history::Transaction::Ark {
                     txid,
                     amount,
                     is_settled,
                     created_at,
-                } => Transaction::Redeem {
+                } => Transaction::Redeem{
                     txid: txid.to_string(),
-                    amount_sats: amount.to_sat(),
+                    sats: amount.to_sat(),
                     is_settled,
                     created_at,
                 },

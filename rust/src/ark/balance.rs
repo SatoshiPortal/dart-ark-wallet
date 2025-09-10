@@ -4,9 +4,9 @@ use crate::ark::client::ArkClient;
 pub use ark_client::OffChainBalance;
 
 pub struct Balance {
-    pub pending: u64,
-    pub confirmed: u64,
-    pub total: u64,
+    pub pending: i64,
+    pub confirmed: i64,
+    pub total: i64,
 }
 
 impl ArkClient {
@@ -16,6 +16,6 @@ impl ArkClient {
         .await
         .map_err(|error| anyhow!("Could not fetch balance {error}"))?;
 
-         Ok(Balance {pending: offchain_balance.pending().to_sat(), confirmed: offchain_balance.confirmed().to_sat(), total: offchain_balance.total().to_sat()})
+         Ok(Balance {pending: offchain_balance.pending().to_sat() as i64, confirmed: offchain_balance.confirmed().to_sat() as i64, total: offchain_balance.total().to_sat() as i64})
     }
 }

@@ -12,13 +12,13 @@ pub struct ServerInfo {
     pub boarding_exit_delay: u32,
     pub round_interval: i64,
     pub network: String,
-    pub dust: u64,
+    pub dust: i64,
     pub forfeit_address: String,
     pub version: String,
-    pub utxo_min_amount: Option<u64>,
-    pub utxo_max_amount: Option<u64>,
-    pub vtxo_min_amount: Option<u64>,
-    pub vtxo_max_amount: Option<u64>,
+    pub utxo_min_amount: Option<i64>,
+    pub utxo_max_amount: Option<i64>,
+    pub vtxo_min_amount: Option<i64>,
+    pub vtxo_max_amount: Option<i64>,
 }
 
 impl ArkClient {
@@ -32,13 +32,13 @@ impl ArkClient {
             boarding_exit_delay: info.boarding_exit_delay.0,
             round_interval: info.round_interval,
             network: info.network.to_string(),
-            dust: info.dust.to_sat(),
+            dust: info.dust.to_sat() as i64,
             forfeit_address: info.forfeit_address.to_string(),
             version: info.version,
-            utxo_min_amount: info.utxo_min_amount.map(|amount| amount.to_sat()),
-            utxo_max_amount: info.utxo_max_amount.map(|amount| amount.to_sat()),
-            vtxo_min_amount: info.vtxo_min_amount.map(|amount| amount.to_sat()),
-            vtxo_max_amount: info.vtxo_max_amount.map(|amount| amount.to_sat()),
+            utxo_min_amount: info.utxo_min_amount.map(|amount| amount.to_sat() as i64),
+            utxo_max_amount: info.utxo_max_amount.map(|amount| amount.to_sat() as i64),
+            vtxo_min_amount: info.vtxo_min_amount.map(|amount| amount.to_sat() as i64),
+            vtxo_max_amount: info.vtxo_max_amount.map(|amount| amount.to_sat() as i64),
         })
     }
 }
