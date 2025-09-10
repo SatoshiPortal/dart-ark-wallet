@@ -430,7 +430,7 @@ fn wire__crate__ark__client__ArkClient_send_off_chain_impl(
                 flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
             >>::sse_decode(&mut deserializer);
             let api_address = <String>::sse_decode(&mut deserializer);
-            let api_sats = <u64>::sse_decode(&mut deserializer);
+            let api_sats = <i64>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
@@ -492,7 +492,7 @@ fn wire__crate__ark__client__ArkClient_send_on_chain_impl(
                 flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
             >>::sse_decode(&mut deserializer);
             let api_address = <String>::sse_decode(&mut deserializer);
-            let api_sats = <u64>::sse_decode(&mut deserializer);
+            let api_sats = <i64>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
@@ -969,9 +969,9 @@ impl SseDecode for String {
 impl SseDecode for crate::ark::balance::Balance {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_pending = <u64>::sse_decode(deserializer);
-        let mut var_confirmed = <u64>::sse_decode(deserializer);
-        let mut var_total = <u64>::sse_decode(deserializer);
+        let mut var_pending = <i64>::sse_decode(deserializer);
+        let mut var_confirmed = <i64>::sse_decode(deserializer);
+        let mut var_total = <i64>::sse_decode(deserializer);
         return crate::ark::balance::Balance {
             pending: var_pending,
             confirmed: var_confirmed,
@@ -1031,17 +1031,6 @@ impl SseDecode for Option<i64> {
     }
 }
 
-impl SseDecode for Option<u64> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<u64>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
 impl SseDecode for crate::ark::server_info::ServerInfo {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1051,13 +1040,13 @@ impl SseDecode for crate::ark::server_info::ServerInfo {
         let mut var_boardingExitDelay = <u32>::sse_decode(deserializer);
         let mut var_roundInterval = <i64>::sse_decode(deserializer);
         let mut var_network = <String>::sse_decode(deserializer);
-        let mut var_dust = <u64>::sse_decode(deserializer);
+        let mut var_dust = <i64>::sse_decode(deserializer);
         let mut var_forfeitAddress = <String>::sse_decode(deserializer);
         let mut var_version = <String>::sse_decode(deserializer);
-        let mut var_utxoMinAmount = <Option<u64>>::sse_decode(deserializer);
-        let mut var_utxoMaxAmount = <Option<u64>>::sse_decode(deserializer);
-        let mut var_vtxoMinAmount = <Option<u64>>::sse_decode(deserializer);
-        let mut var_vtxoMaxAmount = <Option<u64>>::sse_decode(deserializer);
+        let mut var_utxoMinAmount = <Option<i64>>::sse_decode(deserializer);
+        let mut var_utxoMaxAmount = <Option<i64>>::sse_decode(deserializer);
+        let mut var_vtxoMinAmount = <Option<i64>>::sse_decode(deserializer);
+        let mut var_vtxoMaxAmount = <Option<i64>>::sse_decode(deserializer);
         return crate::ark::server_info::ServerInfo {
             pk: var_pk,
             vtxo_tree_expiry: var_vtxoTreeExpiry,
@@ -1083,32 +1072,32 @@ impl SseDecode for crate::ark::transactions::Transaction {
         match tag_ {
             0 => {
                 let mut var_txid = <String>::sse_decode(deserializer);
-                let mut var_amountSats = <u64>::sse_decode(deserializer);
+                let mut var_sats = <i64>::sse_decode(deserializer);
                 let mut var_confirmedAt = <Option<i64>>::sse_decode(deserializer);
                 return crate::ark::transactions::Transaction::Boarding {
                     txid: var_txid,
-                    amount_sats: var_amountSats,
+                    sats: var_sats,
                     confirmed_at: var_confirmedAt,
                 };
             }
             1 => {
                 let mut var_txid = <String>::sse_decode(deserializer);
-                let mut var_amountSats = <i64>::sse_decode(deserializer);
+                let mut var_sats = <i64>::sse_decode(deserializer);
                 let mut var_createdAt = <i64>::sse_decode(deserializer);
                 return crate::ark::transactions::Transaction::Commitment {
                     txid: var_txid,
-                    amount_sats: var_amountSats,
+                    sats: var_sats,
                     created_at: var_createdAt,
                 };
             }
             2 => {
                 let mut var_txid = <String>::sse_decode(deserializer);
-                let mut var_amountSats = <i64>::sse_decode(deserializer);
+                let mut var_sats = <i64>::sse_decode(deserializer);
                 let mut var_isSettled = <bool>::sse_decode(deserializer);
                 let mut var_createdAt = <i64>::sse_decode(deserializer);
                 return crate::ark::transactions::Transaction::Redeem {
                     txid: var_txid,
-                    amount_sats: var_amountSats,
+                    sats: var_sats,
                     is_settled: var_isSettled,
                     created_at: var_createdAt,
                 };
@@ -1124,13 +1113,6 @@ impl SseDecode for u32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_u32::<NativeEndian>().unwrap()
-    }
-}
-
-impl SseDecode for u64 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_u64::<NativeEndian>().unwrap()
     }
 }
 
@@ -1375,35 +1357,35 @@ impl flutter_rust_bridge::IntoDart for crate::ark::transactions::Transaction {
         match self {
             crate::ark::transactions::Transaction::Boarding {
                 txid,
-                amount_sats,
+                sats,
                 confirmed_at,
             } => [
                 0.into_dart(),
                 txid.into_into_dart().into_dart(),
-                amount_sats.into_into_dart().into_dart(),
+                sats.into_into_dart().into_dart(),
                 confirmed_at.into_into_dart().into_dart(),
             ]
             .into_dart(),
             crate::ark::transactions::Transaction::Commitment {
                 txid,
-                amount_sats,
+                sats,
                 created_at,
             } => [
                 1.into_dart(),
                 txid.into_into_dart().into_dart(),
-                amount_sats.into_into_dart().into_dart(),
+                sats.into_into_dart().into_dart(),
                 created_at.into_into_dart().into_dart(),
             ]
             .into_dart(),
             crate::ark::transactions::Transaction::Redeem {
                 txid,
-                amount_sats,
+                sats,
                 is_settled,
                 created_at,
             } => [
                 2.into_dart(),
                 txid.into_into_dart().into_dart(),
-                amount_sats.into_into_dart().into_dart(),
+                sats.into_into_dart().into_dart(),
                 is_settled.into_into_dart().into_dart(),
                 created_at.into_into_dart().into_dart(),
             ]
@@ -1557,9 +1539,9 @@ impl SseEncode for String {
 impl SseEncode for crate::ark::balance::Balance {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <u64>::sse_encode(self.pending, serializer);
-        <u64>::sse_encode(self.confirmed, serializer);
-        <u64>::sse_encode(self.total, serializer);
+        <i64>::sse_encode(self.pending, serializer);
+        <i64>::sse_encode(self.confirmed, serializer);
+        <i64>::sse_encode(self.total, serializer);
     }
 }
 
@@ -1607,16 +1589,6 @@ impl SseEncode for Option<i64> {
     }
 }
 
-impl SseEncode for Option<u64> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <u64>::sse_encode(value, serializer);
-        }
-    }
-}
-
 impl SseEncode for crate::ark::server_info::ServerInfo {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1626,13 +1598,13 @@ impl SseEncode for crate::ark::server_info::ServerInfo {
         <u32>::sse_encode(self.boarding_exit_delay, serializer);
         <i64>::sse_encode(self.round_interval, serializer);
         <String>::sse_encode(self.network, serializer);
-        <u64>::sse_encode(self.dust, serializer);
+        <i64>::sse_encode(self.dust, serializer);
         <String>::sse_encode(self.forfeit_address, serializer);
         <String>::sse_encode(self.version, serializer);
-        <Option<u64>>::sse_encode(self.utxo_min_amount, serializer);
-        <Option<u64>>::sse_encode(self.utxo_max_amount, serializer);
-        <Option<u64>>::sse_encode(self.vtxo_min_amount, serializer);
-        <Option<u64>>::sse_encode(self.vtxo_max_amount, serializer);
+        <Option<i64>>::sse_encode(self.utxo_min_amount, serializer);
+        <Option<i64>>::sse_encode(self.utxo_max_amount, serializer);
+        <Option<i64>>::sse_encode(self.vtxo_min_amount, serializer);
+        <Option<i64>>::sse_encode(self.vtxo_max_amount, serializer);
     }
 }
 
@@ -1642,33 +1614,33 @@ impl SseEncode for crate::ark::transactions::Transaction {
         match self {
             crate::ark::transactions::Transaction::Boarding {
                 txid,
-                amount_sats,
+                sats,
                 confirmed_at,
             } => {
                 <i32>::sse_encode(0, serializer);
                 <String>::sse_encode(txid, serializer);
-                <u64>::sse_encode(amount_sats, serializer);
+                <i64>::sse_encode(sats, serializer);
                 <Option<i64>>::sse_encode(confirmed_at, serializer);
             }
             crate::ark::transactions::Transaction::Commitment {
                 txid,
-                amount_sats,
+                sats,
                 created_at,
             } => {
                 <i32>::sse_encode(1, serializer);
                 <String>::sse_encode(txid, serializer);
-                <i64>::sse_encode(amount_sats, serializer);
+                <i64>::sse_encode(sats, serializer);
                 <i64>::sse_encode(created_at, serializer);
             }
             crate::ark::transactions::Transaction::Redeem {
                 txid,
-                amount_sats,
+                sats,
                 is_settled,
                 created_at,
             } => {
                 <i32>::sse_encode(2, serializer);
                 <String>::sse_encode(txid, serializer);
-                <i64>::sse_encode(amount_sats, serializer);
+                <i64>::sse_encode(sats, serializer);
                 <bool>::sse_encode(is_settled, serializer);
                 <i64>::sse_encode(created_at, serializer);
             }
@@ -1683,13 +1655,6 @@ impl SseEncode for u32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         serializer.cursor.write_u32::<NativeEndian>(self).unwrap();
-    }
-}
-
-impl SseEncode for u64 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_u64::<NativeEndian>(self).unwrap();
     }
 }
 

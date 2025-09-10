@@ -8,25 +8,23 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'transactions.freezed.dart';
 
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`
-
 @freezed
 sealed class Transaction with _$Transaction {
   const Transaction._();
 
   const factory Transaction.boarding({
     required String txid,
-    required BigInt amountSats,
+    required PlatformInt64 sats,
     PlatformInt64? confirmedAt,
   }) = Transaction_Boarding;
   const factory Transaction.commitment({
     required String txid,
-    required PlatformInt64 amountSats,
+    required PlatformInt64 sats,
     required PlatformInt64 createdAt,
   }) = Transaction_Commitment;
   const factory Transaction.redeem({
     required String txid,
-    required PlatformInt64 amountSats,
+    required PlatformInt64 sats,
     required bool isSettled,
     required PlatformInt64 createdAt,
   }) = Transaction_Redeem;

@@ -7,9 +7,9 @@ import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 class Balance {
-  final BigInt pending;
-  final BigInt confirmed;
-  final BigInt total;
+  final PlatformInt64 pending;
+  final PlatformInt64 confirmed;
+  final PlatformInt64 total;
 
   const Balance({
     required this.pending,

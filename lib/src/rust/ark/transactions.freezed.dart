@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Transaction {
 
- String get txid; Object get amountSats;
+ String get txid; PlatformInt64 get sats;
 /// Create a copy of Transaction
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TransactionCopyWith<Transaction> get copyWith => _$TransactionCopyWithImpl<Tran
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction&&(identical(other.txid, txid) || other.txid == txid)&&const DeepCollectionEquality().equals(other.amountSats, amountSats));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction&&(identical(other.txid, txid) || other.txid == txid)&&(identical(other.sats, sats) || other.sats == sats));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,txid,const DeepCollectionEquality().hash(amountSats));
+int get hashCode => Object.hash(runtimeType,txid,sats);
 
 @override
 String toString() {
-  return 'Transaction(txid: $txid, amountSats: $amountSats)';
+  return 'Transaction(txid: $txid, sats: $sats)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TransactionCopyWith<$Res>  {
   factory $TransactionCopyWith(Transaction value, $Res Function(Transaction) _then) = _$TransactionCopyWithImpl;
 @useResult
 $Res call({
- String txid
+ String txid, int sats
 });
 
 
@@ -62,10 +62,11 @@ class _$TransactionCopyWithImpl<$Res>
 
 /// Create a copy of Transaction
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? txid = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? txid = null,Object? sats = null,}) {
   return _then(_self.copyWith(
 txid: null == txid ? _self.txid : txid // ignore: cast_nullable_to_non_nullable
-as String,
+as String,sats: null == sats ? _self.sats : sats // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -153,12 +154,12 @@ return redeem(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String txid,  BigInt amountSats,  PlatformInt64? confirmedAt)?  boarding,TResult Function( String txid,  PlatformInt64 amountSats,  PlatformInt64 createdAt)?  commitment,TResult Function( String txid,  PlatformInt64 amountSats,  bool isSettled,  PlatformInt64 createdAt)?  redeem,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String txid,  PlatformInt64 sats,  PlatformInt64? confirmedAt)?  boarding,TResult Function( String txid,  PlatformInt64 sats,  PlatformInt64 createdAt)?  commitment,TResult Function( String txid,  PlatformInt64 sats,  bool isSettled,  PlatformInt64 createdAt)?  redeem,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Transaction_Boarding() when boarding != null:
-return boarding(_that.txid,_that.amountSats,_that.confirmedAt);case Transaction_Commitment() when commitment != null:
-return commitment(_that.txid,_that.amountSats,_that.createdAt);case Transaction_Redeem() when redeem != null:
-return redeem(_that.txid,_that.amountSats,_that.isSettled,_that.createdAt);case _:
+return boarding(_that.txid,_that.sats,_that.confirmedAt);case Transaction_Commitment() when commitment != null:
+return commitment(_that.txid,_that.sats,_that.createdAt);case Transaction_Redeem() when redeem != null:
+return redeem(_that.txid,_that.sats,_that.isSettled,_that.createdAt);case _:
   return orElse();
 
 }
@@ -176,12 +177,12 @@ return redeem(_that.txid,_that.amountSats,_that.isSettled,_that.createdAt);case 
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String txid,  BigInt amountSats,  PlatformInt64? confirmedAt)  boarding,required TResult Function( String txid,  PlatformInt64 amountSats,  PlatformInt64 createdAt)  commitment,required TResult Function( String txid,  PlatformInt64 amountSats,  bool isSettled,  PlatformInt64 createdAt)  redeem,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String txid,  PlatformInt64 sats,  PlatformInt64? confirmedAt)  boarding,required TResult Function( String txid,  PlatformInt64 sats,  PlatformInt64 createdAt)  commitment,required TResult Function( String txid,  PlatformInt64 sats,  bool isSettled,  PlatformInt64 createdAt)  redeem,}) {final _that = this;
 switch (_that) {
 case Transaction_Boarding():
-return boarding(_that.txid,_that.amountSats,_that.confirmedAt);case Transaction_Commitment():
-return commitment(_that.txid,_that.amountSats,_that.createdAt);case Transaction_Redeem():
-return redeem(_that.txid,_that.amountSats,_that.isSettled,_that.createdAt);}
+return boarding(_that.txid,_that.sats,_that.confirmedAt);case Transaction_Commitment():
+return commitment(_that.txid,_that.sats,_that.createdAt);case Transaction_Redeem():
+return redeem(_that.txid,_that.sats,_that.isSettled,_that.createdAt);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -195,12 +196,12 @@ return redeem(_that.txid,_that.amountSats,_that.isSettled,_that.createdAt);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String txid,  BigInt amountSats,  PlatformInt64? confirmedAt)?  boarding,TResult? Function( String txid,  PlatformInt64 amountSats,  PlatformInt64 createdAt)?  commitment,TResult? Function( String txid,  PlatformInt64 amountSats,  bool isSettled,  PlatformInt64 createdAt)?  redeem,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String txid,  PlatformInt64 sats,  PlatformInt64? confirmedAt)?  boarding,TResult? Function( String txid,  PlatformInt64 sats,  PlatformInt64 createdAt)?  commitment,TResult? Function( String txid,  PlatformInt64 sats,  bool isSettled,  PlatformInt64 createdAt)?  redeem,}) {final _that = this;
 switch (_that) {
 case Transaction_Boarding() when boarding != null:
-return boarding(_that.txid,_that.amountSats,_that.confirmedAt);case Transaction_Commitment() when commitment != null:
-return commitment(_that.txid,_that.amountSats,_that.createdAt);case Transaction_Redeem() when redeem != null:
-return redeem(_that.txid,_that.amountSats,_that.isSettled,_that.createdAt);case _:
+return boarding(_that.txid,_that.sats,_that.confirmedAt);case Transaction_Commitment() when commitment != null:
+return commitment(_that.txid,_that.sats,_that.createdAt);case Transaction_Redeem() when redeem != null:
+return redeem(_that.txid,_that.sats,_that.isSettled,_that.createdAt);case _:
   return null;
 
 }
@@ -212,11 +213,11 @@ return redeem(_that.txid,_that.amountSats,_that.isSettled,_that.createdAt);case 
 
 
 class Transaction_Boarding extends Transaction {
-  const Transaction_Boarding({required this.txid, required this.amountSats, this.confirmedAt}): super._();
+  const Transaction_Boarding({required this.txid, required this.sats, this.confirmedAt}): super._();
   
 
 @override final  String txid;
-@override final  BigInt amountSats;
+@override final  PlatformInt64 sats;
  final  PlatformInt64? confirmedAt;
 
 /// Create a copy of Transaction
@@ -229,16 +230,16 @@ $Transaction_BoardingCopyWith<Transaction_Boarding> get copyWith => _$Transactio
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction_Boarding&&(identical(other.txid, txid) || other.txid == txid)&&(identical(other.amountSats, amountSats) || other.amountSats == amountSats)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction_Boarding&&(identical(other.txid, txid) || other.txid == txid)&&(identical(other.sats, sats) || other.sats == sats)&&(identical(other.confirmedAt, confirmedAt) || other.confirmedAt == confirmedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,txid,amountSats,confirmedAt);
+int get hashCode => Object.hash(runtimeType,txid,sats,confirmedAt);
 
 @override
 String toString() {
-  return 'Transaction.boarding(txid: $txid, amountSats: $amountSats, confirmedAt: $confirmedAt)';
+  return 'Transaction.boarding(txid: $txid, sats: $sats, confirmedAt: $confirmedAt)';
 }
 
 
@@ -249,7 +250,7 @@ abstract mixin class $Transaction_BoardingCopyWith<$Res> implements $Transaction
   factory $Transaction_BoardingCopyWith(Transaction_Boarding value, $Res Function(Transaction_Boarding) _then) = _$Transaction_BoardingCopyWithImpl;
 @override @useResult
 $Res call({
- String txid, BigInt amountSats, PlatformInt64? confirmedAt
+ String txid, PlatformInt64 sats, PlatformInt64? confirmedAt
 });
 
 
@@ -266,11 +267,11 @@ class _$Transaction_BoardingCopyWithImpl<$Res>
 
 /// Create a copy of Transaction
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? txid = null,Object? amountSats = null,Object? confirmedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? txid = null,Object? sats = null,Object? confirmedAt = freezed,}) {
   return _then(Transaction_Boarding(
 txid: null == txid ? _self.txid : txid // ignore: cast_nullable_to_non_nullable
-as String,amountSats: null == amountSats ? _self.amountSats : amountSats // ignore: cast_nullable_to_non_nullable
-as BigInt,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
+as String,sats: null == sats ? _self.sats : sats // ignore: cast_nullable_to_non_nullable
+as PlatformInt64,confirmedAt: freezed == confirmedAt ? _self.confirmedAt : confirmedAt // ignore: cast_nullable_to_non_nullable
 as PlatformInt64?,
   ));
 }
@@ -282,11 +283,11 @@ as PlatformInt64?,
 
 
 class Transaction_Commitment extends Transaction {
-  const Transaction_Commitment({required this.txid, required this.amountSats, required this.createdAt}): super._();
+  const Transaction_Commitment({required this.txid, required this.sats, required this.createdAt}): super._();
   
 
 @override final  String txid;
-@override final  PlatformInt64 amountSats;
+@override final  PlatformInt64 sats;
  final  PlatformInt64 createdAt;
 
 /// Create a copy of Transaction
@@ -299,16 +300,16 @@ $Transaction_CommitmentCopyWith<Transaction_Commitment> get copyWith => _$Transa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction_Commitment&&(identical(other.txid, txid) || other.txid == txid)&&(identical(other.amountSats, amountSats) || other.amountSats == amountSats)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction_Commitment&&(identical(other.txid, txid) || other.txid == txid)&&(identical(other.sats, sats) || other.sats == sats)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,txid,amountSats,createdAt);
+int get hashCode => Object.hash(runtimeType,txid,sats,createdAt);
 
 @override
 String toString() {
-  return 'Transaction.commitment(txid: $txid, amountSats: $amountSats, createdAt: $createdAt)';
+  return 'Transaction.commitment(txid: $txid, sats: $sats, createdAt: $createdAt)';
 }
 
 
@@ -319,7 +320,7 @@ abstract mixin class $Transaction_CommitmentCopyWith<$Res> implements $Transacti
   factory $Transaction_CommitmentCopyWith(Transaction_Commitment value, $Res Function(Transaction_Commitment) _then) = _$Transaction_CommitmentCopyWithImpl;
 @override @useResult
 $Res call({
- String txid, PlatformInt64 amountSats, PlatformInt64 createdAt
+ String txid, PlatformInt64 sats, PlatformInt64 createdAt
 });
 
 
@@ -336,10 +337,10 @@ class _$Transaction_CommitmentCopyWithImpl<$Res>
 
 /// Create a copy of Transaction
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? txid = null,Object? amountSats = null,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? txid = null,Object? sats = null,Object? createdAt = null,}) {
   return _then(Transaction_Commitment(
 txid: null == txid ? _self.txid : txid // ignore: cast_nullable_to_non_nullable
-as String,amountSats: null == amountSats ? _self.amountSats : amountSats // ignore: cast_nullable_to_non_nullable
+as String,sats: null == sats ? _self.sats : sats // ignore: cast_nullable_to_non_nullable
 as PlatformInt64,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as PlatformInt64,
   ));
@@ -352,11 +353,11 @@ as PlatformInt64,
 
 
 class Transaction_Redeem extends Transaction {
-  const Transaction_Redeem({required this.txid, required this.amountSats, required this.isSettled, required this.createdAt}): super._();
+  const Transaction_Redeem({required this.txid, required this.sats, required this.isSettled, required this.createdAt}): super._();
   
 
 @override final  String txid;
-@override final  PlatformInt64 amountSats;
+@override final  PlatformInt64 sats;
  final  bool isSettled;
  final  PlatformInt64 createdAt;
 
@@ -370,16 +371,16 @@ $Transaction_RedeemCopyWith<Transaction_Redeem> get copyWith => _$Transaction_Re
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction_Redeem&&(identical(other.txid, txid) || other.txid == txid)&&(identical(other.amountSats, amountSats) || other.amountSats == amountSats)&&(identical(other.isSettled, isSettled) || other.isSettled == isSettled)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction_Redeem&&(identical(other.txid, txid) || other.txid == txid)&&(identical(other.sats, sats) || other.sats == sats)&&(identical(other.isSettled, isSettled) || other.isSettled == isSettled)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,txid,amountSats,isSettled,createdAt);
+int get hashCode => Object.hash(runtimeType,txid,sats,isSettled,createdAt);
 
 @override
 String toString() {
-  return 'Transaction.redeem(txid: $txid, amountSats: $amountSats, isSettled: $isSettled, createdAt: $createdAt)';
+  return 'Transaction.redeem(txid: $txid, sats: $sats, isSettled: $isSettled, createdAt: $createdAt)';
 }
 
 
@@ -390,7 +391,7 @@ abstract mixin class $Transaction_RedeemCopyWith<$Res> implements $TransactionCo
   factory $Transaction_RedeemCopyWith(Transaction_Redeem value, $Res Function(Transaction_Redeem) _then) = _$Transaction_RedeemCopyWithImpl;
 @override @useResult
 $Res call({
- String txid, PlatformInt64 amountSats, bool isSettled, PlatformInt64 createdAt
+ String txid, PlatformInt64 sats, bool isSettled, PlatformInt64 createdAt
 });
 
 
@@ -407,10 +408,10 @@ class _$Transaction_RedeemCopyWithImpl<$Res>
 
 /// Create a copy of Transaction
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? txid = null,Object? amountSats = null,Object? isSettled = null,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? txid = null,Object? sats = null,Object? isSettled = null,Object? createdAt = null,}) {
   return _then(Transaction_Redeem(
 txid: null == txid ? _self.txid : txid // ignore: cast_nullable_to_non_nullable
-as String,amountSats: null == amountSats ? _self.amountSats : amountSats // ignore: cast_nullable_to_non_nullable
+as String,sats: null == sats ? _self.sats : sats // ignore: cast_nullable_to_non_nullable
 as PlatformInt64,isSettled: null == isSettled ? _self.isSettled : isSettled // ignore: cast_nullable_to_non_nullable
 as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as PlatformInt64,

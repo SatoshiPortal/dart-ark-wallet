@@ -39,9 +39,15 @@ abstract class ArkClient implements RustOpaqueInterface {
 
   String offchainAddress();
 
-  Future<Txid> sendOffChain({required String address, required BigInt sats});
+  Future<Txid> sendOffChain({
+    required String address,
+    required PlatformInt64 sats,
+  });
 
-  Future<Txid> sendOnChain({required String address, required BigInt sats});
+  Future<Txid> sendOnChain({
+    required String address,
+    required PlatformInt64 sats,
+  });
 
   ServerInfo serverInfo();
 

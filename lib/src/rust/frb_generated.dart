@@ -111,13 +111,13 @@ abstract class LibArkApi extends BaseApi {
   Future<Txid> crateArkClientArkClientSendOffChain({
     required ArkClient that,
     required String address,
-    required BigInt sats,
+    required PlatformInt64 sats,
   });
 
   Future<Txid> crateArkClientArkClientSendOnChain({
     required ArkClient that,
     required String address,
-    required BigInt sats,
+    required PlatformInt64 sats,
   });
 
   ServerInfo crateArkClientArkClientServerInfo({required ArkClient that});
@@ -424,7 +424,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   Future<Txid> crateArkClientArkClientSendOffChain({
     required ArkClient that,
     required String address,
-    required BigInt sats,
+    required PlatformInt64 sats,
   }) {
     return handler.executeNormal(
       NormalTask(
@@ -435,7 +435,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
             serializer,
           );
           sse_encode_String(address, serializer);
-          sse_encode_u_64(sats, serializer);
+          sse_encode_i_64(sats, serializer);
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
@@ -465,7 +465,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   Future<Txid> crateArkClientArkClientSendOnChain({
     required ArkClient that,
     required String address,
-    required BigInt sats,
+    required PlatformInt64 sats,
   }) {
     return handler.executeNormal(
       NormalTask(
@@ -476,7 +476,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
             serializer,
           );
           sse_encode_String(address, serializer);
-          sse_encode_u_64(sats, serializer);
+          sse_encode_i_64(sats, serializer);
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
@@ -888,9 +888,9 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     if (arr.length != 3)
       throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return Balance(
-      pending: dco_decode_u_64(arr[0]),
-      confirmed: dco_decode_u_64(arr[1]),
-      total: dco_decode_u_64(arr[2]),
+      pending: dco_decode_i_64(arr[0]),
+      confirmed: dco_decode_i_64(arr[1]),
+      total: dco_decode_i_64(arr[2]),
     );
   }
 
@@ -904,12 +904,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   PlatformInt64 dco_decode_box_autoadd_i_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_i_64(raw);
-  }
-
-  @protected
-  BigInt dco_decode_box_autoadd_u_64(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_u_64(raw);
   }
 
   @protected
@@ -937,12 +931,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_u_64(raw);
-  }
-
-  @protected
   ServerInfo dco_decode_server_info(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -955,13 +943,13 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       boardingExitDelay: dco_decode_u_32(arr[3]),
       roundInterval: dco_decode_i_64(arr[4]),
       network: dco_decode_String(arr[5]),
-      dust: dco_decode_u_64(arr[6]),
+      dust: dco_decode_i_64(arr[6]),
       forfeitAddress: dco_decode_String(arr[7]),
       version: dco_decode_String(arr[8]),
-      utxoMinAmount: dco_decode_opt_box_autoadd_u_64(arr[9]),
-      utxoMaxAmount: dco_decode_opt_box_autoadd_u_64(arr[10]),
-      vtxoMinAmount: dco_decode_opt_box_autoadd_u_64(arr[11]),
-      vtxoMaxAmount: dco_decode_opt_box_autoadd_u_64(arr[12]),
+      utxoMinAmount: dco_decode_opt_box_autoadd_i_64(arr[9]),
+      utxoMaxAmount: dco_decode_opt_box_autoadd_i_64(arr[10]),
+      vtxoMinAmount: dco_decode_opt_box_autoadd_i_64(arr[11]),
+      vtxoMaxAmount: dco_decode_opt_box_autoadd_i_64(arr[12]),
     );
   }
 
@@ -972,19 +960,19 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       case 0:
         return Transaction_Boarding(
           txid: dco_decode_String(raw[1]),
-          amountSats: dco_decode_u_64(raw[2]),
+          sats: dco_decode_i_64(raw[2]),
           confirmedAt: dco_decode_opt_box_autoadd_i_64(raw[3]),
         );
       case 1:
         return Transaction_Commitment(
           txid: dco_decode_String(raw[1]),
-          amountSats: dco_decode_i_64(raw[2]),
+          sats: dco_decode_i_64(raw[2]),
           createdAt: dco_decode_i_64(raw[3]),
         );
       case 2:
         return Transaction_Redeem(
           txid: dco_decode_String(raw[1]),
-          amountSats: dco_decode_i_64(raw[2]),
+          sats: dco_decode_i_64(raw[2]),
           isSettled: dco_decode_bool(raw[3]),
           createdAt: dco_decode_i_64(raw[4]),
         );
@@ -997,12 +985,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   int dco_decode_u_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
-  }
-
-  @protected
-  BigInt dco_decode_u_64(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dcoDecodeU64(raw);
   }
 
   @protected
@@ -1205,9 +1187,9 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   @protected
   Balance sse_decode_balance(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_pending = sse_decode_u_64(deserializer);
-    var var_confirmed = sse_decode_u_64(deserializer);
-    var var_total = sse_decode_u_64(deserializer);
+    var var_pending = sse_decode_i_64(deserializer);
+    var var_confirmed = sse_decode_i_64(deserializer);
+    var var_total = sse_decode_i_64(deserializer);
     return Balance(
       pending: var_pending,
       confirmed: var_confirmed,
@@ -1225,12 +1207,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   PlatformInt64 sse_decode_box_autoadd_i_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_i_64(deserializer));
-  }
-
-  @protected
-  BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_u_64(deserializer));
   }
 
   @protected
@@ -1270,17 +1246,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_u_64(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
   ServerInfo sse_decode_server_info(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_pk = sse_decode_String(deserializer);
@@ -1289,13 +1254,13 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     var var_boardingExitDelay = sse_decode_u_32(deserializer);
     var var_roundInterval = sse_decode_i_64(deserializer);
     var var_network = sse_decode_String(deserializer);
-    var var_dust = sse_decode_u_64(deserializer);
+    var var_dust = sse_decode_i_64(deserializer);
     var var_forfeitAddress = sse_decode_String(deserializer);
     var var_version = sse_decode_String(deserializer);
-    var var_utxoMinAmount = sse_decode_opt_box_autoadd_u_64(deserializer);
-    var var_utxoMaxAmount = sse_decode_opt_box_autoadd_u_64(deserializer);
-    var var_vtxoMinAmount = sse_decode_opt_box_autoadd_u_64(deserializer);
-    var var_vtxoMaxAmount = sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_utxoMinAmount = sse_decode_opt_box_autoadd_i_64(deserializer);
+    var var_utxoMaxAmount = sse_decode_opt_box_autoadd_i_64(deserializer);
+    var var_vtxoMinAmount = sse_decode_opt_box_autoadd_i_64(deserializer);
+    var var_vtxoMaxAmount = sse_decode_opt_box_autoadd_i_64(deserializer);
     return ServerInfo(
       pk: var_pk,
       vtxoTreeExpiry: var_vtxoTreeExpiry,
@@ -1321,30 +1286,30 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     switch (tag_) {
       case 0:
         var var_txid = sse_decode_String(deserializer);
-        var var_amountSats = sse_decode_u_64(deserializer);
+        var var_sats = sse_decode_i_64(deserializer);
         var var_confirmedAt = sse_decode_opt_box_autoadd_i_64(deserializer);
         return Transaction_Boarding(
           txid: var_txid,
-          amountSats: var_amountSats,
+          sats: var_sats,
           confirmedAt: var_confirmedAt,
         );
       case 1:
         var var_txid = sse_decode_String(deserializer);
-        var var_amountSats = sse_decode_i_64(deserializer);
+        var var_sats = sse_decode_i_64(deserializer);
         var var_createdAt = sse_decode_i_64(deserializer);
         return Transaction_Commitment(
           txid: var_txid,
-          amountSats: var_amountSats,
+          sats: var_sats,
           createdAt: var_createdAt,
         );
       case 2:
         var var_txid = sse_decode_String(deserializer);
-        var var_amountSats = sse_decode_i_64(deserializer);
+        var var_sats = sse_decode_i_64(deserializer);
         var var_isSettled = sse_decode_bool(deserializer);
         var var_createdAt = sse_decode_i_64(deserializer);
         return Transaction_Redeem(
           txid: var_txid,
-          amountSats: var_amountSats,
+          sats: var_sats,
           isSettled: var_isSettled,
           createdAt: var_createdAt,
         );
@@ -1357,12 +1322,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   int sse_decode_u_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint32();
-  }
-
-  @protected
-  BigInt sse_decode_u_64(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getBigUint64();
   }
 
   @protected
@@ -1585,9 +1544,9 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   @protected
   void sse_encode_balance(Balance self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_64(self.pending, serializer);
-    sse_encode_u_64(self.confirmed, serializer);
-    sse_encode_u_64(self.total, serializer);
+    sse_encode_i_64(self.pending, serializer);
+    sse_encode_i_64(self.confirmed, serializer);
+    sse_encode_i_64(self.total, serializer);
   }
 
   @protected
@@ -1603,12 +1562,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_64(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_u_64(BigInt self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_64(self, serializer);
   }
 
   @protected
@@ -1653,16 +1606,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_u_64(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_server_info(ServerInfo self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.pk, serializer);
@@ -1671,13 +1614,13 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     sse_encode_u_32(self.boardingExitDelay, serializer);
     sse_encode_i_64(self.roundInterval, serializer);
     sse_encode_String(self.network, serializer);
-    sse_encode_u_64(self.dust, serializer);
+    sse_encode_i_64(self.dust, serializer);
     sse_encode_String(self.forfeitAddress, serializer);
     sse_encode_String(self.version, serializer);
-    sse_encode_opt_box_autoadd_u_64(self.utxoMinAmount, serializer);
-    sse_encode_opt_box_autoadd_u_64(self.utxoMaxAmount, serializer);
-    sse_encode_opt_box_autoadd_u_64(self.vtxoMinAmount, serializer);
-    sse_encode_opt_box_autoadd_u_64(self.vtxoMaxAmount, serializer);
+    sse_encode_opt_box_autoadd_i_64(self.utxoMinAmount, serializer);
+    sse_encode_opt_box_autoadd_i_64(self.utxoMaxAmount, serializer);
+    sse_encode_opt_box_autoadd_i_64(self.vtxoMinAmount, serializer);
+    sse_encode_opt_box_autoadd_i_64(self.vtxoMaxAmount, serializer);
   }
 
   @protected
@@ -1686,31 +1629,31 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     switch (self) {
       case Transaction_Boarding(
         txid: final txid,
-        amountSats: final amountSats,
+        sats: final sats,
         confirmedAt: final confirmedAt,
       ):
         sse_encode_i_32(0, serializer);
         sse_encode_String(txid, serializer);
-        sse_encode_u_64(amountSats, serializer);
+        sse_encode_i_64(sats, serializer);
         sse_encode_opt_box_autoadd_i_64(confirmedAt, serializer);
       case Transaction_Commitment(
         txid: final txid,
-        amountSats: final amountSats,
+        sats: final sats,
         createdAt: final createdAt,
       ):
         sse_encode_i_32(1, serializer);
         sse_encode_String(txid, serializer);
-        sse_encode_i_64(amountSats, serializer);
+        sse_encode_i_64(sats, serializer);
         sse_encode_i_64(createdAt, serializer);
       case Transaction_Redeem(
         txid: final txid,
-        amountSats: final amountSats,
+        sats: final sats,
         isSettled: final isSettled,
         createdAt: final createdAt,
       ):
         sse_encode_i_32(2, serializer);
         sse_encode_String(txid, serializer);
-        sse_encode_i_64(amountSats, serializer);
+        sse_encode_i_64(sats, serializer);
         sse_encode_bool(isSettled, serializer);
         sse_encode_i_64(createdAt, serializer);
     }
@@ -1720,12 +1663,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   void sse_encode_u_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint32(self);
-  }
-
-  @protected
-  void sse_encode_u_64(BigInt self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putBigUint64(self);
   }
 
   @protected
@@ -1824,19 +1761,23 @@ class ArkClientImpl extends RustOpaque implements ArkClient {
   String offchainAddress() =>
       LibArk.instance.api.crateArkClientArkClientOffchainAddress(that: this);
 
-  Future<Txid> sendOffChain({required String address, required BigInt sats}) =>
-      LibArk.instance.api.crateArkClientArkClientSendOffChain(
-        that: this,
-        address: address,
-        sats: sats,
-      );
+  Future<Txid> sendOffChain({
+    required String address,
+    required PlatformInt64 sats,
+  }) => LibArk.instance.api.crateArkClientArkClientSendOffChain(
+    that: this,
+    address: address,
+    sats: sats,
+  );
 
-  Future<Txid> sendOnChain({required String address, required BigInt sats}) =>
-      LibArk.instance.api.crateArkClientArkClientSendOnChain(
-        that: this,
-        address: address,
-        sats: sats,
-      );
+  Future<Txid> sendOnChain({
+    required String address,
+    required PlatformInt64 sats,
+  }) => LibArk.instance.api.crateArkClientArkClientSendOnChain(
+    that: this,
+    address: address,
+    sats: sats,
+  );
 
   ServerInfo serverInfo() =>
       LibArk.instance.api.crateArkClientArkClientServerInfo(that: this);

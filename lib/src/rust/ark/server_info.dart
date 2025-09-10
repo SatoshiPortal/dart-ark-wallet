@@ -13,13 +13,13 @@ class ServerInfo {
   final int boardingExitDelay;
   final PlatformInt64 roundInterval;
   final String network;
-  final BigInt dust;
+  final PlatformInt64 dust;
   final String forfeitAddress;
   final String version;
-  final BigInt? utxoMinAmount;
-  final BigInt? utxoMaxAmount;
-  final BigInt? vtxoMinAmount;
-  final BigInt? vtxoMaxAmount;
+  final PlatformInt64? utxoMinAmount;
+  final PlatformInt64? utxoMaxAmount;
+  final PlatformInt64? vtxoMinAmount;
+  final PlatformInt64? vtxoMaxAmount;
 
   const ServerInfo({
     required this.pk,
