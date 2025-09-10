@@ -44,13 +44,10 @@ class _HomePageState extends State<HomePage> {
       setState(() => _isLoading = true);
 
       _client = await ark.ArkClient.init(
-        config: ark.ArkClientConfig(
-          nsec:
-              "nsec1cz2uryzw7j20wdwgh94xua8nt3ch9xcuvlkg85zalg2c336ahjdq6nu2qx",
-          network: "signet",
-          esplora: "https://mutinynet.com/api",
-          server: "https://mutinynet.arkade.sh",
-        ),
+        nsec: "nsec1cz2uryzw7j20wdwgh94xua8nt3ch9xcuvlkg85zalg2c336ahjdq6nu2qx",
+        network: "signet",
+        esplora: "https://mutinynet.com/api",
+        server: "https://mutinynet.arkade.sh",
       );
 
       _txs = await _client.fetchTransactions();
@@ -66,14 +63,10 @@ class _HomePageState extends State<HomePage> {
 
       setState(() => _isLoading = false);
 
-      print(
-        'is ark address: ${await ark.Utils.isArkAddress(address: _arkAddress)}',
-      );
-      print(
-        'is btc address: ${await ark.Utils.isBtcAddress(address: _btcAddress)}',
-      );
+      assert(ark.Utils.isArkAddress(address: _arkAddress));
+      assert(ark.Utils.isBtcAddress(address: _btcAddress));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
