@@ -55,7 +55,7 @@ impl ArkClient {
                 } => Transaction::Commitment {
                     txid: txid.to_string(),
                     amount_sats: amount.to_sat(),
-                    created_at: created_at,
+                    created_at,
                 },
                 ark_core::history::Transaction::Ark {
                     txid,
