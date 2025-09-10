@@ -100,7 +100,7 @@ abstract class LibArkApi extends BaseApi {
   });
 
   Future<ArkClient> crateArkClientArkClientInit({
-    required String nsec,
+    required List<int> secretKey,
     required String network,
     required String esplora,
     required String server,
@@ -353,7 +353,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   @override
   Future<ArkClient> crateArkClientArkClientInit({
-    required String nsec,
+    required List<int> secretKey,
     required String network,
     required String esplora,
     required String server,
@@ -362,7 +362,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       NormalTask(
         callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_String(nsec, serializer);
+          sse_encode_list_prim_u_8_loose(secretKey, serializer);
           sse_encode_String(network, serializer);
           sse_encode_String(esplora, serializer);
           sse_encode_String(server, serializer);
@@ -379,7 +379,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           decodeErrorData: sse_decode_AnyhowException,
         ),
         constMeta: kCrateArkClientArkClientInitConstMeta,
-        argValues: [nsec, network, esplora, server],
+        argValues: [secretKey, network, esplora, server],
         apiImpl: this,
       ),
     );
@@ -388,7 +388,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   TaskConstMeta get kCrateArkClientArkClientInitConstMeta =>
       const TaskConstMeta(
         debugName: "ArkClient_init",
-        argNames: ["nsec", "network", "esplora", "server"],
+        argNames: ["secretKey", "network", "esplora", "server"],
       );
 
   @override
@@ -913,6 +913,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  List<int> dco_decode_list_prim_u_8_loose(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as List<int>;
+  }
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
@@ -1213,6 +1219,13 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   PlatformInt64 sse_decode_i_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getPlatformInt64();
+  }
+
+  @protected
+  List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint8List(len_);
   }
 
   @protected
@@ -1568,6 +1581,18 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putPlatformInt64(self);
+  }
+
+  @protected
+  void sse_encode_list_prim_u_8_loose(
+    List<int> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putUint8List(
+      self is Uint8List ? self : Uint8List.fromList(self),
+    );
   }
 
   @protected

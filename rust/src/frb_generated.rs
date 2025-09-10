@@ -332,7 +332,7 @@ fn wire__crate__ark__client__ArkClient_init_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_nsec = <String>::sse_decode(&mut deserializer);
+            let api_secret_key = <Vec<u8>>::sse_decode(&mut deserializer);
             let api_network = <String>::sse_decode(&mut deserializer);
             let api_esplora = <String>::sse_decode(&mut deserializer);
             let api_server = <String>::sse_decode(&mut deserializer);
@@ -341,7 +341,7 @@ fn wire__crate__ark__client__ArkClient_init_impl(
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
                         let output_ok = crate::ark::client::ArkClient::init(
-                            api_nsec,
+                            api_secret_key,
                             api_network,
                             api_esplora,
                             api_server,

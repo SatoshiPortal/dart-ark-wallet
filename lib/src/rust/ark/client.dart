@@ -26,12 +26,12 @@ abstract class ArkClient implements RustOpaqueInterface {
   Future<List<Transaction>> fetchTransactions();
 
   static Future<ArkClient> init({
-    required String nsec,
+    required List<int> secretKey,
     required String network,
     required String esplora,
     required String server,
   }) => LibArk.instance.api.crateArkClientArkClientInit(
-    nsec: nsec,
+    secretKey: secretKey,
     network: network,
     esplora: esplora,
     server: server,
