@@ -4,5 +4,8 @@ generate:
 build-ios:
 	cd rust && cargo build --release --target aarch64-apple-ios && cd -
 
-run:
+build-android:
+	cd rust && cargo ndk -o ../android/app/src/main/jniLibs build
+
+run-example:
 	cd example && flutter run && cd -
