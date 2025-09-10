@@ -44,4 +44,6 @@ abstract class ArkClient implements RustOpaqueInterface {
   Future<Txid> sendOnChain({required String address, required BigInt sats});
 
   ServerInfo serverInfo();
+
+  Future<void> settle({required bool selectRecoverableVtxos});
 }

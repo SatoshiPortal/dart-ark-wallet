@@ -129,16 +129,30 @@ class _HomePageState extends State<HomePage> {
               );
             }, childCount: _txs.length),
           ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SendPage(client: _client),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.send),
+                label: const Text('Send'),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  _client.settle(selectRecoverableVtxos: true);
+                },
+                icon: const Icon(Icons.clear_all),
+                label: const Text('Settle'),
+              ),
+            ]),
+          ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SendPage(client: _client)),
-          );
-        },
-        child: const Icon(Icons.send),
       ),
     );
   }

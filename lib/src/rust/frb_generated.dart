@@ -72,7 +72,7 @@ class LibArk extends BaseEntrypoint<LibArkApi, LibArkApiImpl, LibArkWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -377137558;
+  int get rustContentHash => 2022042721;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -121,6 +121,11 @@ abstract class LibArkApi extends BaseApi {
   });
 
   ServerInfo crateArkClientArkClientServerInfo({required ArkClient that});
+
+  Future<void> crateArkClientArkClientSettle({
+    required ArkClient that,
+    required bool selectRecoverableVtxos,
+  });
 
   Future<void> crateArkEsploraEsploraClientCheckConnection({
     required EsploraClient that,
@@ -527,6 +532,44 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       );
 
   @override
+  Future<void> crateArkClientArkClientSettle({
+    required ArkClient that,
+    required bool selectRecoverableVtxos,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+            that,
+            serializer,
+          );
+          sse_encode_bool(selectRecoverableVtxos, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 11,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkClientSettleConstMeta,
+        argValues: [that, selectRecoverableVtxos],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkClientSettleConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkClient_settle",
+        argNames: ["that", "selectRecoverableVtxos"],
+      );
+
+  @override
   Future<void> crateArkEsploraEsploraClientCheckConnection({
     required EsploraClient that,
   }) {
@@ -541,7 +584,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 11,
+            funcId: 12,
             port: port_,
           );
         },
@@ -572,7 +615,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 12,
+            funcId: 13,
             port: port_,
           );
         },
@@ -600,7 +643,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 13,
+            funcId: 14,
             port: port_,
           );
         },
@@ -626,7 +669,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(address, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -649,7 +692,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(address, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -1797,6 +1840,12 @@ class ArkClientImpl extends RustOpaque implements ArkClient {
 
   ServerInfo serverInfo() =>
       LibArk.instance.api.crateArkClientArkClientServerInfo(that: this);
+
+  Future<void> settle({required bool selectRecoverableVtxos}) =>
+      LibArk.instance.api.crateArkClientArkClientSettle(
+        that: this,
+        selectRecoverableVtxos: selectRecoverableVtxos,
+      );
 }
 
 @sealed

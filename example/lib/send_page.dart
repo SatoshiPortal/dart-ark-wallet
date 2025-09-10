@@ -1,4 +1,5 @@
 import 'package:ark_wallet/ark_wallet.dart' as ark;
+import 'package:ark_wallet_example/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -104,10 +105,18 @@ class _SendPageState extends State<SendPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      widget.client.sendOffChain(
-                        address: _addressController.text,
-                        sats: BigInt.from(int.parse(_amountController.text)),
-                      );
+                      try {
+                        widget.client.sendOffChain(
+                          address: _addressController.text,
+                          sats: BigInt.from(int.parse(_amountController.text)),
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      } catch (e) {
+                        debugPrint(e.toString());
+                      }
                     }
                   },
                   child: const Text('Send'),

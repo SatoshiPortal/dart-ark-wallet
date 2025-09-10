@@ -187,6 +187,7 @@ dependencies = [
  "esplora-client",
  "flutter_rust_bridge",
  "nostr",
+ "rand 0.8.5",
 ]
 
 [[package]]
