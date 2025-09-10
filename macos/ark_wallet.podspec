@@ -41,4 +41,5 @@ A new Flutter FFI plugin project.
     'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
     'OTHER_LDFLAGS' => '-force_load ${BUILT_PRODUCTS_DIR}/libark_wallet.a',
   }
+  s.frameworks = 'SystemConfiguration'
 end

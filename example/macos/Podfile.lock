@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
 
 SPEC CHECKSUMS:
-  ark_wallet: da75147e71a8292f62d2c92a806e06c6896a14ad
+  ark_wallet: 2bf737f6c14c1b630256326bad26aae716a99359
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
 
 PODFILE CHECKSUM: 54d867c82ac51cbd61b565781b9fada492027009
