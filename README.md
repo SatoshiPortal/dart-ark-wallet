@@ -1,92 +1,80 @@
-# ark_wallet
+# ARK Wallet
 
-A new Flutter FFI plugin project.
+A Flutter bindings from [ArkLabsHQ/ark-flutter-example](https://github.com/ArkLabsHQ/ark-flutter-example) using `flutter_rust_bridge`
 
-## Getting Started
+## Quick Start
 
-This project is a starting point for a Flutter
-[FFI plugin](https://flutter.dev/to/ffi-package),
-a specialized package that includes native code directly invoked with Dart FFI.
+```dart
+import 'package:ark_wallet/ark_wallet.dart' as ark;
 
-## Project structure
+// Initialize the library
+await ark.LibArk.init();
 
-This template uses the following structure:
+// Create wallet instance
+final client = await ark.ArkWallet.init(
+  secretKey: [], // 32-byte Uint8List
+  network: "signet",        // or "mainnet"
+  esplora: "https://mutinynet.com/api",
+  server: "https://mutinynet.arkade.sh",
+);
 
-* `src`: Contains the native source code, and a CmakeFile.txt file for building
-  that source code into a dynamic library.
+// Get addresses
+final arkAddress = client.offchainAddress();  // ARK off-chain address
+final btcAddress = client.boardingAddress();  // Bitcoin boarding address
 
-* `lib`: Contains the Dart code that defines the API of the plugin, and which
-  calls into the native code using `dart:ffi`.
+// Check balance
+final balance = await client.balance();
+print('Total: ${balance.total} sats');
+print('Confirmed: ${balance.confirmed} sats');
+print('Pending: ${balance.pending} sats');
 
-* platform folders (`android`, `ios`, `windows`, etc.): Contains the build files
-  for building and bundling the native code library with the platform application.
+// Send off-chain transaction
+client.sendOffChain(
+  address: recipientArkAddress,
+  sats: amountInSatoshis,
+);
 
-## Building and bundling native code
+// Get transaction history
+final transactions = await client.transactionHistory();
+// Returns List<Transaction> with Boarding, Commitment, and Redeem variants
 
-The `pubspec.yaml` specifies FFI plugins as follows:
+// Settle transactions
+client.settle(selectRecoverableVtxos: true);
 
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        ffiPlugin: true
+// Address validation
+ark.Utils.isArk(address: arkAddress);  // Validate ARK address
+ark.Utils.isBtc(address: btcAddress);  // Validate Bitcoin address
 ```
 
-This configuration invokes the native build for the various target platforms
-and bundles the binaries in Flutter applications using these FFI plugins.
+## Rust Functions
 
-This can be combined with dartPluginClass, such as when FFI is used for the
-implementation of one platform in a federated plugin:
+This plugin binds the following Rust functions from ARK ecosystem crates:
 
-```yaml
-  plugin:
-    implements: some_other_plugin
-    platforms:
-      some_platform:
-        dartPluginClass: SomeClass
-        ffiPlugin: true
-```
+| Dart Method | Rust Function | Origin Crate | Description |
+|-------------|---------------|--------------|-------------|
+| `ArkWallet.init()` | `OfflineClient::new().connect()` | `ark-client` | Initialize wallet client |
+| `balance()` | `offchain_balance()` | `ark-client` | Get wallet balance |
+| `transactionHistory()` | `transaction_history()` | `ark-client` | Fetch transaction history |
+| `sendOffChain()` | `send_vtxo()` | `ark-client` | Send off-chain transaction |
+| `sendOnChain()` | `send_on_chain()` | `ark-client` | Send on-chain Bitcoin transaction |
+| `settle()` | `settle()` | `ark-client` | Settle off-chain transactions |
+| `offchainAddress()` | `get_offchain_address()` | `ark-client` | Get ARK off-chain address |
+| `boardingAddress()` | `get_boarding_address()` | `ark-client` | Get Bitcoin boarding address |
+| `serverInfo()` | `server_info` | `ark-client` | Get ARK server information |
+| `Utils.isArk()` | `ArkAddress::decode()` | `ark-core` | Validate ARK address |
+| `Utils.isBtc()` | `Address::from_str()` | `bitcoin` | Validate Bitcoin address |
 
-A plugin can have both FFI and method channels:
+**Core Dependencies:**
+- `ark-client` - Main ARK protocol client
+- `ark-core` - Core ARK types and utilities  
+- `ark-bdk-wallet` - Bitcoin wallet functionality
+- `bitcoin` - Bitcoin primitives and address handling
 
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        pluginClass: SomeName
-        ffiPlugin: true
-```
+### Example App
 
-The native build systems that are invoked by FFI (and method channel) plugins are:
-
-* For Android: Gradle, which invokes the Android NDK for native builds.
-  * See the documentation in android/build.gradle.
-* For iOS and MacOS: Xcode, via CocoaPods.
-  * See the documentation in ios/ark_wallet.podspec.
-  * See the documentation in macos/ark_wallet.podspec.
-* For Linux and Windows: CMake.
-  * See the documentation in linux/CMakeLists.txt.
-  * See the documentation in windows/CMakeLists.txt.
-
-## Binding to native code
-
-To use the native code, bindings in Dart are needed.
-To avoid writing these by hand, they are generated from the header file
-(`src/ark_wallet.h`) by `package:ffigen`.
-Regenerate the bindings by running `dart run ffigen --config ffigen.yaml`.
-
-## Invoking native code
-
-Very short-running native functions can be directly invoked from any isolate.
-For example, see `sum` in `lib/ark_wallet.dart`.
-
-Longer-running functions should be invoked on a helper isolate to avoid
-dropping frames in Flutter applications.
-For example, see `sumAsync` in `lib/ark_wallet.dart`.
-
-## Flutter help
-
-For help getting started with Flutter, view our
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
+The `example/` directory contains a complete Flutter app demonstrating all features:
+- Wallet initialization and address display
+- Balance monitoring
+- Transaction history
+- Send functionality with validation
+- Settlement operations
