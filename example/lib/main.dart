@@ -25,7 +25,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late ark.ArkClient _client;
+  late ark.ArkWallet _client;
   bool _isLoading = false;
   String _arkAddress = '';
   String _btcAddress = '';
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
     try {
       setState(() => _isLoading = true);
 
-      _client = await ark.ArkClient.init(
+      _client = await ark.ArkWallet.init(
         secretKey: hex.decode(
           "c095c1904ef494f735c8b96a6e74f35c71729b1c67ec83d05dfa1588c75dbc9a",
         ),
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
         server: "https://mutinynet.arkade.sh",
       );
 
-      _txs = await _client.fetchTransactions();
+      _txs = await _client.transactionHistory();
 
       final balance = await _client.balance();
       _balancePending = balance.pending.toInt();

@@ -13,18 +13,18 @@ pub use ark_client::Client;
 pub use ark_bdk_wallet::Wallet;
 
 #[derive(Clone)]
-pub struct ArkClient {
+pub struct ArkWallet {
     pub inner: Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
 }
 
 
-impl ArkClient {
+impl ArkWallet {
     pub async fn init(
         secret_key: Vec<u8>,
         network: String,
         esplora: String,
         server: String,
-    ) -> Result<ArkClient> {    
+    ) -> Result<ArkWallet> {    
         let network = Network::from_str(network.as_str())?;
         let secp = Secp256k1::new();
         let kp = Keypair::from_seckey_slice(&secp, secret_key.as_slice())?;
@@ -47,7 +47,7 @@ impl ArkClient {
         .await
         .map_err(|err| anyhow!(err))?;
     
-        Ok(ArkClient { inner: Arc::new(client) })
+        Ok(ArkWallet { inner: Arc::new(client) })
     }
 }
 

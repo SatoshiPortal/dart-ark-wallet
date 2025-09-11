@@ -1,4 +1,4 @@
-use crate::ark::client::ArkClient;
+use crate::ark::client::ArkWallet;
 use anyhow::{Result, anyhow};
 
 pub enum Transaction {
@@ -21,8 +21,8 @@ pub enum Transaction {
 }
 
 
-impl ArkClient {
-    pub async fn fetch_transactions(
+impl ArkWallet {
+    pub async fn transaction_history(
         &self,
     ) -> Result<Vec<Transaction>> {
         let mut txs = self.inner

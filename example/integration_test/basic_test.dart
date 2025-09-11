@@ -7,12 +7,12 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('ARK Package Data Types Tests', () {
-    late ark.ArkClient client;
+    late ark.ArkWallet client;
 
     setUpAll(() async {
       await ark.LibArk.init();
 
-      client = await ark.ArkClient.init(
+      client = await ark.ArkWallet.init(
         secretKey: hex.decode(
           "c095c1904ef494f735c8b96a6e74f35c71729b1c67ec83d05dfa1588c75dbc9a",
         ),
@@ -41,7 +41,7 @@ void main() {
     });
 
     test('Transaction objects have correct structure', () async {
-      final transactions = await client.fetchTransactions();
+      final transactions = await client.transactionHistory();
 
       expect(transactions, isA<List<ark.Transaction>>());
 

@@ -1,5 +1,5 @@
 use anyhow::{Result, anyhow};
-use crate::ark::client::ArkClient;
+use crate::ark::client::ArkWallet;
 
 pub use ark_client::OffChainBalance;
 
@@ -9,7 +9,7 @@ pub struct Balance {
     pub total: i64,
 }
 
-impl ArkClient {
+impl ArkWallet {
     pub async fn balance(&self) -> Result<Balance> {
         let offchain_balance = self.inner
         .offchain_balance()

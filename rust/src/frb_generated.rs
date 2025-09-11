@@ -27,7 +27,6 @@
 
 use crate::ark::client::*;
 use crate::ark::esplora::*;
-use crate::ark::send::*;
 use crate::ark::storage::*;
 use crate::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
@@ -42,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 2022042721;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -253387012;
 
 // Section: executor
 
@@ -50,14 +49,14 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
-fn wire__crate__ark__client__ArkClient_auto_accessor_get_inner_impl(
+fn wire__crate__ark__client__ArkWallet_auto_accessor_get_inner_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_auto_accessor_get_inner",
+            debug_name: "ArkWallet_auto_accessor_get_inner",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -72,7 +71,7 @@ fn wire__crate__ark__client__ArkClient_auto_accessor_get_inner_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
@@ -96,14 +95,14 @@ fn wire__crate__ark__client__ArkClient_auto_accessor_get_inner_impl(
         },
     )
 }
-fn wire__crate__ark__client__ArkClient_auto_accessor_set_inner_impl(
+fn wire__crate__ark__client__ArkWallet_auto_accessor_set_inner_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_auto_accessor_set_inner",
+            debug_name: "ArkWallet_auto_accessor_set_inner",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -118,7 +117,7 @@ fn wire__crate__ark__client__ArkClient_auto_accessor_set_inner_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             let api_inner =
                 <Arc<Client<EsploraClient, Wallet<InMemoryDb>>>>::sse_decode(&mut deserializer);
@@ -148,7 +147,7 @@ fn wire__crate__ark__client__ArkClient_auto_accessor_set_inner_impl(
         },
     )
 }
-fn wire__crate__ark__client__ArkClient_balance_impl(
+fn wire__crate__ark__client__ArkWallet_balance_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -156,7 +155,7 @@ fn wire__crate__ark__client__ArkClient_balance_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_balance",
+            debug_name: "ArkWallet_balance",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -171,7 +170,7 @@ fn wire__crate__ark__client__ArkClient_balance_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| async move {
@@ -195,7 +194,7 @@ fn wire__crate__ark__client__ArkClient_balance_impl(
                         }
                         let api_that_guard = api_that_guard.unwrap();
                         let output_ok =
-                            crate::ark::client::ArkClient::balance(&*api_that_guard).await?;
+                            crate::ark::client::ArkWallet::balance(&*api_that_guard).await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -204,14 +203,14 @@ fn wire__crate__ark__client__ArkClient_balance_impl(
         },
     )
 }
-fn wire__crate__ark__client__ArkClient_boarding_address_impl(
+fn wire__crate__ark__client__ArkWallet_boarding_address_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_boarding_address",
+            debug_name: "ArkWallet_boarding_address",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -226,7 +225,7 @@ fn wire__crate__ark__client__ArkClient_boarding_address_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
@@ -246,14 +245,14 @@ fn wire__crate__ark__client__ArkClient_boarding_address_impl(
                     }
                     let api_that_guard = api_that_guard.unwrap();
                     let output_ok =
-                        crate::ark::client::ArkClient::boarding_address(&*api_that_guard)?;
+                        crate::ark::client::ArkWallet::boarding_address(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
         },
     )
 }
-fn wire__crate__ark__client__ArkClient_fetch_transactions_impl(
+fn wire__crate__ark__client__ArkWallet_init_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -261,64 +260,7 @@ fn wire__crate__ark__client__ArkClient_fetch_transactions_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_fetch_transactions",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
-            >>::sse_decode(&mut deserializer);
-            deserializer.end();
-            move |context| async move {
-                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || async move {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => {
-                                    api_that_guard =
-                                        Some(api_that.lockable_decode_async_ref().await)
-                                }
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok =
-                            crate::ark::client::ArkClient::fetch_transactions(&*api_that_guard)
-                                .await?;
-                        Ok(output_ok)
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
-fn wire__crate__ark__client__ArkClient_init_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_init",
+            debug_name: "ArkWallet_init",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -340,7 +282,7 @@ fn wire__crate__ark__client__ArkClient_init_impl(
             move |context| async move {
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
-                        let output_ok = crate::ark::client::ArkClient::init(
+                        let output_ok = crate::ark::client::ArkWallet::init(
                             api_secret_key,
                             api_network,
                             api_esplora,
@@ -355,14 +297,14 @@ fn wire__crate__ark__client__ArkClient_init_impl(
         },
     )
 }
-fn wire__crate__ark__client__ArkClient_offchain_address_impl(
+fn wire__crate__ark__client__ArkWallet_offchain_address_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_offchain_address",
+            debug_name: "ArkWallet_offchain_address",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -377,7 +319,7 @@ fn wire__crate__ark__client__ArkClient_offchain_address_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
@@ -397,14 +339,14 @@ fn wire__crate__ark__client__ArkClient_offchain_address_impl(
                     }
                     let api_that_guard = api_that_guard.unwrap();
                     let output_ok =
-                        crate::ark::client::ArkClient::offchain_address(&*api_that_guard)?;
+                        crate::ark::client::ArkWallet::offchain_address(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
         },
     )
 }
-fn wire__crate__ark__client__ArkClient_send_off_chain_impl(
+fn wire__crate__ark__client__ArkWallet_send_off_chain_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -412,7 +354,7 @@ fn wire__crate__ark__client__ArkClient_send_off_chain_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_send_off_chain",
+            debug_name: "ArkWallet_send_off_chain",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -427,7 +369,7 @@ fn wire__crate__ark__client__ArkClient_send_off_chain_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             let api_address = <String>::sse_decode(&mut deserializer);
             let api_sats = <i64>::sse_decode(&mut deserializer);
@@ -452,7 +394,7 @@ fn wire__crate__ark__client__ArkClient_send_off_chain_impl(
                             }
                         }
                         let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = crate::ark::client::ArkClient::send_off_chain(
+                        let output_ok = crate::ark::client::ArkWallet::send_off_chain(
                             &*api_that_guard,
                             api_address,
                             api_sats,
@@ -466,7 +408,7 @@ fn wire__crate__ark__client__ArkClient_send_off_chain_impl(
         },
     )
 }
-fn wire__crate__ark__client__ArkClient_send_on_chain_impl(
+fn wire__crate__ark__client__ArkWallet_send_on_chain_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -474,7 +416,7 @@ fn wire__crate__ark__client__ArkClient_send_on_chain_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_send_on_chain",
+            debug_name: "ArkWallet_send_on_chain",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -489,7 +431,7 @@ fn wire__crate__ark__client__ArkClient_send_on_chain_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             let api_address = <String>::sse_decode(&mut deserializer);
             let api_sats = <i64>::sse_decode(&mut deserializer);
@@ -514,7 +456,7 @@ fn wire__crate__ark__client__ArkClient_send_on_chain_impl(
                             }
                         }
                         let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = crate::ark::client::ArkClient::send_on_chain(
+                        let output_ok = crate::ark::client::ArkWallet::send_on_chain(
                             &*api_that_guard,
                             api_address,
                             api_sats,
@@ -528,14 +470,14 @@ fn wire__crate__ark__client__ArkClient_send_on_chain_impl(
         },
     )
 }
-fn wire__crate__ark__client__ArkClient_server_info_impl(
+fn wire__crate__ark__client__ArkWallet_server_info_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_server_info",
+            debug_name: "ArkWallet_server_info",
             port: None,
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
@@ -550,7 +492,7 @@ fn wire__crate__ark__client__ArkClient_server_info_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
@@ -569,14 +511,14 @@ fn wire__crate__ark__client__ArkClient_server_info_impl(
                         }
                     }
                     let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = crate::ark::client::ArkClient::server_info(&*api_that_guard)?;
+                    let output_ok = crate::ark::client::ArkWallet::server_info(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
         },
     )
 }
-fn wire__crate__ark__client__ArkClient_settle_impl(
+fn wire__crate__ark__client__ArkWallet_settle_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -584,7 +526,7 @@ fn wire__crate__ark__client__ArkClient_settle_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ArkClient_settle",
+            debug_name: "ArkWallet_settle",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -599,7 +541,7 @@ fn wire__crate__ark__client__ArkClient_settle_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             let api_select_recoverable_vtxos = <bool>::sse_decode(&mut deserializer);
             deserializer.end();
@@ -623,11 +565,68 @@ fn wire__crate__ark__client__ArkClient_settle_impl(
                             }
                         }
                         let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = crate::ark::client::ArkClient::settle(
+                        let output_ok = crate::ark::client::ArkWallet::settle(
                             &*api_that_guard,
                             api_select_recoverable_vtxos,
                         )
                         .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__ark__client__ArkWallet_transaction_history_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ArkWallet_transaction_history",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| async move {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let mut api_that_guard = None;
+                        let decode_indices_ =
+                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
+                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                    &api_that, 0, false,
+                                )],
+                            );
+                        for i in decode_indices_ {
+                            match i {
+                                0 => {
+                                    api_that_guard =
+                                        Some(api_that.lockable_decode_async_ref().await)
+                                }
+                                _ => unreachable!(),
+                            }
+                        }
+                        let api_that_guard = api_that_guard.unwrap();
+                        let output_ok =
+                            crate::ark::client::ArkWallet::transaction_history(&*api_that_guard)
+                                .await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -832,16 +831,13 @@ flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     >
 );
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
-    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>
+    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>
 );
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EsploraClient>
 );
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<InMemoryDb>
-);
-flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
-    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Txid>
 );
 
 // Section: dart2rust
@@ -866,11 +862,11 @@ impl SseDecode for Arc<Client<EsploraClient, Wallet<InMemoryDb>>> {
     }
 }
 
-impl SseDecode for ArkClient {
+impl SseDecode for ArkWallet {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueMoi<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>,
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
@@ -896,16 +892,6 @@ impl SseDecode for InMemoryDb {
     }
 }
 
-impl SseDecode for Txid {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueMoi<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Txid>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
 impl SseDecode
     for RustOpaqueMoi<
         flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
@@ -921,7 +907,7 @@ impl SseDecode
 }
 
 impl SseDecode
-    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -943,14 +929,6 @@ impl SseDecode
 impl SseDecode
     for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<InMemoryDb>>
 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return decode_rust_opaque_moi(inner);
-    }
-}
-
-impl SseDecode for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Txid>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
@@ -1158,27 +1136,27 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        3 => wire__crate__ark__client__ArkClient_balance_impl(port, ptr, rust_vec_len, data_len),
-        5 => wire__crate__ark__client__ArkClient_fetch_transactions_impl(
+        3 => wire__crate__ark__client__ArkWallet_balance_impl(port, ptr, rust_vec_len, data_len),
+        5 => wire__crate__ark__client__ArkWallet_init_impl(port, ptr, rust_vec_len, data_len),
+        7 => wire__crate__ark__client__ArkWallet_send_off_chain_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        6 => wire__crate__ark__client__ArkClient_init_impl(port, ptr, rust_vec_len, data_len),
-        8 => wire__crate__ark__client__ArkClient_send_off_chain_impl(
+        8 => wire__crate__ark__client__ArkWallet_send_on_chain_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        9 => wire__crate__ark__client__ArkClient_send_on_chain_impl(
+        10 => wire__crate__ark__client__ArkWallet_settle_impl(port, ptr, rust_vec_len, data_len),
+        11 => wire__crate__ark__client__ArkWallet_transaction_history_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        11 => wire__crate__ark__client__ArkClient_settle_impl(port, ptr, rust_vec_len, data_len),
         12 => wire__crate__ark__esplora__EsploraClient_check_connection_impl(
             port,
             ptr,
@@ -1199,19 +1177,19 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        1 => wire__crate__ark__client__ArkClient_auto_accessor_get_inner_impl(
+        1 => wire__crate__ark__client__ArkWallet_auto_accessor_get_inner_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        2 => wire__crate__ark__client__ArkClient_auto_accessor_set_inner_impl(
+        2 => wire__crate__ark__client__ArkWallet_auto_accessor_set_inner_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        4 => wire__crate__ark__client__ArkClient_boarding_address_impl(ptr, rust_vec_len, data_len),
-        7 => wire__crate__ark__client__ArkClient_offchain_address_impl(ptr, rust_vec_len, data_len),
-        10 => wire__crate__ark__client__ArkClient_server_info_impl(ptr, rust_vec_len, data_len),
+        4 => wire__crate__ark__client__ArkWallet_boarding_address_impl(ptr, rust_vec_len, data_len),
+        6 => wire__crate__ark__client__ArkWallet_offchain_address_impl(ptr, rust_vec_len, data_len),
+        9 => wire__crate__ark__client__ArkWallet_server_info_impl(ptr, rust_vec_len, data_len),
         15 => wire__crate__ark__utils__utils_is_ark_impl(ptr, rust_vec_len, data_len),
         16 => wire__crate__ark__utils__utils_is_btc_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
@@ -1241,16 +1219,16 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Arc<Client<EsploraClient, Wall
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<ArkClient> {
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ArkWallet> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
             .into_dart()
     }
 }
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<ArkClient> {}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<ArkWallet> {}
 
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ArkClient>> for ArkClient {
-    fn into_into_dart(self) -> FrbWrapper<ArkClient> {
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ArkWallet>> for ArkWallet {
+    fn into_into_dart(self) -> FrbWrapper<ArkWallet> {
         self.into()
     }
 }
@@ -1281,21 +1259,6 @@ impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<
 
 impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<InMemoryDb>> for InMemoryDb {
     fn into_into_dart(self) -> FrbWrapper<InMemoryDb> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<Txid> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<Txid> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Txid>> for Txid {
-    fn into_into_dart(self) -> FrbWrapper<Txid> {
         self.into()
     }
 }
@@ -1441,10 +1404,10 @@ impl SseEncode for Arc<Client<EsploraClient, Wallet<InMemoryDb>>> {
     }
 }
 
-impl SseEncode for ArkClient {
+impl SseEncode for ArkWallet {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
+        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
     }
 }
 
@@ -1459,16 +1422,6 @@ impl SseEncode for InMemoryDb {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<InMemoryDb>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for Txid {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Txid>>>::sse_encode(
-            flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self),
-            serializer,
-        );
     }
 }
 
@@ -1488,7 +1441,7 @@ impl SseEncode
 }
 
 impl SseEncode
-    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1512,15 +1465,6 @@ impl SseEncode
 impl SseEncode
     for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<InMemoryDb>>
 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Txid>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         let (ptr, size) = self.sse_encode_raw();
@@ -1702,7 +1646,6 @@ mod io {
     use super::*;
     use crate::ark::client::*;
     use crate::ark::esplora::*;
-    use crate::ark::send::*;
     use crate::ark::storage::*;
     use crate::*;
     use flutter_rust_bridge::for_generated::byteorder::{
@@ -1738,17 +1681,17 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ark_wallet_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+    pub extern "C" fn frbgen_ark_wallet_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
         ptr: *const std::ffi::c_void,
     ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>::increment_strong_count(ptr as _);
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>>::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ark_wallet_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+    pub extern "C" fn frbgen_ark_wallet_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
         ptr: *const std::ffi::c_void,
     ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>::decrement_strong_count(ptr as _);
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>>::decrement_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
@@ -1778,20 +1721,6 @@ mod io {
     ) {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<InMemoryDb>>::decrement_strong_count(ptr as _);
     }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ark_wallet_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Txid>>::increment_strong_count(ptr as _);
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ark_wallet_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Txid>>::decrement_strong_count(ptr as _);
-    }
 }
 #[cfg(not(target_family = "wasm"))]
 pub use io::*;
@@ -1807,7 +1736,6 @@ mod web {
     use super::*;
     use crate::ark::client::*;
     use crate::ark::esplora::*;
-    use crate::ark::send::*;
     use crate::ark::storage::*;
     use crate::*;
     use flutter_rust_bridge::for_generated::byteorder::{
@@ -1845,17 +1773,17 @@ mod web {
     }
 
     #[wasm_bindgen]
-    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
         ptr: *const std::ffi::c_void,
     ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>::increment_strong_count(ptr as _);
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>>::increment_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
-    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
         ptr: *const std::ffi::c_void,
     ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>::decrement_strong_count(ptr as _);
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>>::decrement_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
@@ -1884,20 +1812,6 @@ mod web {
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<InMemoryDb>>::decrement_strong_count(ptr as _);
-    }
-
-    #[wasm_bindgen]
-    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Txid>>::increment_strong_count(ptr as _);
-    }
-
-    #[wasm_bindgen]
-    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Txid>>::decrement_strong_count(ptr as _);
     }
 }
 #[cfg(target_family = "wasm")]

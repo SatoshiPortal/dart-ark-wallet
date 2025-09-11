@@ -6,7 +6,6 @@
 import 'ark/balance.dart';
 import 'ark/client.dart';
 import 'ark/esplora.dart';
-import 'ark/send.dart';
 import 'ark/server_info.dart';
 import 'ark/storage.dart';
 import 'ark/transactions.dart';
@@ -72,7 +71,7 @@ class LibArk extends BaseEntrypoint<LibArkApi, LibArkApiImpl, LibArkWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 2022042721;
+  int get rustContentHash => -253387012;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -84,47 +83,47 @@ class LibArk extends BaseEntrypoint<LibArkApi, LibArkApiImpl, LibArkWire> {
 
 abstract class LibArkApi extends BaseApi {
   ArcClientEsploraClientWalletInMemoryDb
-  crateArkClientArkClientAutoAccessorGetInner({required ArkClient that});
+  crateArkClientArkWalletAutoAccessorGetInner({required ArkWallet that});
 
-  void crateArkClientArkClientAutoAccessorSetInner({
-    required ArkClient that,
+  void crateArkClientArkWalletAutoAccessorSetInner({
+    required ArkWallet that,
     required ArcClientEsploraClientWalletInMemoryDb inner,
   });
 
-  Future<Balance> crateArkClientArkClientBalance({required ArkClient that});
+  Future<Balance> crateArkClientArkWalletBalance({required ArkWallet that});
 
-  String crateArkClientArkClientBoardingAddress({required ArkClient that});
+  String crateArkClientArkWalletBoardingAddress({required ArkWallet that});
 
-  Future<List<Transaction>> crateArkClientArkClientFetchTransactions({
-    required ArkClient that,
-  });
-
-  Future<ArkClient> crateArkClientArkClientInit({
+  Future<ArkWallet> crateArkClientArkWalletInit({
     required List<int> secretKey,
     required String network,
     required String esplora,
     required String server,
   });
 
-  String crateArkClientArkClientOffchainAddress({required ArkClient that});
+  String crateArkClientArkWalletOffchainAddress({required ArkWallet that});
 
-  Future<Txid> crateArkClientArkClientSendOffChain({
-    required ArkClient that,
+  Future<String> crateArkClientArkWalletSendOffChain({
+    required ArkWallet that,
     required String address,
     required PlatformInt64 sats,
   });
 
-  Future<Txid> crateArkClientArkClientSendOnChain({
-    required ArkClient that,
+  Future<String> crateArkClientArkWalletSendOnChain({
+    required ArkWallet that,
     required String address,
     required PlatformInt64 sats,
   });
 
-  ServerInfo crateArkClientArkClientServerInfo({required ArkClient that});
+  ServerInfo crateArkClientArkWalletServerInfo({required ArkWallet that});
 
-  Future<void> crateArkClientArkClientSettle({
-    required ArkClient that,
+  Future<void> crateArkClientArkWalletSettle({
+    required ArkWallet that,
     required bool selectRecoverableVtxos,
+  });
+
+  Future<List<Transaction>> crateArkClientArkWalletTransactionHistory({
+    required ArkWallet that,
   });
 
   Future<void> crateArkEsploraEsploraClientCheckConnection({
@@ -149,12 +148,12 @@ abstract class LibArkApi extends BaseApi {
   get rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbPtr;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArkClient;
+  get rust_arc_increment_strong_count_ArkWallet;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArkClient;
+  get rust_arc_decrement_strong_count_ArkWallet;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArkClientPtr;
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArkWalletPtr;
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_EsploraClient;
@@ -172,12 +171,6 @@ abstract class LibArkApi extends BaseApi {
   get rust_arc_decrement_strong_count_InMemoryDb;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_InMemoryDbPtr;
-
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Txid;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Txid;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_TxidPtr;
 }
 
 class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
@@ -190,12 +183,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   @override
   ArcClientEsploraClientWalletInMemoryDb
-  crateArkClientArkClientAutoAccessorGetInner({required ArkClient that}) {
+  crateArkClientArkWalletAutoAccessorGetInner({required ArkWallet that}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
             that,
             serializer,
           );
@@ -206,29 +199,29 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
               sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb,
           decodeErrorData: null,
         ),
-        constMeta: kCrateArkClientArkClientAutoAccessorGetInnerConstMeta,
+        constMeta: kCrateArkClientArkWalletAutoAccessorGetInnerConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateArkClientArkClientAutoAccessorGetInnerConstMeta =>
+  TaskConstMeta get kCrateArkClientArkWalletAutoAccessorGetInnerConstMeta =>
       const TaskConstMeta(
-        debugName: "ArkClient_auto_accessor_get_inner",
+        debugName: "ArkWallet_auto_accessor_get_inner",
         argNames: ["that"],
       );
 
   @override
-  void crateArkClientArkClientAutoAccessorSetInner({
-    required ArkClient that,
+  void crateArkClientArkWalletAutoAccessorSetInner({
+    required ArkWallet that,
     required ArcClientEsploraClientWalletInMemoryDb inner,
   }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
             that,
             serializer,
           );
@@ -242,26 +235,26 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateArkClientArkClientAutoAccessorSetInnerConstMeta,
+        constMeta: kCrateArkClientArkWalletAutoAccessorSetInnerConstMeta,
         argValues: [that, inner],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateArkClientArkClientAutoAccessorSetInnerConstMeta =>
+  TaskConstMeta get kCrateArkClientArkWalletAutoAccessorSetInnerConstMeta =>
       const TaskConstMeta(
-        debugName: "ArkClient_auto_accessor_set_inner",
+        debugName: "ArkWallet_auto_accessor_set_inner",
         argNames: ["that", "inner"],
       );
 
   @override
-  Future<Balance> crateArkClientArkClientBalance({required ArkClient that}) {
+  Future<Balance> crateArkClientArkWalletBalance({required ArkWallet that}) {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
             that,
             serializer,
           );
@@ -276,23 +269,23 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           decodeSuccessData: sse_decode_balance,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateArkClientArkClientBalanceConstMeta,
+        constMeta: kCrateArkClientArkWalletBalanceConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateArkClientArkClientBalanceConstMeta =>
-      const TaskConstMeta(debugName: "ArkClient_balance", argNames: ["that"]);
+  TaskConstMeta get kCrateArkClientArkWalletBalanceConstMeta =>
+      const TaskConstMeta(debugName: "ArkWallet_balance", argNames: ["that"]);
 
   @override
-  String crateArkClientArkClientBoardingAddress({required ArkClient that}) {
+  String crateArkClientArkWalletBoardingAddress({required ArkWallet that}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
             that,
             serializer,
           );
@@ -302,57 +295,21 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           decodeSuccessData: sse_decode_String,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateArkClientArkClientBoardingAddressConstMeta,
+        constMeta: kCrateArkClientArkWalletBoardingAddressConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateArkClientArkClientBoardingAddressConstMeta =>
+  TaskConstMeta get kCrateArkClientArkWalletBoardingAddressConstMeta =>
       const TaskConstMeta(
-        debugName: "ArkClient_boarding_address",
+        debugName: "ArkWallet_boarding_address",
         argNames: ["that"],
       );
 
   @override
-  Future<List<Transaction>> crateArkClientArkClientFetchTransactions({
-    required ArkClient that,
-  }) {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
-            that,
-            serializer,
-          );
-          pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 5,
-            port: port_,
-          );
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_transaction,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateArkClientArkClientFetchTransactionsConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateArkClientArkClientFetchTransactionsConstMeta =>
-      const TaskConstMeta(
-        debugName: "ArkClient_fetch_transactions",
-        argNames: ["that"],
-      );
-
-  @override
-  Future<ArkClient> crateArkClientArkClientInit({
+  Future<ArkWallet> crateArkClientArkWalletInit({
     required List<int> secretKey,
     required String network,
     required String esplora,
@@ -369,60 +326,60 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 6,
+            funcId: 5,
             port: port_,
           );
         },
         codec: SseCodec(
           decodeSuccessData:
-              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient,
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateArkClientArkClientInitConstMeta,
+        constMeta: kCrateArkClientArkWalletInitConstMeta,
         argValues: [secretKey, network, esplora, server],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateArkClientArkClientInitConstMeta =>
+  TaskConstMeta get kCrateArkClientArkWalletInitConstMeta =>
       const TaskConstMeta(
-        debugName: "ArkClient_init",
+        debugName: "ArkWallet_init",
         argNames: ["secretKey", "network", "esplora", "server"],
       );
 
   @override
-  String crateArkClientArkClientOffchainAddress({required ArkClient that}) {
+  String crateArkClientArkWalletOffchainAddress({required ArkWallet that}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateArkClientArkClientOffchainAddressConstMeta,
+        constMeta: kCrateArkClientArkWalletOffchainAddressConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateArkClientArkClientOffchainAddressConstMeta =>
+  TaskConstMeta get kCrateArkClientArkWalletOffchainAddressConstMeta =>
       const TaskConstMeta(
-        debugName: "ArkClient_offchain_address",
+        debugName: "ArkWallet_offchain_address",
         argNames: ["that"],
       );
 
   @override
-  Future<Txid> crateArkClientArkClientSendOffChain({
-    required ArkClient that,
+  Future<String> crateArkClientArkWalletSendOffChain({
+    required ArkWallet that,
     required String address,
     required PlatformInt64 sats,
   }) {
@@ -430,7 +387,47 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       NormalTask(
         callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
+          sse_encode_String(address, serializer);
+          sse_encode_i_64(sats, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 7,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletSendOffChainConstMeta,
+        argValues: [that, address, sats],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkWalletSendOffChainConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkWallet_send_off_chain",
+        argNames: ["that", "address", "sats"],
+      );
+
+  @override
+  Future<String> crateArkClientArkWalletSendOnChain({
+    required ArkWallet that,
+    required String address,
+    required PlatformInt64 sats,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
             that,
             serializer,
           );
@@ -444,107 +441,101 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           );
         },
         codec: SseCodec(
-          decodeSuccessData:
-              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid,
+          decodeSuccessData: sse_decode_String,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateArkClientArkClientSendOffChainConstMeta,
+        constMeta: kCrateArkClientArkWalletSendOnChainConstMeta,
         argValues: [that, address, sats],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateArkClientArkClientSendOffChainConstMeta =>
+  TaskConstMeta get kCrateArkClientArkWalletSendOnChainConstMeta =>
       const TaskConstMeta(
-        debugName: "ArkClient_send_off_chain",
+        debugName: "ArkWallet_send_on_chain",
         argNames: ["that", "address", "sats"],
       );
 
   @override
-  Future<Txid> crateArkClientArkClientSendOnChain({
-    required ArkClient that,
-    required String address,
-    required PlatformInt64 sats,
-  }) {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
-            that,
-            serializer,
-          );
-          sse_encode_String(address, serializer);
-          sse_encode_i_64(sats, serializer);
-          pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 9,
-            port: port_,
-          );
-        },
-        codec: SseCodec(
-          decodeSuccessData:
-              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid,
-          decodeErrorData: sse_decode_AnyhowException,
-        ),
-        constMeta: kCrateArkClientArkClientSendOnChainConstMeta,
-        argValues: [that, address, sats],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateArkClientArkClientSendOnChainConstMeta =>
-      const TaskConstMeta(
-        debugName: "ArkClient_send_on_chain",
-        argNames: ["that", "address", "sats"],
-      );
-
-  @override
-  ServerInfo crateArkClientArkClientServerInfo({required ArkClient that}) {
+  ServerInfo crateArkClientArkWalletServerInfo({required ArkWallet that}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_server_info,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateArkClientArkClientServerInfoConstMeta,
+        constMeta: kCrateArkClientArkWalletServerInfoConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateArkClientArkClientServerInfoConstMeta =>
+  TaskConstMeta get kCrateArkClientArkWalletServerInfoConstMeta =>
       const TaskConstMeta(
-        debugName: "ArkClient_server_info",
+        debugName: "ArkWallet_server_info",
         argNames: ["that"],
       );
 
   @override
-  Future<void> crateArkClientArkClientSettle({
-    required ArkClient that,
+  Future<void> crateArkClientArkWalletSettle({
+    required ArkWallet that,
     required bool selectRecoverableVtxos,
   }) {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
             that,
             serializer,
           );
           sse_encode_bool(selectRecoverableVtxos, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 10,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletSettleConstMeta,
+        argValues: [that, selectRecoverableVtxos],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkWalletSettleConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkWallet_settle",
+        argNames: ["that", "selectRecoverableVtxos"],
+      );
+
+  @override
+  Future<List<Transaction>> crateArkClientArkWalletTransactionHistory({
+    required ArkWallet that,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
@@ -553,20 +544,20 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           );
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
+          decodeSuccessData: sse_decode_list_transaction,
           decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateArkClientArkClientSettleConstMeta,
-        argValues: [that, selectRecoverableVtxos],
+        constMeta: kCrateArkClientArkWalletTransactionHistoryConstMeta,
+        argValues: [that],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateArkClientArkClientSettleConstMeta =>
+  TaskConstMeta get kCrateArkClientArkWalletTransactionHistoryConstMeta =>
       const TaskConstMeta(
-        debugName: "ArkClient_settle",
-        argNames: ["that", "selectRecoverableVtxos"],
+        debugName: "ArkWallet_transaction_history",
+        argNames: ["that"],
       );
 
   @override
@@ -717,12 +708,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArkClient => wire
-      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient;
+  get rust_arc_increment_strong_count_ArkWallet => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArkClient => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient;
+  get rust_arc_decrement_strong_count_ArkWallet => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet;
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_EsploraClient => wire
@@ -739,14 +730,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   RustArcDecrementStrongCountFnType
   get rust_arc_decrement_strong_count_InMemoryDb => wire
       .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb;
-
-  RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_Txid => wire
-      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid;
-
-  RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_Txid => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid;
 
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
@@ -766,12 +749,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArkClient
-  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+  ArkWallet
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArkClientImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return ArkWalletImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -793,30 +776,21 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  Txid
-  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+  ArkWallet
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return TxidImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return ArkWalletImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  ArkClient
-  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+  ArkWallet
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArkClientImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  ArkClient
-  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
-    dynamic raw,
-  ) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArkClientImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return ArkWalletImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -840,12 +814,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArkClient
-  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+  ArkWallet
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArkClientImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return ArkWalletImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -864,15 +838,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return InMemoryDbImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  Txid
-  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
-    dynamic raw,
-  ) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return TxidImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -1040,12 +1005,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArkClient
-  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+  ArkWallet
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArkClientImpl.frbInternalSseDecode(
+    return ArkWalletImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1076,36 +1041,24 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  Txid
-  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
+  ArkWallet
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return TxidImpl.frbInternalSseDecode(
+    return ArkWalletImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
   }
 
   @protected
-  ArkClient
-  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+  ArkWallet
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArkClientImpl.frbInternalSseDecode(
-      sse_decode_usize(deserializer),
-      sse_decode_i_32(deserializer),
-    );
-  }
-
-  @protected
-  ArkClient
-  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArkClientImpl.frbInternalSseDecode(
+    return ArkWalletImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1136,12 +1089,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArkClient
-  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
+  ArkWallet
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArkClientImpl.frbInternalSseDecode(
+    return ArkWalletImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1166,18 +1119,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return InMemoryDbImpl.frbInternalSseDecode(
-      sse_decode_usize(deserializer),
-      sse_decode_i_32(deserializer),
-    );
-  }
-
-  @protected
-  Txid
-  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return TxidImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1392,13 +1333,13 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   @protected
   void
-  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
-    ArkClient self,
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+    ArkWallet self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-      (self as ArkClientImpl).frbInternalSseEncode(move: true),
+      (self as ArkWalletImpl).frbInternalSseEncode(move: true),
       serializer,
     );
   }
@@ -1431,39 +1372,26 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   @protected
   void
-  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
-    Txid self,
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+    ArkWallet self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-      (self as TxidImpl).frbInternalSseEncode(move: true),
+      (self as ArkWalletImpl).frbInternalSseEncode(move: false),
       serializer,
     );
   }
 
   @protected
   void
-  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
-    ArkClient self,
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+    ArkWallet self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-      (self as ArkClientImpl).frbInternalSseEncode(move: false),
-      serializer,
-    );
-  }
-
-  @protected
-  void
-  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
-    ArkClient self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-      (self as ArkClientImpl).frbInternalSseEncode(move: false),
+      (self as ArkWalletImpl).frbInternalSseEncode(move: false),
       serializer,
     );
   }
@@ -1498,13 +1426,13 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   @protected
   void
-  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkClient(
-    ArkClient self,
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+    ArkWallet self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-      (self as ArkClientImpl).frbInternalSseEncode(move: null),
+      (self as ArkWalletImpl).frbInternalSseEncode(move: null),
       serializer,
     );
   }
@@ -1531,19 +1459,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as InMemoryDbImpl).frbInternalSseEncode(move: null),
-      serializer,
-    );
-  }
-
-  @protected
-  void
-  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTxid(
-    Txid self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-      (self as TxidImpl).frbInternalSseEncode(move: null),
       serializer,
     );
   }
@@ -1750,68 +1665,68 @@ class ArcClientEsploraClientWalletInMemoryDbImpl extends RustOpaque
 }
 
 @sealed
-class ArkClientImpl extends RustOpaque implements ArkClient {
+class ArkWalletImpl extends RustOpaque implements ArkWallet {
   // Not to be used by end users
-  ArkClientImpl.frbInternalDcoDecode(List<dynamic> wire)
+  ArkWalletImpl.frbInternalDcoDecode(List<dynamic> wire)
     : super.frbInternalDcoDecode(wire, _kStaticData);
 
   // Not to be used by end users
-  ArkClientImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+  ArkWalletImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
     : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
     rustArcIncrementStrongCount:
-        LibArk.instance.api.rust_arc_increment_strong_count_ArkClient,
+        LibArk.instance.api.rust_arc_increment_strong_count_ArkWallet,
     rustArcDecrementStrongCount:
-        LibArk.instance.api.rust_arc_decrement_strong_count_ArkClient,
+        LibArk.instance.api.rust_arc_decrement_strong_count_ArkWallet,
     rustArcDecrementStrongCountPtr:
-        LibArk.instance.api.rust_arc_decrement_strong_count_ArkClientPtr,
+        LibArk.instance.api.rust_arc_decrement_strong_count_ArkWalletPtr,
   );
 
   ArcClientEsploraClientWalletInMemoryDb get inner => LibArk.instance.api
-      .crateArkClientArkClientAutoAccessorGetInner(that: this);
+      .crateArkClientArkWalletAutoAccessorGetInner(that: this);
 
   set inner(ArcClientEsploraClientWalletInMemoryDb inner) => LibArk.instance.api
-      .crateArkClientArkClientAutoAccessorSetInner(that: this, inner: inner);
+      .crateArkClientArkWalletAutoAccessorSetInner(that: this, inner: inner);
 
   Future<Balance> balance() =>
-      LibArk.instance.api.crateArkClientArkClientBalance(that: this);
+      LibArk.instance.api.crateArkClientArkWalletBalance(that: this);
 
   String boardingAddress() =>
-      LibArk.instance.api.crateArkClientArkClientBoardingAddress(that: this);
-
-  Future<List<Transaction>> fetchTransactions() =>
-      LibArk.instance.api.crateArkClientArkClientFetchTransactions(that: this);
+      LibArk.instance.api.crateArkClientArkWalletBoardingAddress(that: this);
 
   String offchainAddress() =>
-      LibArk.instance.api.crateArkClientArkClientOffchainAddress(that: this);
+      LibArk.instance.api.crateArkClientArkWalletOffchainAddress(that: this);
 
-  Future<Txid> sendOffChain({
+  Future<String> sendOffChain({
     required String address,
     required PlatformInt64 sats,
-  }) => LibArk.instance.api.crateArkClientArkClientSendOffChain(
+  }) => LibArk.instance.api.crateArkClientArkWalletSendOffChain(
     that: this,
     address: address,
     sats: sats,
   );
 
-  Future<Txid> sendOnChain({
+  Future<String> sendOnChain({
     required String address,
     required PlatformInt64 sats,
-  }) => LibArk.instance.api.crateArkClientArkClientSendOnChain(
+  }) => LibArk.instance.api.crateArkClientArkWalletSendOnChain(
     that: this,
     address: address,
     sats: sats,
   );
 
   ServerInfo serverInfo() =>
-      LibArk.instance.api.crateArkClientArkClientServerInfo(that: this);
+      LibArk.instance.api.crateArkClientArkWalletServerInfo(that: this);
 
   Future<void> settle({required bool selectRecoverableVtxos}) =>
-      LibArk.instance.api.crateArkClientArkClientSettle(
+      LibArk.instance.api.crateArkClientArkWalletSettle(
         that: this,
         selectRecoverableVtxos: selectRecoverableVtxos,
       );
+
+  Future<List<Transaction>> transactionHistory() =>
+      LibArk.instance.api.crateArkClientArkWalletTransactionHistory(that: this);
 }
 
 @sealed
@@ -1854,25 +1769,5 @@ class InMemoryDbImpl extends RustOpaque implements InMemoryDb {
         LibArk.instance.api.rust_arc_decrement_strong_count_InMemoryDb,
     rustArcDecrementStrongCountPtr:
         LibArk.instance.api.rust_arc_decrement_strong_count_InMemoryDbPtr,
-  );
-}
-
-@sealed
-class TxidImpl extends RustOpaque implements Txid {
-  // Not to be used by end users
-  TxidImpl.frbInternalDcoDecode(List<dynamic> wire)
-    : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  TxidImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        LibArk.instance.api.rust_arc_increment_strong_count_Txid,
-    rustArcDecrementStrongCount:
-        LibArk.instance.api.rust_arc_decrement_strong_count_Txid,
-    rustArcDecrementStrongCountPtr:
-        LibArk.instance.api.rust_arc_decrement_strong_count_TxidPtr,
   );
 }

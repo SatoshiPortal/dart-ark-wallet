@@ -1,7 +1,7 @@
 use anyhow::{Result};
 use flutter_rust_bridge::frb;
 
-use crate::ark::client::ArkClient;
+use crate::ark::client::ArkWallet;
 
 
 
@@ -21,7 +21,7 @@ pub struct ServerInfo {
     pub vtxo_max_amount: Option<i64>,
 }
 
-impl ArkClient {
+impl ArkWallet {
     #[frb(sync)]
     pub fn server_info(&self) -> Result<ServerInfo> {
         let info = self.inner.server_info.clone();

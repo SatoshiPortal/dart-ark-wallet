@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SendPage extends StatefulWidget {
-  final ark.ArkClient client;
+  final ark.ArkWallet client;
   const SendPage({super.key, required this.client});
 
   @override

@@ -4,10 +4,10 @@ use flutter_rust_bridge::frb;
 pub use bitcoin::Address;
 pub use ark_core::ArkAddress;
 
-use crate::ark::client::ArkClient;
+use crate::ark::client::ArkWallet;
 
 
-impl ArkClient {
+impl ArkWallet {
     #[frb(sync)]
     pub fn offchain_address(&self) -> Result<String> {
         let (offchain_address, _vtxo)= self.inner

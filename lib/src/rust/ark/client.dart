@@ -7,14 +7,13 @@ import '../frb_generated.dart';
 import '../lib.dart';
 import 'balance.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-import 'send.dart';
 import 'server_info.dart';
 import 'transactions.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`
 
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkClient>>
-abstract class ArkClient implements RustOpaqueInterface {
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>>
+abstract class ArkWallet implements RustOpaqueInterface {
   ArcClientEsploraClientWalletInMemoryDb get inner;
 
   set inner(ArcClientEsploraClientWalletInMemoryDb inner);
@@ -23,14 +22,12 @@ abstract class ArkClient implements RustOpaqueInterface {
 
   String boardingAddress();
 
-  Future<List<Transaction>> fetchTransactions();
-
-  static Future<ArkClient> init({
+  static Future<ArkWallet> init({
     required List<int> secretKey,
     required String network,
     required String esplora,
     required String server,
-  }) => LibArk.instance.api.crateArkClientArkClientInit(
+  }) => LibArk.instance.api.crateArkClientArkWalletInit(
     secretKey: secretKey,
     network: network,
     esplora: esplora,
@@ -39,12 +36,12 @@ abstract class ArkClient implements RustOpaqueInterface {
 
   String offchainAddress();
 
-  Future<Txid> sendOffChain({
+  Future<String> sendOffChain({
     required String address,
     required PlatformInt64 sats,
   });
 
-  Future<Txid> sendOnChain({
+  Future<String> sendOnChain({
     required String address,
     required PlatformInt64 sats,
   });
@@ -52,4 +49,6 @@ abstract class ArkClient implements RustOpaqueInterface {
   ServerInfo serverInfo();
 
   Future<void> settle({required bool selectRecoverableVtxos});
+
+  Future<List<Transaction>> transactionHistory();
 }
