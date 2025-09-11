@@ -706,28 +706,28 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArkWallet => wire
-      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet;
+  get rust_arc_increment_strong_count_ArkWallet =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArkWallet => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet;
+  get rust_arc_decrement_strong_count_ArkWallet =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_EsploraClient => wire
-      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEsploraClient;
+  get rust_arc_increment_strong_count_EsploraClient =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEsploraClient;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_EsploraClient => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEsploraClient;
+  get rust_arc_decrement_strong_count_EsploraClient =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEsploraClient;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_InMemoryDb => wire
-      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb;
+  get rust_arc_increment_strong_count_InMemoryDb =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_InMemoryDb => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb;
+  get rust_arc_decrement_strong_count_InMemoryDb =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb;
 
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
@@ -1647,18 +1647,21 @@ class ArcClientEsploraClientWalletInMemoryDbImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount: LibArk
-        .instance
-        .api
-        .rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDb,
-    rustArcDecrementStrongCount: LibArk
-        .instance
-        .api
-        .rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDb,
-    rustArcDecrementStrongCountPtr: LibArk
-        .instance
-        .api
-        .rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbPtr,
+    rustArcIncrementStrongCount:
+        LibArk
+            .instance
+            .api
+            .rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDb,
+    rustArcDecrementStrongCount:
+        LibArk
+            .instance
+            .api
+            .rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDb,
+    rustArcDecrementStrongCountPtr:
+        LibArk
+            .instance
+            .api
+            .rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbPtr,
   );
 }
 

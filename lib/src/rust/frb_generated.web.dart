@@ -31,17 +31,15 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   get rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbPtr =>
       wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb;
 
-  CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArkWalletPtr => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet;
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArkWalletPtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet;
 
   CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_EsploraClientPtr => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEsploraClient;
+  get rust_arc_decrement_strong_count_EsploraClientPtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEsploraClient;
 
-  CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_InMemoryDbPtr => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb;
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_InMemoryDbPtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb;
 
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw);
