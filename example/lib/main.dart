@@ -153,6 +153,18 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.clear_all),
                 label: const Text('Settle'),
               ),
+
+              TextButton.icon(
+                onPressed: () {
+                  _client.collaborativeRedeem(
+                    address: _btcAddress,
+                    sats: 1000,
+                    selectRecoverableVtxos: true,
+                  );
+                },
+                icon: const Icon(Icons.clear_all),
+                label: const Text('Settle'),
+              ),
             ]),
           ),
         ],

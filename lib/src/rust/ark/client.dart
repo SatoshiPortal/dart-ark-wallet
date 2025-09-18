@@ -22,6 +22,12 @@ abstract class ArkWallet implements RustOpaqueInterface {
 
   String boardingAddress();
 
+  Future<String> collaborativeRedeem({
+    required String address,
+    required PlatformInt64 sats,
+    required bool selectRecoverableVtxos,
+  });
+
   static Future<ArkWallet> init({
     required List<int> secretKey,
     required String network,

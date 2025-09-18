@@ -69,7 +69,7 @@ class LibArk extends BaseEntrypoint<LibArkApi, LibArkApiImpl, LibArkWire> {
   String get codegenVersion => '2.9.0';
 
   @override
-  int get rustContentHash => -253387012;
+  int get rustContentHash => -1870965194;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -91,6 +91,13 @@ abstract class LibArkApi extends BaseApi {
   Future<Balance> crateArkClientArkWalletBalance({required ArkWallet that});
 
   String crateArkClientArkWalletBoardingAddress({required ArkWallet that});
+
+  Future<String> crateArkClientArkWalletCollaborativeRedeem({
+    required ArkWallet that,
+    required String address,
+    required PlatformInt64 sats,
+    required bool selectRecoverableVtxos,
+  });
 
   Future<ArkWallet> crateArkClientArkWalletInit({
     required List<int> secretKey,
@@ -307,6 +314,48 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       );
 
   @override
+  Future<String> crateArkClientArkWalletCollaborativeRedeem({
+    required ArkWallet that,
+    required String address,
+    required PlatformInt64 sats,
+    required bool selectRecoverableVtxos,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
+          sse_encode_String(address, serializer);
+          sse_encode_i_64(sats, serializer);
+          sse_encode_bool(selectRecoverableVtxos, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 5,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletCollaborativeRedeemConstMeta,
+        argValues: [that, address, sats, selectRecoverableVtxos],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkWalletCollaborativeRedeemConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkWallet_collaborative_redeem",
+        argNames: ["that", "address", "sats", "selectRecoverableVtxos"],
+      );
+
+  @override
   Future<ArkWallet> crateArkClientArkWalletInit({
     required List<int> secretKey,
     required String network,
@@ -324,7 +373,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 5,
+            funcId: 6,
             port: port_,
           );
         },
@@ -356,7 +405,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -394,7 +443,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 7,
+            funcId: 8,
             port: port_,
           );
         },
@@ -434,7 +483,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 8,
+            funcId: 9,
             port: port_,
           );
         },
@@ -465,7 +514,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_server_info,
@@ -501,7 +550,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 10,
+            funcId: 11,
             port: port_,
           );
         },
@@ -537,7 +586,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 11,
+            funcId: 12,
             port: port_,
           );
         },
@@ -573,7 +622,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 12,
+            funcId: 13,
             port: port_,
           );
         },
@@ -604,7 +653,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 13,
+            funcId: 14,
             port: port_,
           );
         },
@@ -632,7 +681,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 14,
+            funcId: 15,
             port: port_,
           );
         },
@@ -658,7 +707,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(address, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -681,7 +730,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(address, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -1695,6 +1744,17 @@ class ArkWalletImpl extends RustOpaque implements ArkWallet {
 
   String boardingAddress() =>
       LibArk.instance.api.crateArkClientArkWalletBoardingAddress(that: this);
+
+  Future<String> collaborativeRedeem({
+    required String address,
+    required PlatformInt64 sats,
+    required bool selectRecoverableVtxos,
+  }) => LibArk.instance.api.crateArkClientArkWalletCollaborativeRedeem(
+    that: this,
+    address: address,
+    sats: sats,
+    selectRecoverableVtxos: selectRecoverableVtxos,
+  );
 
   String offchainAddress() =>
       LibArk.instance.api.crateArkClientArkWalletOffchainAddress(that: this);
