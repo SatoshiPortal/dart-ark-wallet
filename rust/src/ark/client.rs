@@ -7,6 +7,7 @@ use ark_client::OfflineClient;
 use bitcoin::Network;
 use std::str::FromStr;
 use std::sync::Arc;
+use std::time::Duration;
 
 // Re-export types that flutter_rust_bridge needs
 pub use ark_client::Client;
@@ -37,16 +38,17 @@ impl ArkWallet {
         esplora.check_connection().await?;
     
         let client = OfflineClient::new(
-            "winston".to_string(),
+            "azad".to_string(),
             kp,
             Arc::new(esplora),
             wallet.clone(),
-            server,
+            server.clone(),
+            Duration::from_secs(20),
         )
         .connect()
-        .await
-        .map_err(|err| anyhow!(err))?;
-    
+        .await  
+        .map_err(|err| anyhow!("Failed to connect to Ark server at '{}': {}", server, err))?;
+
         Ok(ArkWallet { inner: Arc::new(client) })
     }
 }

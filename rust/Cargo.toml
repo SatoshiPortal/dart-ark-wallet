@@ -9,13 +9,14 @@ crate-type = ["cdylib", "staticlib"]
 [dependencies]
 flutter_rust_bridge = { version = "=2.9.0", features = ["anyhow"] }
 anyhow = "1"
-ark-bdk-wallet = { git = "https://github.com/ArkLabsHQ/ark-rs.git", rev = "3717287" }
-ark-core = { git = "https://github.com/ArkLabsHQ/ark-rs.git", rev = "3717287" }
-ark-client = { git = "https://github.com/ArkLabsHQ/ark-rs.git", rev = "3717287", default-features = false, features = ["tls-webpki-roots"] }
+ark-bdk-wallet = { git = "https://github.com/ArkLabsHQ/ark-rs.git", rev = "509d2e7" }
+ark-core = { git = "https://github.com/ArkLabsHQ/ark-rs.git", rev = "509d2e7" }
+ark-client = { git = "https://github.com/ArkLabsHQ/ark-rs.git", rev = "509d2e7", default-features = false, features = ["tls-webpki-roots"] }
 bitcoin = { version = "0.32.4" }
 esplora-client = { version = "0.11.0", features = ["async-https-native"] }
 rand = "0.8.5"
 openssl = { version = "0.10", features = ["vendored"] } 
+rustls = { version = "0.23", default-features = false, features = ["ring"] }
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }
