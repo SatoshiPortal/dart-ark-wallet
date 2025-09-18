@@ -34,6 +34,13 @@ client.sendOffChain(
   sats: amountInSatoshis,
 );
 
+// Collaborative redeem (exit to Bitcoin with server cooperation)
+await client.collaborativeRedeem(
+  address: bitcoinAddress,
+  sats: amountInSatoshis,
+  selectRecoverableVtxos: true,
+);
+
 // Get transaction history
 final transactions = await client.transactionHistory();
 // Returns List<Transaction> with Boarding, Commitment, and Redeem variants
@@ -57,6 +64,7 @@ This plugin binds the following Rust functions from ARK ecosystem crates:
 | `transactionHistory()` | `transaction_history()` | `ark-client` | Fetch transaction history |
 | `sendOffChain()` | `send_vtxo()` | `ark-client` | Send off-chain transaction |
 | `sendOnChain()` | `send_on_chain()` | `ark-client` | Send on-chain Bitcoin transaction |
+| `collaborativeRedeem()` | `collaborative_redeem()` | `ark-client` | Exit to Bitcoin with server cooperation |
 | `settle()` | `settle()` | `ark-client` | Settle off-chain transactions |
 | `offchainAddress()` | `get_offchain_address()` | `ark-client` | Get ARK off-chain address |
 | `boardingAddress()` | `get_boarding_address()` | `ark-client` | Get Bitcoin boarding address |
