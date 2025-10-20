@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
         network: "signet",
         esplora: "https://mutinynet.com/api",
         server: "https://mutinynet.arkade.sh",
+        boltz: "https://api.boltz.exchange",
       );
 
       _txs = await _client.transactionHistory();
@@ -71,17 +72,15 @@ class _HomePageState extends State<HomePage> {
       final serverInfo = _client.serverInfo();
       debugPrint(serverInfo.forfeitAddress);
       debugPrint(serverInfo.version);
-      debugPrint(serverInfo.pk);
+      debugPrint(serverInfo.signerPubkey);
       debugPrint(serverInfo.network);
       debugPrint(serverInfo.dust.toString());
-      debugPrint(serverInfo.roundInterval.toString());
       debugPrint(serverInfo.boardingExitDelay.toString());
       debugPrint(serverInfo.unilateralExitDelay.toString());
       debugPrint(serverInfo.utxoMinAmount.toString());
       debugPrint(serverInfo.utxoMaxAmount.toString());
       debugPrint(serverInfo.vtxoMinAmount.toString());
       debugPrint(serverInfo.vtxoMaxAmount.toString());
-      debugPrint(serverInfo.vtxoTreeExpiry.toString());
     } catch (e) {
       debugPrint(e.toString());
     }

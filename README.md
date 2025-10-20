@@ -16,6 +16,7 @@ final client = await ark.ArkWallet.init(
   network: "signet",        // or "mainnet"
   esplora: "https://mutinynet.com/api",
   server: "https://mutinynet.arkade.sh",
+  boltz: "https://api.boltz.exchange",
 );
 
 // Get addresses
