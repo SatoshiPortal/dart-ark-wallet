@@ -1,10 +1,10 @@
-pub mod client;
-pub mod storage;
-pub mod esplora;
-pub mod transactions;
-pub mod balance;
 pub mod address;
+pub mod balance;
+pub mod client;
+pub mod esplora;
 pub mod send;
-pub mod utils;
 pub mod server_info;
 pub mod settle;
+pub mod storage;
+pub mod transactions;
+pub mod utils;

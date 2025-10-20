@@ -19,6 +19,7 @@ void main() {
         network: "signet",
         esplora: "https://mutinynet.com/api",
         server: "https://mutinynet.arkade.sh",
+        boltz: "https://api.boltz.exchange",
       );
     });
 
@@ -73,25 +74,29 @@ void main() {
       // Test string fields
       expect(serverInfo.network, isA<String>());
       expect(serverInfo.version, isA<String>());
-      expect(serverInfo.pk, isA<String>());
+      expect(serverInfo.signerPubkey, isA<String>());
+      expect(serverInfo.forfeitPubkey, isA<String>());
       expect(serverInfo.forfeitAddress, isA<String>());
+      expect(serverInfo.checkpointTapscript, isA<String>());
+      expect(serverInfo.digest, isA<String>());
 
       // Test that string fields are not empty
       expect(serverInfo.network, isNotEmpty);
-      // expect(serverInfo.version, isNotEmpty); // TODO: this field is empty for some reason
-      expect(serverInfo.pk, isNotEmpty);
+      expect(serverInfo.signerPubkey, isNotEmpty);
+      expect(serverInfo.forfeitPubkey, isNotEmpty);
       expect(serverInfo.forfeitAddress, isNotEmpty);
+      expect(serverInfo.checkpointTapscript, isNotEmpty);
+      expect(serverInfo.digest, isNotEmpty);
 
       // Test numeric fields
       expect(serverInfo.dust, isA<int>());
-      expect(serverInfo.roundInterval, isA<int>());
+      expect(serverInfo.sessionDuration, isA<int>());
       expect(serverInfo.boardingExitDelay, isA<int>());
       expect(serverInfo.unilateralExitDelay, isA<int>());
       expect(serverInfo.utxoMinAmount, isA<int?>());
       expect(serverInfo.utxoMaxAmount, isA<int?>());
       expect(serverInfo.vtxoMinAmount, isA<int?>());
       expect(serverInfo.vtxoMaxAmount, isA<int?>());
-      expect(serverInfo.vtxoTreeExpiry, isA<int>());
     });
 
     test('ARK addresses have expected format', () {

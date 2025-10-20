@@ -80,12 +80,12 @@ class LibArk extends BaseEntrypoint<LibArkApi, LibArkApiImpl, LibArkWire> {
 }
 
 abstract class LibArkApi extends BaseApi {
-  ArcClientEsploraClientWalletInMemoryDb
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage
   crateArkClientArkWalletAutoAccessorGetInner({required ArkWallet that});
 
   void crateArkClientArkWalletAutoAccessorSetInner({
     required ArkWallet that,
-    required ArcClientEsploraClientWalletInMemoryDb inner,
+    required ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage inner,
   });
 
   Future<Balance> crateArkClientArkWalletBalance({required ArkWallet that});
@@ -104,6 +104,7 @@ abstract class LibArkApi extends BaseApi {
     required String network,
     required String esplora,
     required String server,
+    required String boltz,
   });
 
   String crateArkClientArkWalletOffchainAddress({required ArkWallet that});
@@ -144,13 +145,13 @@ abstract class LibArkApi extends BaseApi {
   bool crateArkUtilsUtilsIsBtc({required String address});
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDb;
+  get rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDb;
+  get rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage;
 
   CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbPtr;
+  get rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbInMemorySwapStoragePtr;
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_ArkWallet;
@@ -187,7 +188,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   });
 
   @override
-  ArcClientEsploraClientWalletInMemoryDb
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage
   crateArkClientArkWalletAutoAccessorGetInner({required ArkWallet that}) {
     return handler.executeSync(
       SyncTask(
@@ -201,7 +202,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
         },
         codec: SseCodec(
           decodeSuccessData:
-              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb,
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage,
           decodeErrorData: null,
         ),
         constMeta: kCrateArkClientArkWalletAutoAccessorGetInnerConstMeta,
@@ -220,7 +221,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   @override
   void crateArkClientArkWalletAutoAccessorSetInner({
     required ArkWallet that,
-    required ArcClientEsploraClientWalletInMemoryDb inner,
+    required ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage inner,
   }) {
     return handler.executeSync(
       SyncTask(
@@ -230,7 +231,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
             that,
             serializer,
           );
-          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
+          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
             inner,
             serializer,
           );
@@ -361,6 +362,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     required String network,
     required String esplora,
     required String server,
+    required String boltz,
   }) {
     return handler.executeNormal(
       NormalTask(
@@ -370,6 +372,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           sse_encode_String(network, serializer);
           sse_encode_String(esplora, serializer);
           sse_encode_String(server, serializer);
+          sse_encode_String(boltz, serializer);
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
@@ -383,7 +386,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           decodeErrorData: sse_decode_AnyhowException,
         ),
         constMeta: kCrateArkClientArkWalletInitConstMeta,
-        argValues: [secretKey, network, esplora, server],
+        argValues: [secretKey, network, esplora, server, boltz],
         apiImpl: this,
       ),
     );
@@ -392,7 +395,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   TaskConstMeta get kCrateArkClientArkWalletInitConstMeta =>
       const TaskConstMeta(
         debugName: "ArkWallet_init",
-        argNames: ["secretKey", "network", "esplora", "server"],
+        argNames: ["secretKey", "network", "esplora", "server", "boltz"],
       );
 
   @override
@@ -747,12 +750,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       const TaskConstMeta(debugName: "utils_is_btc", argNames: ["address"]);
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDb =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb;
+  get rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDb =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb;
+  get rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage;
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_ArkWallet =>
@@ -785,12 +788,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArcClientEsploraClientWalletInMemoryDb
-  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArcClientEsploraClientWalletInMemoryDbImpl.frbInternalDcoDecode(
+    return ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorageImpl.frbInternalDcoDecode(
       raw as List<dynamic>,
     );
   }
@@ -850,12 +853,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArcClientEsploraClientWalletInMemoryDb
-  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArcClientEsploraClientWalletInMemoryDbImpl.frbInternalDcoDecode(
+    return ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorageImpl.frbInternalDcoDecode(
       raw as List<dynamic>,
     );
   }
@@ -952,22 +955,24 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ServerInfo dco_decode_server_info(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 13)
-      throw Exception('unexpected arr length: expect 13 but see ${arr.length}');
+    if (arr.length != 15)
+      throw Exception('unexpected arr length: expect 15 but see ${arr.length}');
     return ServerInfo(
-      pk: dco_decode_String(arr[0]),
-      vtxoTreeExpiry: dco_decode_u_32(arr[1]),
-      unilateralExitDelay: dco_decode_u_32(arr[2]),
-      boardingExitDelay: dco_decode_u_32(arr[3]),
-      roundInterval: dco_decode_i_64(arr[4]),
+      version: dco_decode_String(arr[0]),
+      signerPubkey: dco_decode_String(arr[1]),
+      forfeitPubkey: dco_decode_String(arr[2]),
+      forfeitAddress: dco_decode_String(arr[3]),
+      checkpointTapscript: dco_decode_String(arr[4]),
       network: dco_decode_String(arr[5]),
-      dust: dco_decode_i_64(arr[6]),
-      forfeitAddress: dco_decode_String(arr[7]),
-      version: dco_decode_String(arr[8]),
+      sessionDuration: dco_decode_i_64(arr[6]),
+      unilateralExitDelay: dco_decode_u_32(arr[7]),
+      boardingExitDelay: dco_decode_u_32(arr[8]),
       utxoMinAmount: dco_decode_opt_box_autoadd_i_64(arr[9]),
       utxoMaxAmount: dco_decode_opt_box_autoadd_i_64(arr[10]),
       vtxoMinAmount: dco_decode_opt_box_autoadd_i_64(arr[11]),
       vtxoMaxAmount: dco_decode_opt_box_autoadd_i_64(arr[12]),
+      dust: dco_decode_i_64(arr[13]),
+      digest: dco_decode_String(arr[14]),
     );
   }
 
@@ -1040,12 +1045,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArcClientEsploraClientWalletInMemoryDb
-  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArcClientEsploraClientWalletInMemoryDbImpl.frbInternalSseDecode(
+    return ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorageImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1124,12 +1129,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
-  ArcClientEsploraClientWalletInMemoryDb
-  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArcClientEsploraClientWalletInMemoryDbImpl.frbInternalSseDecode(
+    return ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorageImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1249,33 +1254,37 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   @protected
   ServerInfo sse_decode_server_info(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_pk = sse_decode_String(deserializer);
-    var var_vtxoTreeExpiry = sse_decode_u_32(deserializer);
+    var var_version = sse_decode_String(deserializer);
+    var var_signerPubkey = sse_decode_String(deserializer);
+    var var_forfeitPubkey = sse_decode_String(deserializer);
+    var var_forfeitAddress = sse_decode_String(deserializer);
+    var var_checkpointTapscript = sse_decode_String(deserializer);
+    var var_network = sse_decode_String(deserializer);
+    var var_sessionDuration = sse_decode_i_64(deserializer);
     var var_unilateralExitDelay = sse_decode_u_32(deserializer);
     var var_boardingExitDelay = sse_decode_u_32(deserializer);
-    var var_roundInterval = sse_decode_i_64(deserializer);
-    var var_network = sse_decode_String(deserializer);
-    var var_dust = sse_decode_i_64(deserializer);
-    var var_forfeitAddress = sse_decode_String(deserializer);
-    var var_version = sse_decode_String(deserializer);
     var var_utxoMinAmount = sse_decode_opt_box_autoadd_i_64(deserializer);
     var var_utxoMaxAmount = sse_decode_opt_box_autoadd_i_64(deserializer);
     var var_vtxoMinAmount = sse_decode_opt_box_autoadd_i_64(deserializer);
     var var_vtxoMaxAmount = sse_decode_opt_box_autoadd_i_64(deserializer);
+    var var_dust = sse_decode_i_64(deserializer);
+    var var_digest = sse_decode_String(deserializer);
     return ServerInfo(
-      pk: var_pk,
-      vtxoTreeExpiry: var_vtxoTreeExpiry,
+      version: var_version,
+      signerPubkey: var_signerPubkey,
+      forfeitPubkey: var_forfeitPubkey,
+      forfeitAddress: var_forfeitAddress,
+      checkpointTapscript: var_checkpointTapscript,
+      network: var_network,
+      sessionDuration: var_sessionDuration,
       unilateralExitDelay: var_unilateralExitDelay,
       boardingExitDelay: var_boardingExitDelay,
-      roundInterval: var_roundInterval,
-      network: var_network,
-      dust: var_dust,
-      forfeitAddress: var_forfeitAddress,
-      version: var_version,
       utxoMinAmount: var_utxoMinAmount,
       utxoMaxAmount: var_utxoMaxAmount,
       vtxoMinAmount: var_vtxoMinAmount,
       vtxoMaxAmount: var_vtxoMaxAmount,
+      dust: var_dust,
+      digest: var_digest,
     );
   }
 
@@ -1365,15 +1374,14 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   @protected
   void
-  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
-    ArcClientEsploraClientWalletInMemoryDb self,
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
+    ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-      (self as ArcClientEsploraClientWalletInMemoryDbImpl).frbInternalSseEncode(
-        move: true,
-      ),
+      (self as ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorageImpl)
+          .frbInternalSseEncode(move: true),
       serializer,
     );
   }
@@ -1458,15 +1466,14 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   @protected
   void
-  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
-    ArcClientEsploraClientWalletInMemoryDb self,
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
+    ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-      (self as ArcClientEsploraClientWalletInMemoryDbImpl).frbInternalSseEncode(
-        move: null,
-      ),
+      (self as ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorageImpl)
+          .frbInternalSseEncode(move: null),
       serializer,
     );
   }
@@ -1595,19 +1602,21 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   @protected
   void sse_encode_server_info(ServerInfo self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_String(self.pk, serializer);
-    sse_encode_u_32(self.vtxoTreeExpiry, serializer);
+    sse_encode_String(self.version, serializer);
+    sse_encode_String(self.signerPubkey, serializer);
+    sse_encode_String(self.forfeitPubkey, serializer);
+    sse_encode_String(self.forfeitAddress, serializer);
+    sse_encode_String(self.checkpointTapscript, serializer);
+    sse_encode_String(self.network, serializer);
+    sse_encode_i_64(self.sessionDuration, serializer);
     sse_encode_u_32(self.unilateralExitDelay, serializer);
     sse_encode_u_32(self.boardingExitDelay, serializer);
-    sse_encode_i_64(self.roundInterval, serializer);
-    sse_encode_String(self.network, serializer);
-    sse_encode_i_64(self.dust, serializer);
-    sse_encode_String(self.forfeitAddress, serializer);
-    sse_encode_String(self.version, serializer);
     sse_encode_opt_box_autoadd_i_64(self.utxoMinAmount, serializer);
     sse_encode_opt_box_autoadd_i_64(self.utxoMaxAmount, serializer);
     sse_encode_opt_box_autoadd_i_64(self.vtxoMinAmount, serializer);
     sse_encode_opt_box_autoadd_i_64(self.vtxoMaxAmount, serializer);
+    sse_encode_i_64(self.dust, serializer);
+    sse_encode_String(self.digest, serializer);
   }
 
   @protected
@@ -1682,15 +1691,16 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 }
 
 @sealed
-class ArcClientEsploraClientWalletInMemoryDbImpl extends RustOpaque
-    implements ArcClientEsploraClientWalletInMemoryDb {
+class ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorageImpl
+    extends RustOpaque
+    implements ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage {
   // Not to be used by end users
-  ArcClientEsploraClientWalletInMemoryDbImpl.frbInternalDcoDecode(
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorageImpl.frbInternalDcoDecode(
     List<dynamic> wire,
   ) : super.frbInternalDcoDecode(wire, _kStaticData);
 
   // Not to be used by end users
-  ArcClientEsploraClientWalletInMemoryDbImpl.frbInternalSseDecode(
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorageImpl.frbInternalSseDecode(
     BigInt ptr,
     int externalSizeOnNative,
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
@@ -1700,17 +1710,17 @@ class ArcClientEsploraClientWalletInMemoryDbImpl extends RustOpaque
         LibArk
             .instance
             .api
-            .rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDb,
+            .rust_arc_increment_strong_count_ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage,
     rustArcDecrementStrongCount:
         LibArk
             .instance
             .api
-            .rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDb,
+            .rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage,
     rustArcDecrementStrongCountPtr:
         LibArk
             .instance
             .api
-            .rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbPtr,
+            .rust_arc_decrement_strong_count_ArcClientEsploraClientWalletInMemoryDbInMemorySwapStoragePtr,
   );
 }
 
@@ -1733,11 +1743,16 @@ class ArkWalletImpl extends RustOpaque implements ArkWallet {
         LibArk.instance.api.rust_arc_decrement_strong_count_ArkWalletPtr,
   );
 
-  ArcClientEsploraClientWalletInMemoryDb get inner => LibArk.instance.api
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage get inner => LibArk
+      .instance
+      .api
       .crateArkClientArkWalletAutoAccessorGetInner(that: this);
 
-  set inner(ArcClientEsploraClientWalletInMemoryDb inner) => LibArk.instance.api
-      .crateArkClientArkWalletAutoAccessorSetInner(that: this, inner: inner);
+  set inner(ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage inner) =>
+      LibArk.instance.api.crateArkClientArkWalletAutoAccessorSetInner(
+        that: this,
+        inner: inner,
+      );
 
   Future<Balance> balance() =>
       LibArk.instance.api.crateArkClientArkWalletBalance(that: this);

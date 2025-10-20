@@ -1,23 +1,20 @@
-
-use crate::ark::storage::InMemoryDb;
 use crate::ark::esplora::EsploraClient;
-use bitcoin::secp256k1::{Secp256k1, Keypair};
-use anyhow::{Result, anyhow};
-use ark_client::OfflineClient;
+use crate::ark::storage::InMemoryDb;
+use anyhow::{anyhow, Result};
+use bitcoin::secp256k1::{Keypair, Secp256k1};
 use bitcoin::Network;
 use std::str::FromStr;
 use std::sync::Arc;
 use std::time::Duration;
 
 // Re-export types that flutter_rust_bridge needs
-pub use ark_client::Client;
 pub use ark_bdk_wallet::Wallet;
+pub use ark_client::{Client, InMemorySwapStorage, OfflineClient};
 
 #[derive(Clone)]
 pub struct ArkWallet {
-    pub inner: Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+    pub inner: Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
 }
-
 
 impl ArkWallet {
     pub async fn init(
@@ -25,7 +22,8 @@ impl ArkWallet {
         network: String,
         esplora: String,
         server: String,
-    ) -> Result<ArkWallet> {    
+        boltz: String,
+    ) -> Result<ArkWallet> {
         let network = Network::from_str(network.as_str())?;
         let secp = Secp256k1::new();
         let kp = Keypair::from_seckey_slice(&secp, secret_key.as_slice())?;
@@ -33,24 +31,26 @@ impl ArkWallet {
         let db = InMemoryDb::default();
         let wallet = ark_bdk_wallet::Wallet::new(kp, secp, network, esplora.as_str(), db)?;
         let wallet = Arc::new(wallet);
-    
+
         let esplora = EsploraClient::new(esplora.as_str())?;
         esplora.check_connection().await?;
-    
+
         let client = OfflineClient::new(
             "azad".to_string(),
             kp,
             Arc::new(esplora),
-            wallet.clone(),
+            wallet,
             server.clone(),
-            Duration::from_secs(20),
+            Arc::new(InMemorySwapStorage::new()),
+            boltz.clone(),
+            Duration::from_secs(30),
         )
         .connect()
-        .await  
+        .await
         .map_err(|err| anyhow!("Failed to connect to Ark server at '{}': {}", server, err))?;
 
-        Ok(ArkWallet { inner: Arc::new(client) })
+        Ok(ArkWallet {
+            inner: Arc::new(client),
+        })
     }
 }
-
-
