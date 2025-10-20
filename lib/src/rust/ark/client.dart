@@ -14,9 +14,9 @@ import 'transactions.dart';
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>>
 abstract class ArkWallet implements RustOpaqueInterface {
-  ArcClientEsploraClientWalletInMemoryDb get inner;
+  ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage get inner;
 
-  set inner(ArcClientEsploraClientWalletInMemoryDb inner);
+  set inner(ArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage inner);
 
   Future<Balance> balance();
 
@@ -33,11 +33,13 @@ abstract class ArkWallet implements RustOpaqueInterface {
     required String network,
     required String esplora,
     required String server,
+    required String boltz,
   }) => LibArk.instance.api.crateArkClientArkWalletInit(
     secretKey: secretKey,
     network: network,
     esplora: esplora,
     server: server,
+    boltz: boltz,
   );
 
   String offchainAddress();

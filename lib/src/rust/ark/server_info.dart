@@ -7,68 +7,76 @@ import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 class ServerInfo {
-  final String pk;
-  final int vtxoTreeExpiry;
+  final String version;
+  final String signerPubkey;
+  final String forfeitPubkey;
+  final String forfeitAddress;
+  final String checkpointTapscript;
+  final String network;
+  final PlatformInt64 sessionDuration;
   final int unilateralExitDelay;
   final int boardingExitDelay;
-  final PlatformInt64 roundInterval;
-  final String network;
-  final PlatformInt64 dust;
-  final String forfeitAddress;
-  final String version;
   final PlatformInt64? utxoMinAmount;
   final PlatformInt64? utxoMaxAmount;
   final PlatformInt64? vtxoMinAmount;
   final PlatformInt64? vtxoMaxAmount;
+  final PlatformInt64 dust;
+  final String digest;
 
   const ServerInfo({
-    required this.pk,
-    required this.vtxoTreeExpiry,
+    required this.version,
+    required this.signerPubkey,
+    required this.forfeitPubkey,
+    required this.forfeitAddress,
+    required this.checkpointTapscript,
+    required this.network,
+    required this.sessionDuration,
     required this.unilateralExitDelay,
     required this.boardingExitDelay,
-    required this.roundInterval,
-    required this.network,
-    required this.dust,
-    required this.forfeitAddress,
-    required this.version,
     this.utxoMinAmount,
     this.utxoMaxAmount,
     this.vtxoMinAmount,
     this.vtxoMaxAmount,
+    required this.dust,
+    required this.digest,
   });
 
   @override
   int get hashCode =>
-      pk.hashCode ^
-      vtxoTreeExpiry.hashCode ^
+      version.hashCode ^
+      signerPubkey.hashCode ^
+      forfeitPubkey.hashCode ^
+      forfeitAddress.hashCode ^
+      checkpointTapscript.hashCode ^
+      network.hashCode ^
+      sessionDuration.hashCode ^
       unilateralExitDelay.hashCode ^
       boardingExitDelay.hashCode ^
-      roundInterval.hashCode ^
-      network.hashCode ^
-      dust.hashCode ^
-      forfeitAddress.hashCode ^
-      version.hashCode ^
       utxoMinAmount.hashCode ^
       utxoMaxAmount.hashCode ^
       vtxoMinAmount.hashCode ^
-      vtxoMaxAmount.hashCode;
+      vtxoMaxAmount.hashCode ^
+      dust.hashCode ^
+      digest.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ServerInfo &&
           runtimeType == other.runtimeType &&
-          pk == other.pk &&
-          vtxoTreeExpiry == other.vtxoTreeExpiry &&
+          version == other.version &&
+          signerPubkey == other.signerPubkey &&
+          forfeitPubkey == other.forfeitPubkey &&
+          forfeitAddress == other.forfeitAddress &&
+          checkpointTapscript == other.checkpointTapscript &&
+          network == other.network &&
+          sessionDuration == other.sessionDuration &&
           unilateralExitDelay == other.unilateralExitDelay &&
           boardingExitDelay == other.boardingExitDelay &&
-          roundInterval == other.roundInterval &&
-          network == other.network &&
-          dust == other.dust &&
-          forfeitAddress == other.forfeitAddress &&
-          version == other.version &&
           utxoMinAmount == other.utxoMinAmount &&
           utxoMaxAmount == other.utxoMaxAmount &&
           vtxoMinAmount == other.vtxoMinAmount &&
-          vtxoMaxAmount == other.vtxoMaxAmount;
+          vtxoMaxAmount == other.vtxoMaxAmount &&
+          dust == other.dust &&
+          digest == other.digest;
 }

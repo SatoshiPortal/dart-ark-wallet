@@ -120,7 +120,9 @@ fn wire__crate__ark__client__ArkWallet_auto_accessor_set_inner_impl(
                 flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ArkWallet>,
             >>::sse_decode(&mut deserializer);
             let api_inner =
-                <Arc<Client<EsploraClient, Wallet<InMemoryDb>>>>::sse_decode(&mut deserializer);
+                <Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let mut api_that_guard = None;
@@ -342,6 +344,7 @@ fn wire__crate__ark__client__ArkWallet_init_impl(
             let api_network = <String>::sse_decode(&mut deserializer);
             let api_esplora = <String>::sse_decode(&mut deserializer);
             let api_server = <String>::sse_decode(&mut deserializer);
+            let api_boltz = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
@@ -351,6 +354,7 @@ fn wire__crate__ark__client__ArkWallet_init_impl(
                             api_network,
                             api_esplora,
                             api_server,
+                            api_boltz,
                         )
                         .await?;
                         Ok(output_ok)
@@ -891,7 +895,7 @@ fn wire__crate__ark__utils__utils_is_btc_impl(
 
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
-        Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+        Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
     >
 );
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
@@ -914,12 +918,12 @@ impl SseDecode for flutter_rust_bridge::for_generated::anyhow::Error {
     }
 }
 
-impl SseDecode for Arc<Client<EsploraClient, Wallet<InMemoryDb>>> {
+impl SseDecode for Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueMoi<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
-                Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+                Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
             >,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
@@ -959,7 +963,7 @@ impl SseDecode for InMemoryDb {
 impl SseDecode
     for RustOpaqueMoi<
         flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
-            Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+            Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
         >,
     >
 {
@@ -1076,33 +1080,37 @@ impl SseDecode for Option<i64> {
 impl SseDecode for crate::ark::server_info::ServerInfo {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_pk = <String>::sse_decode(deserializer);
-        let mut var_vtxoTreeExpiry = <u32>::sse_decode(deserializer);
+        let mut var_version = <String>::sse_decode(deserializer);
+        let mut var_signerPubkey = <String>::sse_decode(deserializer);
+        let mut var_forfeitPubkey = <String>::sse_decode(deserializer);
+        let mut var_forfeitAddress = <String>::sse_decode(deserializer);
+        let mut var_checkpointTapscript = <String>::sse_decode(deserializer);
+        let mut var_network = <String>::sse_decode(deserializer);
+        let mut var_sessionDuration = <i64>::sse_decode(deserializer);
         let mut var_unilateralExitDelay = <u32>::sse_decode(deserializer);
         let mut var_boardingExitDelay = <u32>::sse_decode(deserializer);
-        let mut var_roundInterval = <i64>::sse_decode(deserializer);
-        let mut var_network = <String>::sse_decode(deserializer);
-        let mut var_dust = <i64>::sse_decode(deserializer);
-        let mut var_forfeitAddress = <String>::sse_decode(deserializer);
-        let mut var_version = <String>::sse_decode(deserializer);
         let mut var_utxoMinAmount = <Option<i64>>::sse_decode(deserializer);
         let mut var_utxoMaxAmount = <Option<i64>>::sse_decode(deserializer);
         let mut var_vtxoMinAmount = <Option<i64>>::sse_decode(deserializer);
         let mut var_vtxoMaxAmount = <Option<i64>>::sse_decode(deserializer);
+        let mut var_dust = <i64>::sse_decode(deserializer);
+        let mut var_digest = <String>::sse_decode(deserializer);
         return crate::ark::server_info::ServerInfo {
-            pk: var_pk,
-            vtxo_tree_expiry: var_vtxoTreeExpiry,
+            version: var_version,
+            signer_pubkey: var_signerPubkey,
+            forfeit_pubkey: var_forfeitPubkey,
+            forfeit_address: var_forfeitAddress,
+            checkpoint_tapscript: var_checkpointTapscript,
+            network: var_network,
+            session_duration: var_sessionDuration,
             unilateral_exit_delay: var_unilateralExitDelay,
             boarding_exit_delay: var_boardingExitDelay,
-            round_interval: var_roundInterval,
-            network: var_network,
-            dust: var_dust,
-            forfeit_address: var_forfeitAddress,
-            version: var_version,
             utxo_min_amount: var_utxoMinAmount,
             utxo_max_amount: var_utxoMaxAmount,
             vtxo_min_amount: var_vtxoMinAmount,
             vtxo_max_amount: var_vtxoMaxAmount,
+            dust: var_dust,
+            digest: var_digest,
         };
     }
 }
@@ -1269,21 +1277,27 @@ fn pde_ffi_dispatcher_sync_impl(
 // Section: rust2dart
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<Arc<Client<EsploraClient, Wallet<InMemoryDb>>>> {
+impl flutter_rust_bridge::IntoDart
+    for FrbWrapper<Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>>
+{
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
             .into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for FrbWrapper<Arc<Client<EsploraClient, Wallet<InMemoryDb>>>>
+    for FrbWrapper<Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>>
 {
 }
 
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Arc<Client<EsploraClient, Wallet<InMemoryDb>>>>>
-    for Arc<Client<EsploraClient, Wallet<InMemoryDb>>>
+impl
+    flutter_rust_bridge::IntoIntoDart<
+        FrbWrapper<Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>>,
+    > for Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>
 {
-    fn into_into_dart(self) -> FrbWrapper<Arc<Client<EsploraClient, Wallet<InMemoryDb>>>> {
+    fn into_into_dart(
+        self,
+    ) -> FrbWrapper<Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>> {
         self.into()
     }
 }
@@ -1356,19 +1370,21 @@ impl flutter_rust_bridge::IntoIntoDart<crate::ark::balance::Balance>
 impl flutter_rust_bridge::IntoDart for crate::ark::server_info::ServerInfo {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
-            self.pk.into_into_dart().into_dart(),
-            self.vtxo_tree_expiry.into_into_dart().into_dart(),
+            self.version.into_into_dart().into_dart(),
+            self.signer_pubkey.into_into_dart().into_dart(),
+            self.forfeit_pubkey.into_into_dart().into_dart(),
+            self.forfeit_address.into_into_dart().into_dart(),
+            self.checkpoint_tapscript.into_into_dart().into_dart(),
+            self.network.into_into_dart().into_dart(),
+            self.session_duration.into_into_dart().into_dart(),
             self.unilateral_exit_delay.into_into_dart().into_dart(),
             self.boarding_exit_delay.into_into_dart().into_dart(),
-            self.round_interval.into_into_dart().into_dart(),
-            self.network.into_into_dart().into_dart(),
-            self.dust.into_into_dart().into_dart(),
-            self.forfeit_address.into_into_dart().into_dart(),
-            self.version.into_into_dart().into_dart(),
             self.utxo_min_amount.into_into_dart().into_dart(),
             self.utxo_max_amount.into_into_dart().into_dart(),
             self.vtxo_min_amount.into_into_dart().into_dart(),
             self.vtxo_max_amount.into_into_dart().into_dart(),
+            self.dust.into_into_dart().into_dart(),
+            self.digest.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -1460,12 +1476,12 @@ impl SseEncode for flutter_rust_bridge::for_generated::anyhow::Error {
     }
 }
 
-impl SseEncode for Arc<Client<EsploraClient, Wallet<InMemoryDb>>> {
+impl SseEncode for Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <RustOpaqueMoi<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
-                Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+                Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
             >,
         >>::sse_encode(
             flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self),
@@ -1498,7 +1514,7 @@ impl SseEncode for InMemoryDb {
 impl SseEncode
     for RustOpaqueMoi<
         flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
-            Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+            Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
         >,
     >
 {
@@ -1606,19 +1622,21 @@ impl SseEncode for Option<i64> {
 impl SseEncode for crate::ark::server_info::ServerInfo {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.pk, serializer);
-        <u32>::sse_encode(self.vtxo_tree_expiry, serializer);
+        <String>::sse_encode(self.version, serializer);
+        <String>::sse_encode(self.signer_pubkey, serializer);
+        <String>::sse_encode(self.forfeit_pubkey, serializer);
+        <String>::sse_encode(self.forfeit_address, serializer);
+        <String>::sse_encode(self.checkpoint_tapscript, serializer);
+        <String>::sse_encode(self.network, serializer);
+        <i64>::sse_encode(self.session_duration, serializer);
         <u32>::sse_encode(self.unilateral_exit_delay, serializer);
         <u32>::sse_encode(self.boarding_exit_delay, serializer);
-        <i64>::sse_encode(self.round_interval, serializer);
-        <String>::sse_encode(self.network, serializer);
-        <i64>::sse_encode(self.dust, serializer);
-        <String>::sse_encode(self.forfeit_address, serializer);
-        <String>::sse_encode(self.version, serializer);
         <Option<i64>>::sse_encode(self.utxo_min_amount, serializer);
         <Option<i64>>::sse_encode(self.utxo_max_amount, serializer);
         <Option<i64>>::sse_encode(self.vtxo_min_amount, serializer);
         <Option<i64>>::sse_encode(self.vtxo_max_amount, serializer);
+        <i64>::sse_encode(self.dust, serializer);
+        <String>::sse_encode(self.digest, serializer);
     }
 }
 
@@ -1729,23 +1747,23 @@ mod io {
     flutter_rust_bridge::frb_generated_boilerplate_io!();
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ark_wallet_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
+    pub extern "C" fn frbgen_ark_wallet_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
-                Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+                Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
             >,
         >::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ark_wallet_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
+    pub extern "C" fn frbgen_ark_wallet_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
-                Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+                Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
             >,
         >::decrement_strong_count(ptr as _);
     }
@@ -1821,23 +1839,23 @@ mod web {
     flutter_rust_bridge::frb_generated_boilerplate_web!();
 
     #[wasm_bindgen]
-    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
+    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
-                Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+                Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
             >,
         >::increment_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
-    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDb(
+    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcClientEsploraClientWalletInMemoryDbInMemorySwapStorage(
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<
-                Arc<Client<EsploraClient, Wallet<InMemoryDb>>>,
+                Arc<Client<EsploraClient, Wallet<InMemoryDb>, InMemorySwapStorage>>,
             >,
         >::decrement_strong_count(ptr as _);
     }
