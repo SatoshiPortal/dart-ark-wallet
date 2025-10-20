@@ -1,4 +1,4 @@
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 
 use crate::ark::client::ArkWallet;
 
@@ -9,7 +9,7 @@ impl ArkWallet {
     pub async fn settle(&self, select_recoverable_vtxos: bool) -> Result<()> {
         let mut rng = StdRng::from_entropy();
         self.inner
-            .settle(&mut rng,select_recoverable_vtxos)
+            .settle(&mut rng, select_recoverable_vtxos)
             .await
             .map_err(|e| anyhow!("Failed to settle: {e:#}"))?;
         Ok(())
