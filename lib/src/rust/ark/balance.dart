@@ -6,26 +6,68 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+// These functions are ignored because they are not marked as `pub`: `calculate_boarding_balance`
+
 class Balance {
-  final PlatformInt64 pending;
-  final PlatformInt64 confirmed;
+  final PlatformInt64 preconfirmed;
+  final PlatformInt64 settled;
+  final PlatformInt64 available;
+  final PlatformInt64 recoverable;
   final PlatformInt64 total;
+  final Boarding boarding;
 
   const Balance({
-    required this.pending,
-    required this.confirmed,
+    required this.preconfirmed,
+    required this.settled,
+    required this.available,
+    required this.recoverable,
     required this.total,
+    required this.boarding,
   });
 
   @override
-  int get hashCode => pending.hashCode ^ confirmed.hashCode ^ total.hashCode;
+  int get hashCode =>
+      preconfirmed.hashCode ^
+      settled.hashCode ^
+      available.hashCode ^
+      recoverable.hashCode ^
+      total.hashCode ^
+      boarding.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Balance &&
           runtimeType == other.runtimeType &&
-          pending == other.pending &&
+          preconfirmed == other.preconfirmed &&
+          settled == other.settled &&
+          available == other.available &&
+          recoverable == other.recoverable &&
+          total == other.total &&
+          boarding == other.boarding;
+}
+
+class Boarding {
+  final PlatformInt64 unconfirmed;
+  final PlatformInt64 confirmed;
+  final PlatformInt64 total;
+
+  const Boarding({
+    required this.unconfirmed,
+    required this.confirmed,
+    required this.total,
+  });
+
+  @override
+  int get hashCode =>
+      unconfirmed.hashCode ^ confirmed.hashCode ^ total.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Boarding &&
+          runtimeType == other.runtimeType &&
+          unconfirmed == other.unconfirmed &&
           confirmed == other.confirmed &&
           total == other.total;
 }

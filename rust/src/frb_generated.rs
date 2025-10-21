@@ -1015,11 +1015,31 @@ impl SseDecode for String {
 impl SseDecode for crate::ark::balance::Balance {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_pending = <i64>::sse_decode(deserializer);
+        let mut var_preconfirmed = <i64>::sse_decode(deserializer);
+        let mut var_settled = <i64>::sse_decode(deserializer);
+        let mut var_available = <i64>::sse_decode(deserializer);
+        let mut var_recoverable = <i64>::sse_decode(deserializer);
+        let mut var_total = <i64>::sse_decode(deserializer);
+        let mut var_boarding = <crate::ark::balance::Boarding>::sse_decode(deserializer);
+        return crate::ark::balance::Balance {
+            preconfirmed: var_preconfirmed,
+            settled: var_settled,
+            available: var_available,
+            recoverable: var_recoverable,
+            total: var_total,
+            boarding: var_boarding,
+        };
+    }
+}
+
+impl SseDecode for crate::ark::balance::Boarding {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_unconfirmed = <i64>::sse_decode(deserializer);
         let mut var_confirmed = <i64>::sse_decode(deserializer);
         let mut var_total = <i64>::sse_decode(deserializer);
-        return crate::ark::balance::Balance {
-            pending: var_pending,
+        return crate::ark::balance::Boarding {
+            unconfirmed: var_unconfirmed,
             confirmed: var_confirmed,
             total: var_total,
         };
@@ -1351,9 +1371,12 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<InMemoryDb>> for InMemoryDb {
 impl flutter_rust_bridge::IntoDart for crate::ark::balance::Balance {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
-            self.pending.into_into_dart().into_dart(),
-            self.confirmed.into_into_dart().into_dart(),
+            self.preconfirmed.into_into_dart().into_dart(),
+            self.settled.into_into_dart().into_dart(),
+            self.available.into_into_dart().into_dart(),
+            self.recoverable.into_into_dart().into_dart(),
             self.total.into_into_dart().into_dart(),
+            self.boarding.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -1363,6 +1386,25 @@ impl flutter_rust_bridge::IntoIntoDart<crate::ark::balance::Balance>
     for crate::ark::balance::Balance
 {
     fn into_into_dart(self) -> crate::ark::balance::Balance {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::ark::balance::Boarding {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.unconfirmed.into_into_dart().into_dart(),
+            self.confirmed.into_into_dart().into_dart(),
+            self.total.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::ark::balance::Boarding {}
+impl flutter_rust_bridge::IntoIntoDart<crate::ark::balance::Boarding>
+    for crate::ark::balance::Boarding
+{
+    fn into_into_dart(self) -> crate::ark::balance::Boarding {
         self
     }
 }
@@ -1569,7 +1611,19 @@ impl SseEncode for String {
 impl SseEncode for crate::ark::balance::Balance {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i64>::sse_encode(self.pending, serializer);
+        <i64>::sse_encode(self.preconfirmed, serializer);
+        <i64>::sse_encode(self.settled, serializer);
+        <i64>::sse_encode(self.available, serializer);
+        <i64>::sse_encode(self.recoverable, serializer);
+        <i64>::sse_encode(self.total, serializer);
+        <crate::ark::balance::Boarding>::sse_encode(self.boarding, serializer);
+    }
+}
+
+impl SseEncode for crate::ark::balance::Boarding {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i64>::sse_encode(self.unconfirmed, serializer);
         <i64>::sse_encode(self.confirmed, serializer);
         <i64>::sse_encode(self.total, serializer);
     }

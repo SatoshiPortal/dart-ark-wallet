@@ -900,10 +900,26 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   Balance dco_decode_balance(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return Balance(
+      preconfirmed: dco_decode_i_64(arr[0]),
+      settled: dco_decode_i_64(arr[1]),
+      available: dco_decode_i_64(arr[2]),
+      recoverable: dco_decode_i_64(arr[3]),
+      total: dco_decode_i_64(arr[4]),
+      boarding: dco_decode_boarding(arr[5]),
+    );
+  }
+
+  @protected
+  Boarding dco_decode_boarding(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
     if (arr.length != 3)
       throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
-    return Balance(
-      pending: dco_decode_i_64(arr[0]),
+    return Boarding(
+      unconfirmed: dco_decode_i_64(arr[0]),
       confirmed: dco_decode_i_64(arr[1]),
       total: dco_decode_i_64(arr[2]),
     );
@@ -1186,11 +1202,30 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   @protected
   Balance sse_decode_balance(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_pending = sse_decode_i_64(deserializer);
+    var var_preconfirmed = sse_decode_i_64(deserializer);
+    var var_settled = sse_decode_i_64(deserializer);
+    var var_available = sse_decode_i_64(deserializer);
+    var var_recoverable = sse_decode_i_64(deserializer);
+    var var_total = sse_decode_i_64(deserializer);
+    var var_boarding = sse_decode_boarding(deserializer);
+    return Balance(
+      preconfirmed: var_preconfirmed,
+      settled: var_settled,
+      available: var_available,
+      recoverable: var_recoverable,
+      total: var_total,
+      boarding: var_boarding,
+    );
+  }
+
+  @protected
+  Boarding sse_decode_boarding(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_unconfirmed = sse_decode_i_64(deserializer);
     var var_confirmed = sse_decode_i_64(deserializer);
     var var_total = sse_decode_i_64(deserializer);
-    return Balance(
-      pending: var_pending,
+    return Boarding(
+      unconfirmed: var_unconfirmed,
       confirmed: var_confirmed,
       total: var_total,
     );
@@ -1526,7 +1561,18 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   @protected
   void sse_encode_balance(Balance self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_64(self.pending, serializer);
+    sse_encode_i_64(self.preconfirmed, serializer);
+    sse_encode_i_64(self.settled, serializer);
+    sse_encode_i_64(self.available, serializer);
+    sse_encode_i_64(self.recoverable, serializer);
+    sse_encode_i_64(self.total, serializer);
+    sse_encode_boarding(self.boarding, serializer);
+  }
+
+  @protected
+  void sse_encode_boarding(Boarding self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_64(self.unconfirmed, serializer);
     sse_encode_i_64(self.confirmed, serializer);
     sse_encode_i_64(self.total, serializer);
   }

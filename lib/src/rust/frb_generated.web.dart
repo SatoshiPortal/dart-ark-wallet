@@ -117,6 +117,9 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   Balance dco_decode_balance(dynamic raw);
 
   @protected
+  Boarding dco_decode_boarding(dynamic raw);
+
+  @protected
   bool dco_decode_bool(dynamic raw);
 
   @protected
@@ -232,6 +235,9 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
 
   @protected
   Balance sse_decode_balance(SseDeserializer deserializer);
+
+  @protected
+  Boarding sse_decode_boarding(SseDeserializer deserializer);
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
@@ -366,6 +372,9 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
 
   @protected
   void sse_encode_balance(Balance self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_boarding(Boarding self, SseSerializer serializer);
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
