@@ -26,7 +26,7 @@ impl ArkWallet {
             .await
             .map_err(|error| anyhow!("Could not fetch balance {error}"))?;
 
-        let preconfirmed = 0;
+        let preconfirmed = offchain_balance.pending().to_sat() as i64;
         let settled = offchain_balance.confirmed().to_sat() as i64;
         let available = settled + preconfirmed;
         let recoverable = offchain_balance.pending().to_sat() as i64;
