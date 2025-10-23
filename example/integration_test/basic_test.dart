@@ -16,9 +16,9 @@ void main() {
         secretKey: hex.decode(
           "c095c1904ef494f735c8b96a6e74f35c71729b1c67ec83d05dfa1588c75dbc9a",
         ),
-        network: "signet",
-        esplora: "https://mutinynet.com/api",
-        server: "https://mutinynet.arkade.sh",
+        network: "bitcoin",
+        esplora: "https://mempool.space/api",
+        server: "https://arkade.computer",
         boltz: "https://api.boltz.exchange",
       );
     });

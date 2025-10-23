@@ -10,7 +10,6 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'server_info.dart';
 import 'settle.dart';
 import 'transactions.dart';
-import 'unilateral_exit.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`
 
@@ -33,10 +32,6 @@ abstract class ArkWallet implements RustOpaqueInterface {
   });
 
   Future<BoardingSettlement> getBoardingStatus();
-
-  Future<List<List<Transaction>>> getPresignedTransactions();
-
-  Future<List<VtxoInfo>> getVtxos();
 
   static Future<ArkWallet> init({
     required List<int> secretKey,
@@ -64,11 +59,6 @@ abstract class ArkWallet implements RustOpaqueInterface {
   Future<String> sendOnChain({
     required String address,
     required PlatformInt64 sats,
-  });
-
-  Future<String> sendUnilateralExit({
-    required String address,
-    required BigInt amountSats,
   });
 
   ServerInfo serverInfo();
