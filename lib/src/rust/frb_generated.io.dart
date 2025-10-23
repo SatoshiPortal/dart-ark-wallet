@@ -7,8 +7,10 @@ import 'ark/balance.dart';
 import 'ark/client.dart';
 import 'ark/esplora.dart';
 import 'ark/server_info.dart';
+import 'ark/settle.dart';
 import 'ark/storage.dart';
 import 'ark/transactions.dart';
+import 'ark/unilateral_exit.dart';
 import 'ark/utils.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -39,6 +41,16 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_InMemoryDbPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDbPtr;
 
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_OutPointPtr =>
+      wire._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPointPtr;
+
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_VtxoChainInfoPtr =>
+      wire._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfoPtr;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_VtxoInfoPtr =>
+      wire._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfoPtr;
+
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw);
 
@@ -67,8 +79,38 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   );
 
   @protected
+  OutPoint
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    dynamic raw,
+  );
+
+  @protected
+  VtxoChainInfo
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    dynamic raw,
+  );
+
+  @protected
+  VtxoInfo
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    dynamic raw,
+  );
+
+  @protected
   ArkWallet
   dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+    dynamic raw,
+  );
+
+  @protected
+  VtxoChainInfo
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    dynamic raw,
+  );
+
+  @protected
+  VtxoInfo
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
     dynamic raw,
   );
 
@@ -81,6 +123,18 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   @protected
   EsploraClient
   dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEsploraClient(
+    dynamic raw,
+  );
+
+  @protected
+  VtxoChainInfo
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    dynamic raw,
+  );
+
+  @protected
+  VtxoInfo
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
     dynamic raw,
   );
 
@@ -109,6 +163,24 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   );
 
   @protected
+  OutPoint
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    dynamic raw,
+  );
+
+  @protected
+  VtxoChainInfo
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    dynamic raw,
+  );
+
+  @protected
+  VtxoInfo
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    dynamic raw,
+  );
+
+  @protected
   String dco_decode_String(dynamic raw);
 
   @protected
@@ -118,13 +190,28 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   Boarding dco_decode_boarding(dynamic raw);
 
   @protected
+  BoardingSettlement dco_decode_boarding_settlement(dynamic raw);
+
+  @protected
   bool dco_decode_bool(dynamic raw);
 
   @protected
   PlatformInt64 dco_decode_box_autoadd_i_64(dynamic raw);
 
   @protected
+  int dco_decode_i_32(dynamic raw);
+
+  @protected
   PlatformInt64 dco_decode_i_64(dynamic raw);
+
+  @protected
+  List<VtxoInfo>
+  dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    dynamic raw,
+  );
+
+  @protected
+  List<List<Transaction>> dco_decode_list_list_transaction(dynamic raw);
 
   @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
@@ -136,6 +223,9 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   List<Transaction> dco_decode_list_transaction(dynamic raw);
 
   @protected
+  List<TransactionInfo> dco_decode_list_transaction_info(dynamic raw);
+
+  @protected
   PlatformInt64? dco_decode_opt_box_autoadd_i_64(dynamic raw);
 
   @protected
@@ -145,7 +235,13 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   Transaction dco_decode_transaction(dynamic raw);
 
   @protected
+  TransactionInfo dco_decode_transaction_info(dynamic raw);
+
+  @protected
   int dco_decode_u_32(dynamic raw);
+
+  @protected
+  BigInt dco_decode_u_64(dynamic raw);
 
   @protected
   int dco_decode_u_8(dynamic raw);
@@ -187,8 +283,38 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   );
 
   @protected
+  OutPoint
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  VtxoChainInfo
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  VtxoInfo
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   ArkWallet
   sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  VtxoChainInfo
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  VtxoInfo
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
     SseDeserializer deserializer,
   );
 
@@ -201,6 +327,18 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   @protected
   EsploraClient
   sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEsploraClient(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  VtxoChainInfo
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  VtxoInfo
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
     SseDeserializer deserializer,
   );
 
@@ -229,6 +367,24 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   );
 
   @protected
+  OutPoint
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  VtxoChainInfo
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  VtxoInfo
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
@@ -238,13 +394,32 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   Boarding sse_decode_boarding(SseDeserializer deserializer);
 
   @protected
+  BoardingSettlement sse_decode_boarding_settlement(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
   PlatformInt64 sse_decode_box_autoadd_i_64(SseDeserializer deserializer);
 
   @protected
+  int sse_decode_i_32(SseDeserializer deserializer);
+
+  @protected
   PlatformInt64 sse_decode_i_64(SseDeserializer deserializer);
+
+  @protected
+  List<VtxoInfo>
+  sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  List<List<Transaction>> sse_decode_list_list_transaction(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
@@ -256,6 +431,11 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   List<Transaction> sse_decode_list_transaction(SseDeserializer deserializer);
 
   @protected
+  List<TransactionInfo> sse_decode_list_transaction_info(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   PlatformInt64? sse_decode_opt_box_autoadd_i_64(SseDeserializer deserializer);
 
   @protected
@@ -265,7 +445,13 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   Transaction sse_decode_transaction(SseDeserializer deserializer);
 
   @protected
+  TransactionInfo sse_decode_transaction_info(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_u_32(SseDeserializer deserializer);
+
+  @protected
+  BigInt sse_decode_u_64(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_8(SseDeserializer deserializer);
@@ -278,9 +464,6 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
 
   @protected
   Utils sse_decode_utils(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
   void sse_encode_AnyhowException(
@@ -318,8 +501,43 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
 
   @protected
   void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    OutPoint self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    VtxoChainInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    VtxoInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
   sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     ArkWallet self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    VtxoChainInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    VtxoInfo self,
     SseSerializer serializer,
   );
 
@@ -334,6 +552,20 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   void
   sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEsploraClient(
     EsploraClient self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    VtxoChainInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    VtxoInfo self,
     SseSerializer serializer,
   );
 
@@ -366,6 +598,27 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   );
 
   @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    OutPoint self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    VtxoChainInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    VtxoInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
@@ -373,6 +626,12 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
 
   @protected
   void sse_encode_boarding(Boarding self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_boarding_settlement(
+    BoardingSettlement self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
@@ -384,7 +643,23 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   );
 
   @protected
+  void sse_encode_i_32(int self, SseSerializer serializer);
+
+  @protected
   void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer);
+
+  @protected
+  void
+  sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    List<VtxoInfo> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_list_transaction(
+    List<List<Transaction>> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
@@ -402,6 +677,12 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   );
 
   @protected
+  void sse_encode_list_transaction_info(
+    List<TransactionInfo> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_opt_box_autoadd_i_64(
     PlatformInt64? self,
     SseSerializer serializer,
@@ -414,7 +695,16 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
   void sse_encode_transaction(Transaction self, SseSerializer serializer);
 
   @protected
+  void sse_encode_transaction_info(
+    TransactionInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_u_32(int self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_u_64(BigInt self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_8(int self, SseSerializer serializer);
@@ -427,9 +717,6 @@ abstract class LibArkApiImplPlatform extends BaseApiImpl<LibArkWire> {
 
   @protected
   void sse_encode_utils(Utils self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer);
 }
 
 // Section: wire_class
@@ -580,5 +867,107 @@ class LibArkWire implements BaseWire {
       );
   late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb =
       _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDbPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPointPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_ark_wallet_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint',
+      );
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint =
+      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPointPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPointPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_ark_wallet_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint',
+      );
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint =
+      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPointPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_ark_wallet_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo',
+      );
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo =
+      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfoPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_ark_wallet_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo',
+      );
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo =
+      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfoPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_ark_wallet_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo',
+      );
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo =
+      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfoPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_ark_wallet_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo',
+      );
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo =
+      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfoPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 }

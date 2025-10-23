@@ -7,8 +7,10 @@ import 'ark/balance.dart';
 import 'ark/client.dart';
 import 'ark/esplora.dart';
 import 'ark/server_info.dart';
+import 'ark/settle.dart';
 import 'ark/storage.dart';
 import 'ark/transactions.dart';
+import 'ark/unilateral_exit.dart';
 import 'ark/utils.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -69,7 +71,7 @@ class LibArk extends BaseEntrypoint<LibArkApi, LibArkApiImpl, LibArkWire> {
   String get codegenVersion => '2.9.0';
 
   @override
-  int get rustContentHash => -1870965194;
+  int get rustContentHash => 1883637774;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -92,11 +94,26 @@ abstract class LibArkApi extends BaseApi {
 
   String crateArkClientArkWalletBoardingAddress({required ArkWallet that});
 
+  Future<bool> crateArkClientArkWalletCanSettleBoarding({
+    required ArkWallet that,
+  });
+
   Future<String> crateArkClientArkWalletCollaborativeRedeem({
     required ArkWallet that,
     required String address,
     required PlatformInt64 sats,
     required bool selectRecoverableVtxos,
+  });
+
+  Future<BoardingSettlement> crateArkClientArkWalletGetBoardingStatus({
+    required ArkWallet that,
+  });
+
+  Future<List<List<Transaction>>>
+  crateArkClientArkWalletGetPresignedTransactions({required ArkWallet that});
+
+  Future<List<VtxoInfo>> crateArkClientArkWalletGetVtxos({
+    required ArkWallet that,
   });
 
   Future<ArkWallet> crateArkClientArkWalletInit({
@@ -108,6 +125,8 @@ abstract class LibArkApi extends BaseApi {
   });
 
   String crateArkClientArkWalletOffchainAddress({required ArkWallet that});
+
+  String crateArkClientArkWalletOnchainAddress({required ArkWallet that});
 
   Future<String> crateArkClientArkWalletSendOffChain({
     required ArkWallet that,
@@ -121,9 +140,20 @@ abstract class LibArkApi extends BaseApi {
     required PlatformInt64 sats,
   });
 
+  Future<String> crateArkClientArkWalletSendUnilateralExit({
+    required ArkWallet that,
+    required String address,
+    required BigInt amountSats,
+  });
+
   ServerInfo crateArkClientArkWalletServerInfo({required ArkWallet that});
 
   Future<void> crateArkClientArkWalletSettle({
+    required ArkWallet that,
+    required bool selectRecoverableVtxos,
+  });
+
+  Future<BoardingSettlement> crateArkClientArkWalletSettleBoardingTransactions({
     required ArkWallet that,
     required bool selectRecoverableVtxos,
   });
@@ -139,6 +169,133 @@ abstract class LibArkApi extends BaseApi {
   Future<EsploraClient> crateArkEsploraEsploraClientNew({required String url});
 
   Future<InMemoryDb> crateArkStorageInMemoryDbDefault();
+
+  BigInt crateArkUnilateralExitVtxoChainInfoAutoAccessorGetChainHeight({
+    required VtxoChainInfo that,
+  });
+
+  OutPoint crateArkUnilateralExitVtxoChainInfoAutoAccessorGetOutpoint({
+    required VtxoChainInfo that,
+  });
+
+  BigInt crateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactionCount({
+    required VtxoChainInfo that,
+  });
+
+  List<TransactionInfo>
+  crateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactions({
+    required VtxoChainInfo that,
+  });
+
+  void crateArkUnilateralExitVtxoChainInfoAutoAccessorSetChainHeight({
+    required VtxoChainInfo that,
+    required BigInt chainHeight,
+  });
+
+  void crateArkUnilateralExitVtxoChainInfoAutoAccessorSetOutpoint({
+    required VtxoChainInfo that,
+    required OutPoint outpoint,
+  });
+
+  void crateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactionCount({
+    required VtxoChainInfo that,
+    required BigInt transactionCount,
+  });
+
+  void crateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactions({
+    required VtxoChainInfo that,
+    required List<TransactionInfo> transactions,
+  });
+
+  PlatformInt64 crateArkUnilateralExitVtxoInfoAutoAccessorGetAmount({
+    required VtxoInfo that,
+  });
+
+  PlatformInt64? crateArkUnilateralExitVtxoInfoAutoAccessorGetConfirmationTime({
+    required VtxoInfo that,
+  });
+
+  PlatformInt64 crateArkUnilateralExitVtxoInfoAutoAccessorGetCreatedAt({
+    required VtxoInfo that,
+  });
+
+  PlatformInt64 crateArkUnilateralExitVtxoInfoAutoAccessorGetExpiresAt({
+    required VtxoInfo that,
+  });
+
+  bool crateArkUnilateralExitVtxoInfoAutoAccessorGetIsPreconfirmed({
+    required VtxoInfo that,
+  });
+
+  bool crateArkUnilateralExitVtxoInfoAutoAccessorGetIsSpent({
+    required VtxoInfo that,
+  });
+
+  bool crateArkUnilateralExitVtxoInfoAutoAccessorGetIsSwept({
+    required VtxoInfo that,
+  });
+
+  bool crateArkUnilateralExitVtxoInfoAutoAccessorGetIsUnrolled({
+    required VtxoInfo that,
+  });
+
+  OutPoint crateArkUnilateralExitVtxoInfoAutoAccessorGetOutpoint({
+    required VtxoInfo that,
+  });
+
+  String crateArkUnilateralExitVtxoInfoAutoAccessorGetScript({
+    required VtxoInfo that,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetAmount({
+    required VtxoInfo that,
+    required PlatformInt64 amount,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetConfirmationTime({
+    required VtxoInfo that,
+    PlatformInt64? confirmationTime,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetCreatedAt({
+    required VtxoInfo that,
+    required PlatformInt64 createdAt,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetExpiresAt({
+    required VtxoInfo that,
+    required PlatformInt64 expiresAt,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetIsPreconfirmed({
+    required VtxoInfo that,
+    required bool isPreconfirmed,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetIsSpent({
+    required VtxoInfo that,
+    required bool isSpent,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetIsSwept({
+    required VtxoInfo that,
+    required bool isSwept,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetIsUnrolled({
+    required VtxoInfo that,
+    required bool isUnrolled,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetOutpoint({
+    required VtxoInfo that,
+    required OutPoint outpoint,
+  });
+
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetScript({
+    required VtxoInfo that,
+    required String script,
+  });
 
   bool crateArkUtilsUtilsIsArk({required String address});
 
@@ -177,6 +334,31 @@ abstract class LibArkApi extends BaseApi {
   get rust_arc_decrement_strong_count_InMemoryDb;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_InMemoryDbPtr;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_OutPoint;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_OutPoint;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_OutPointPtr;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_VtxoChainInfo;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_VtxoChainInfo;
+
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_VtxoChainInfoPtr;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_VtxoInfo;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_VtxoInfo;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_VtxoInfoPtr;
 }
 
 class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
@@ -315,6 +497,42 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       );
 
   @override
+  Future<bool> crateArkClientArkWalletCanSettleBoarding({
+    required ArkWallet that,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 5,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletCanSettleBoardingConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkWalletCanSettleBoardingConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkWallet_can_settle_boarding",
+        argNames: ["that"],
+      );
+
+  @override
   Future<String> crateArkClientArkWalletCollaborativeRedeem({
     required ArkWallet that,
     required String address,
@@ -335,7 +553,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 5,
+            funcId: 6,
             port: port_,
           );
         },
@@ -357,6 +575,111 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       );
 
   @override
+  Future<BoardingSettlement> crateArkClientArkWalletGetBoardingStatus({
+    required ArkWallet that,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 7,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_boarding_settlement,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletGetBoardingStatusConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkWalletGetBoardingStatusConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkWallet_get_boarding_status",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<List<List<Transaction>>>
+  crateArkClientArkWalletGetPresignedTransactions({required ArkWallet that}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 8,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_list_list_transaction,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletGetPresignedTransactionsConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkWalletGetPresignedTransactionsConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkWallet_get_presigned_transactions",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<List<VtxoInfo>> crateArkClientArkWalletGetVtxos({
+    required ArkWallet that,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 9,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletGetVtxosConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkWalletGetVtxosConstMeta =>
+      const TaskConstMeta(debugName: "ArkWallet_get_vtxos", argNames: ["that"]);
+
+  @override
   Future<ArkWallet> crateArkClientArkWalletInit({
     required List<int> secretKey,
     required String network,
@@ -376,7 +699,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 6,
+            funcId: 10,
             port: port_,
           );
         },
@@ -408,7 +731,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -424,6 +747,35 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   TaskConstMeta get kCrateArkClientArkWalletOffchainAddressConstMeta =>
       const TaskConstMeta(
         debugName: "ArkWallet_offchain_address",
+        argNames: ["that"],
+      );
+
+  @override
+  String crateArkClientArkWalletOnchainAddress({required ArkWallet that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletOnchainAddressConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkWalletOnchainAddressConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkWallet_onchain_address",
         argNames: ["that"],
       );
 
@@ -446,7 +798,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 8,
+            funcId: 13,
             port: port_,
           );
         },
@@ -486,7 +838,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 9,
+            funcId: 14,
             port: port_,
           );
         },
@@ -508,6 +860,46 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       );
 
   @override
+  Future<String> crateArkClientArkWalletSendUnilateralExit({
+    required ArkWallet that,
+    required String address,
+    required BigInt amountSats,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
+          sse_encode_String(address, serializer);
+          sse_encode_u_64(amountSats, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 15,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletSendUnilateralExitConstMeta,
+        argValues: [that, address, amountSats],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateArkClientArkWalletSendUnilateralExitConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkWallet_send_unilateral_exit",
+        argNames: ["that", "address", "amountSats"],
+      );
+
+  @override
   ServerInfo crateArkClientArkWalletServerInfo({required ArkWallet that}) {
     return handler.executeSync(
       SyncTask(
@@ -517,7 +909,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_server_info,
@@ -553,7 +945,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 11,
+            funcId: 17,
             port: port_,
           );
         },
@@ -575,6 +967,45 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       );
 
   @override
+  Future<BoardingSettlement> crateArkClientArkWalletSettleBoardingTransactions({
+    required ArkWallet that,
+    required bool selectRecoverableVtxos,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
+            that,
+            serializer,
+          );
+          sse_encode_bool(selectRecoverableVtxos, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 18,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_boarding_settlement,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateArkClientArkWalletSettleBoardingTransactionsConstMeta,
+        argValues: [that, selectRecoverableVtxos],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkClientArkWalletSettleBoardingTransactionsConstMeta =>
+      const TaskConstMeta(
+        debugName: "ArkWallet_settle_boarding_transactions",
+        argNames: ["that", "selectRecoverableVtxos"],
+      );
+
+  @override
   Future<List<Transaction>> crateArkClientArkWalletTransactionHistory({
     required ArkWallet that,
   }) {
@@ -589,7 +1020,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 12,
+            funcId: 19,
             port: port_,
           );
         },
@@ -625,7 +1056,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 13,
+            funcId: 20,
             port: port_,
           );
         },
@@ -656,7 +1087,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 14,
+            funcId: 21,
             port: port_,
           );
         },
@@ -684,7 +1115,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 15,
+            funcId: 22,
             port: port_,
           );
         },
@@ -704,13 +1135,974 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
       const TaskConstMeta(debugName: "InMemoryDb_default", argNames: []);
 
   @override
+  BigInt crateArkUnilateralExitVtxoChainInfoAutoAccessorGetChainHeight({
+    required VtxoChainInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_usize,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoChainInfoAutoAccessorGetChainHeightConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoChainInfoAutoAccessorGetChainHeightConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoChainInfo_auto_accessor_get_chain_height",
+        argNames: ["that"],
+      );
+
+  @override
+  OutPoint crateArkUnilateralExitVtxoChainInfoAutoAccessorGetOutpoint({
+    required VtxoChainInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoChainInfoAutoAccessorGetOutpointConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoChainInfoAutoAccessorGetOutpointConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoChainInfo_auto_accessor_get_outpoint",
+        argNames: ["that"],
+      );
+
+  @override
+  BigInt crateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactionCount({
+    required VtxoChainInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_usize,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactionCountConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactionCountConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoChainInfo_auto_accessor_get_transaction_count",
+        argNames: ["that"],
+      );
+
+  @override
+  List<TransactionInfo>
+  crateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactions({
+    required VtxoChainInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_list_transaction_info,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactionsConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactionsConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoChainInfo_auto_accessor_get_transactions",
+        argNames: ["that"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoChainInfoAutoAccessorSetChainHeight({
+    required VtxoChainInfo that,
+    required BigInt chainHeight,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+            that,
+            serializer,
+          );
+          sse_encode_usize(chainHeight, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoChainInfoAutoAccessorSetChainHeightConstMeta,
+        argValues: [that, chainHeight],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoChainInfoAutoAccessorSetChainHeightConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoChainInfo_auto_accessor_set_chain_height",
+        argNames: ["that", "chainHeight"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoChainInfoAutoAccessorSetOutpoint({
+    required VtxoChainInfo that,
+    required OutPoint outpoint,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+            that,
+            serializer,
+          );
+          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+            outpoint,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoChainInfoAutoAccessorSetOutpointConstMeta,
+        argValues: [that, outpoint],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoChainInfoAutoAccessorSetOutpointConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoChainInfo_auto_accessor_set_outpoint",
+        argNames: ["that", "outpoint"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactionCount({
+    required VtxoChainInfo that,
+    required BigInt transactionCount,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+            that,
+            serializer,
+          );
+          sse_encode_usize(transactionCount, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactionCountConstMeta,
+        argValues: [that, transactionCount],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactionCountConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoChainInfo_auto_accessor_set_transaction_count",
+        argNames: ["that", "transactionCount"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactions({
+    required VtxoChainInfo that,
+    required List<TransactionInfo> transactions,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+            that,
+            serializer,
+          );
+          sse_encode_list_transaction_info(transactions, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactionsConstMeta,
+        argValues: [that, transactions],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactionsConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoChainInfo_auto_accessor_set_transactions",
+        argNames: ["that", "transactions"],
+      );
+
+  @override
+  PlatformInt64 crateArkUnilateralExitVtxoInfoAutoAccessorGetAmount({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_i_64,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetAmountConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetAmountConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_amount",
+        argNames: ["that"],
+      );
+
+  @override
+  PlatformInt64? crateArkUnilateralExitVtxoInfoAutoAccessorGetConfirmationTime({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_opt_box_autoadd_i_64,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetConfirmationTimeConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetConfirmationTimeConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_confirmation_time",
+        argNames: ["that"],
+      );
+
+  @override
+  PlatformInt64 crateArkUnilateralExitVtxoInfoAutoAccessorGetCreatedAt({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_i_64,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetCreatedAtConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetCreatedAtConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_created_at",
+        argNames: ["that"],
+      );
+
+  @override
+  PlatformInt64 crateArkUnilateralExitVtxoInfoAutoAccessorGetExpiresAt({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_i_64,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetExpiresAtConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetExpiresAtConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_expires_at",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateArkUnilateralExitVtxoInfoAutoAccessorGetIsPreconfirmed({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetIsPreconfirmedConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetIsPreconfirmedConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_is_preconfirmed",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateArkUnilateralExitVtxoInfoAutoAccessorGetIsSpent({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetIsSpentConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetIsSpentConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_is_spent",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateArkUnilateralExitVtxoInfoAutoAccessorGetIsSwept({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 37)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetIsSweptConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetIsSweptConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_is_swept",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateArkUnilateralExitVtxoInfoAutoAccessorGetIsUnrolled({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 38)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetIsUnrolledConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetIsUnrolledConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_is_unrolled",
+        argNames: ["that"],
+      );
+
+  @override
+  OutPoint crateArkUnilateralExitVtxoInfoAutoAccessorGetOutpoint({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 39)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetOutpointConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetOutpointConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_outpoint",
+        argNames: ["that"],
+      );
+
+  @override
+  String crateArkUnilateralExitVtxoInfoAutoAccessorGetScript({
+    required VtxoInfo that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 40)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorGetScriptConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorGetScriptConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_get_script",
+        argNames: ["that"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetAmount({
+    required VtxoInfo that,
+    required PlatformInt64 amount,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_i_64(amount, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 41)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetAmountConstMeta,
+        argValues: [that, amount],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetAmountConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_amount",
+        argNames: ["that", "amount"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetConfirmationTime({
+    required VtxoInfo that,
+    PlatformInt64? confirmationTime,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_opt_box_autoadd_i_64(confirmationTime, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 42)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetConfirmationTimeConstMeta,
+        argValues: [that, confirmationTime],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetConfirmationTimeConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_confirmation_time",
+        argNames: ["that", "confirmationTime"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetCreatedAt({
+    required VtxoInfo that,
+    required PlatformInt64 createdAt,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_i_64(createdAt, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 43)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetCreatedAtConstMeta,
+        argValues: [that, createdAt],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetCreatedAtConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_created_at",
+        argNames: ["that", "createdAt"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetExpiresAt({
+    required VtxoInfo that,
+    required PlatformInt64 expiresAt,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_i_64(expiresAt, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 44)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetExpiresAtConstMeta,
+        argValues: [that, expiresAt],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetExpiresAtConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_expires_at",
+        argNames: ["that", "expiresAt"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetIsPreconfirmed({
+    required VtxoInfo that,
+    required bool isPreconfirmed,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_bool(isPreconfirmed, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 45)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetIsPreconfirmedConstMeta,
+        argValues: [that, isPreconfirmed],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetIsPreconfirmedConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_is_preconfirmed",
+        argNames: ["that", "isPreconfirmed"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetIsSpent({
+    required VtxoInfo that,
+    required bool isSpent,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_bool(isSpent, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 46)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetIsSpentConstMeta,
+        argValues: [that, isSpent],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetIsSpentConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_is_spent",
+        argNames: ["that", "isSpent"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetIsSwept({
+    required VtxoInfo that,
+    required bool isSwept,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_bool(isSwept, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 47)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetIsSweptConstMeta,
+        argValues: [that, isSwept],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetIsSweptConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_is_swept",
+        argNames: ["that", "isSwept"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetIsUnrolled({
+    required VtxoInfo that,
+    required bool isUnrolled,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_bool(isUnrolled, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 48)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetIsUnrolledConstMeta,
+        argValues: [that, isUnrolled],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetIsUnrolledConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_is_unrolled",
+        argNames: ["that", "isUnrolled"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetOutpoint({
+    required VtxoInfo that,
+    required OutPoint outpoint,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+            outpoint,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 49)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetOutpointConstMeta,
+        argValues: [that, outpoint],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetOutpointConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_outpoint",
+        argNames: ["that", "outpoint"],
+      );
+
+  @override
+  void crateArkUnilateralExitVtxoInfoAutoAccessorSetScript({
+    required VtxoInfo that,
+    required String script,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+            that,
+            serializer,
+          );
+          sse_encode_String(script, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 50)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateArkUnilateralExitVtxoInfoAutoAccessorSetScriptConstMeta,
+        argValues: [that, script],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateArkUnilateralExitVtxoInfoAutoAccessorSetScriptConstMeta =>
+      const TaskConstMeta(
+        debugName: "VtxoInfo_auto_accessor_set_script",
+        argNames: ["that", "script"],
+      );
+
+  @override
   bool crateArkUtilsUtilsIsArk({required String address}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(address, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 51)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -733,7 +2125,7 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(address, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 52)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -781,6 +2173,30 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   get rust_arc_decrement_strong_count_InMemoryDb =>
       wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInMemoryDb;
 
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_OutPoint =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_OutPoint =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_VtxoChainInfo =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_VtxoChainInfo =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_VtxoInfo =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_VtxoInfo =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo;
+
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -826,12 +2242,57 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  OutPoint
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return OutPointImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  VtxoChainInfo
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return VtxoChainInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  VtxoInfo
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return VtxoInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   ArkWallet
   dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ArkWalletImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  VtxoChainInfo
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return VtxoChainInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  VtxoInfo
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return VtxoInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -850,6 +2311,24 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return EsploraClientImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  VtxoChainInfo
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return VtxoChainInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  VtxoInfo
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return VtxoInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -891,6 +2370,33 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  OutPoint
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return OutPointImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  VtxoChainInfo
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return VtxoChainInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  VtxoInfo
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return VtxoInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
@@ -926,6 +2432,20 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  BoardingSettlement dco_decode_boarding_settlement(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return BoardingSettlement(
+      pendingCount: dco_decode_i_32(arr[0]),
+      confirmedCount: dco_decode_i_32(arr[1]),
+      totalPendingSats: dco_decode_i_64(arr[2]),
+      totalConfirmedSats: dco_decode_i_64(arr[3]),
+    );
+  }
+
+  @protected
   bool dco_decode_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
@@ -938,9 +2458,34 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  int dco_decode_i_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
   PlatformInt64 dco_decode_i_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeI64(raw);
+  }
+
+  @protected
+  List<VtxoInfo>
+  dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(
+          dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo,
+        )
+        .toList();
+  }
+
+  @protected
+  List<List<Transaction>> dco_decode_list_list_transaction(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_list_transaction).toList();
   }
 
   @protected
@@ -959,6 +2504,12 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   List<Transaction> dco_decode_list_transaction(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_transaction).toList();
+  }
+
+  @protected
+  List<TransactionInfo> dco_decode_list_transaction_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_transaction_info).toList();
   }
 
   @protected
@@ -1021,9 +2572,30 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  TransactionInfo dco_decode_transaction_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return TransactionInfo(
+      txid: dco_decode_String(arr[0]),
+      isSigned: dco_decode_bool(arr[1]),
+      inputCount: dco_decode_usize(arr[2]),
+      outputCount: dco_decode_usize(arr[3]),
+      totalSize: dco_decode_usize(arr[4]),
+    );
+  }
+
+  @protected
   int dco_decode_u_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
+  }
+
+  @protected
+  BigInt dco_decode_u_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeU64(raw);
   }
 
   @protected
@@ -1109,12 +2681,72 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  OutPoint
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return OutPointImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  VtxoChainInfo
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return VtxoChainInfoImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  VtxoInfo
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return VtxoInfoImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   ArkWallet
   sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return ArkWalletImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  VtxoChainInfo
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return VtxoChainInfoImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  VtxoInfo
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return VtxoInfoImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1139,6 +2771,30 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return EsploraClientImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  VtxoChainInfo
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return VtxoChainInfoImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  VtxoInfo
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return VtxoInfoImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1193,6 +2849,42 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  OutPoint
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return OutPointImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  VtxoChainInfo
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return VtxoChainInfoImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  VtxoInfo
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return VtxoInfoImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   String sse_decode_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
@@ -1232,6 +2924,23 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  BoardingSettlement sse_decode_boarding_settlement(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_pendingCount = sse_decode_i_32(deserializer);
+    var var_confirmedCount = sse_decode_i_32(deserializer);
+    var var_totalPendingSats = sse_decode_i_64(deserializer);
+    var var_totalConfirmedSats = sse_decode_i_64(deserializer);
+    return BoardingSettlement(
+      pendingCount: var_pendingCount,
+      confirmedCount: var_confirmedCount,
+      totalPendingSats: var_totalPendingSats,
+      totalConfirmedSats: var_totalConfirmedSats,
+    );
+  }
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
@@ -1244,9 +2953,48 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  int sse_decode_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt32();
+  }
+
+  @protected
   PlatformInt64 sse_decode_i_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getPlatformInt64();
+  }
+
+  @protected
+  List<VtxoInfo>
+  sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <VtxoInfo>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(
+        sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+          deserializer,
+        ),
+      );
+    }
+    return ans_;
+  }
+
+  @protected
+  List<List<Transaction>> sse_decode_list_list_transaction(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <List<Transaction>>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_list_transaction(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -1271,6 +3019,20 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     var ans_ = <Transaction>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_transaction(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<TransactionInfo> sse_decode_list_transaction_info(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <TransactionInfo>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_transaction_info(deserializer));
     }
     return ans_;
   }
@@ -1364,9 +3126,32 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  TransactionInfo sse_decode_transaction_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_txid = sse_decode_String(deserializer);
+    var var_isSigned = sse_decode_bool(deserializer);
+    var var_inputCount = sse_decode_usize(deserializer);
+    var var_outputCount = sse_decode_usize(deserializer);
+    var var_totalSize = sse_decode_usize(deserializer);
+    return TransactionInfo(
+      txid: var_txid,
+      isSigned: var_isSigned,
+      inputCount: var_inputCount,
+      outputCount: var_outputCount,
+      totalSize: var_totalSize,
+    );
+  }
+
+  @protected
   int sse_decode_u_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint32();
+  }
+
+  @protected
+  BigInt sse_decode_u_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getBigUint64();
   }
 
   @protected
@@ -1390,12 +3175,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   Utils sse_decode_utils(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return Utils();
-  }
-
-  @protected
-  int sse_decode_i_32(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getInt32();
   }
 
   @protected
@@ -1462,6 +3241,45 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
 
   @protected
   void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    OutPoint self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as OutPointImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    VtxoChainInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as VtxoChainInfoImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    VtxoInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as VtxoInfoImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArkWallet(
     ArkWallet self,
     SseSerializer serializer,
@@ -1469,6 +3287,32 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as ArkWalletImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    VtxoChainInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as VtxoChainInfoImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    VtxoInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as VtxoInfoImpl).frbInternalSseEncode(move: false),
       serializer,
     );
   }
@@ -1495,6 +3339,32 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as EsploraClientImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    VtxoChainInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as VtxoChainInfoImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    VtxoInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as VtxoInfoImpl).frbInternalSseEncode(move: false),
       serializer,
     );
   }
@@ -1553,6 +3423,45 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOutPoint(
+    OutPoint self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as OutPointImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoChainInfo(
+    VtxoChainInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as VtxoChainInfoImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    VtxoInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as VtxoInfoImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
@@ -1578,6 +3487,18 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  void sse_encode_boarding_settlement(
+    BoardingSettlement self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.pendingCount, serializer);
+    sse_encode_i_32(self.confirmedCount, serializer);
+    sse_encode_i_64(self.totalPendingSats, serializer);
+    sse_encode_i_64(self.totalConfirmedSats, serializer);
+  }
+
+  @protected
   void sse_encode_bool(bool self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self ? 1 : 0);
@@ -1593,9 +3514,43 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  void sse_encode_i_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt32(self);
+  }
+
+  @protected
   void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putPlatformInt64(self);
+  }
+
+  @protected
+  void
+  sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+    List<VtxoInfo> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtxoInfo(
+        item,
+        serializer,
+      );
+    }
+  }
+
+  @protected
+  void sse_encode_list_list_transaction(
+    List<List<Transaction>> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_list_transaction(item, serializer);
+    }
   }
 
   @protected
@@ -1629,6 +3584,18 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_transaction(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_transaction_info(
+    List<TransactionInfo> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_transaction_info(item, serializer);
     }
   }
 
@@ -1702,9 +3669,28 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   }
 
   @protected
+  void sse_encode_transaction_info(
+    TransactionInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.txid, serializer);
+    sse_encode_bool(self.isSigned, serializer);
+    sse_encode_usize(self.inputCount, serializer);
+    sse_encode_usize(self.outputCount, serializer);
+    sse_encode_usize(self.totalSize, serializer);
+  }
+
+  @protected
   void sse_encode_u_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint32(self);
+  }
+
+  @protected
+  void sse_encode_u_64(BigInt self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putBigUint64(self);
   }
 
   @protected
@@ -1727,12 +3713,6 @@ class LibArkApiImpl extends LibArkApiImplPlatform implements LibArkApi {
   @protected
   void sse_encode_utils(Utils self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-  }
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putInt32(self);
   }
 }
 
@@ -1806,6 +3786,9 @@ class ArkWalletImpl extends RustOpaque implements ArkWallet {
   String boardingAddress() =>
       LibArk.instance.api.crateArkClientArkWalletBoardingAddress(that: this);
 
+  Future<bool> canSettleBoarding() =>
+      LibArk.instance.api.crateArkClientArkWalletCanSettleBoarding(that: this);
+
   Future<String> collaborativeRedeem({
     required String address,
     required PlatformInt64 sats,
@@ -1817,8 +3800,22 @@ class ArkWalletImpl extends RustOpaque implements ArkWallet {
     selectRecoverableVtxos: selectRecoverableVtxos,
   );
 
+  Future<BoardingSettlement> getBoardingStatus() =>
+      LibArk.instance.api.crateArkClientArkWalletGetBoardingStatus(that: this);
+
+  Future<List<List<Transaction>>> getPresignedTransactions() => LibArk
+      .instance
+      .api
+      .crateArkClientArkWalletGetPresignedTransactions(that: this);
+
+  Future<List<VtxoInfo>> getVtxos() =>
+      LibArk.instance.api.crateArkClientArkWalletGetVtxos(that: this);
+
   String offchainAddress() =>
       LibArk.instance.api.crateArkClientArkWalletOffchainAddress(that: this);
+
+  String onchainAddress() =>
+      LibArk.instance.api.crateArkClientArkWalletOnchainAddress(that: this);
 
   Future<String> sendOffChain({
     required String address,
@@ -1838,6 +3835,15 @@ class ArkWalletImpl extends RustOpaque implements ArkWallet {
     sats: sats,
   );
 
+  Future<String> sendUnilateralExit({
+    required String address,
+    required BigInt amountSats,
+  }) => LibArk.instance.api.crateArkClientArkWalletSendUnilateralExit(
+    that: this,
+    address: address,
+    amountSats: amountSats,
+  );
+
   ServerInfo serverInfo() =>
       LibArk.instance.api.crateArkClientArkWalletServerInfo(that: this);
 
@@ -1846,6 +3852,13 @@ class ArkWalletImpl extends RustOpaque implements ArkWallet {
         that: this,
         selectRecoverableVtxos: selectRecoverableVtxos,
       );
+
+  Future<BoardingSettlement> settleBoardingTransactions({
+    required bool selectRecoverableVtxos,
+  }) => LibArk.instance.api.crateArkClientArkWalletSettleBoardingTransactions(
+    that: this,
+    selectRecoverableVtxos: selectRecoverableVtxos,
+  );
 
   Future<List<Transaction>> transactionHistory() =>
       LibArk.instance.api.crateArkClientArkWalletTransactionHistory(that: this);
@@ -1892,4 +3905,198 @@ class InMemoryDbImpl extends RustOpaque implements InMemoryDb {
     rustArcDecrementStrongCountPtr:
         LibArk.instance.api.rust_arc_decrement_strong_count_InMemoryDbPtr,
   );
+}
+
+@sealed
+class OutPointImpl extends RustOpaque implements OutPoint {
+  // Not to be used by end users
+  OutPointImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  OutPointImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        LibArk.instance.api.rust_arc_increment_strong_count_OutPoint,
+    rustArcDecrementStrongCount:
+        LibArk.instance.api.rust_arc_decrement_strong_count_OutPoint,
+    rustArcDecrementStrongCountPtr:
+        LibArk.instance.api.rust_arc_decrement_strong_count_OutPointPtr,
+  );
+}
+
+@sealed
+class VtxoChainInfoImpl extends RustOpaque implements VtxoChainInfo {
+  // Not to be used by end users
+  VtxoChainInfoImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  VtxoChainInfoImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        LibArk.instance.api.rust_arc_increment_strong_count_VtxoChainInfo,
+    rustArcDecrementStrongCount:
+        LibArk.instance.api.rust_arc_decrement_strong_count_VtxoChainInfo,
+    rustArcDecrementStrongCountPtr:
+        LibArk.instance.api.rust_arc_decrement_strong_count_VtxoChainInfoPtr,
+  );
+
+  BigInt get chainHeight => LibArk.instance.api
+      .crateArkUnilateralExitVtxoChainInfoAutoAccessorGetChainHeight(
+        that: this,
+      );
+
+  OutPoint get outpoint => LibArk.instance.api
+      .crateArkUnilateralExitVtxoChainInfoAutoAccessorGetOutpoint(that: this);
+
+  BigInt get transactionCount => LibArk.instance.api
+      .crateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactionCount(
+        that: this,
+      );
+
+  List<TransactionInfo> get transactions => LibArk.instance.api
+      .crateArkUnilateralExitVtxoChainInfoAutoAccessorGetTransactions(
+        that: this,
+      );
+
+  set chainHeight(BigInt chainHeight) => LibArk.instance.api
+      .crateArkUnilateralExitVtxoChainInfoAutoAccessorSetChainHeight(
+        that: this,
+        chainHeight: chainHeight,
+      );
+
+  set outpoint(OutPoint outpoint) => LibArk.instance.api
+      .crateArkUnilateralExitVtxoChainInfoAutoAccessorSetOutpoint(
+        that: this,
+        outpoint: outpoint,
+      );
+
+  set transactionCount(BigInt transactionCount) => LibArk.instance.api
+      .crateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactionCount(
+        that: this,
+        transactionCount: transactionCount,
+      );
+
+  set transactions(List<TransactionInfo> transactions) => LibArk.instance.api
+      .crateArkUnilateralExitVtxoChainInfoAutoAccessorSetTransactions(
+        that: this,
+        transactions: transactions,
+      );
+}
+
+@sealed
+class VtxoInfoImpl extends RustOpaque implements VtxoInfo {
+  // Not to be used by end users
+  VtxoInfoImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  VtxoInfoImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        LibArk.instance.api.rust_arc_increment_strong_count_VtxoInfo,
+    rustArcDecrementStrongCount:
+        LibArk.instance.api.rust_arc_decrement_strong_count_VtxoInfo,
+    rustArcDecrementStrongCountPtr:
+        LibArk.instance.api.rust_arc_decrement_strong_count_VtxoInfoPtr,
+  );
+
+  PlatformInt64 get amount => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetAmount(that: this);
+
+  PlatformInt64? get confirmationTime => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetConfirmationTime(
+        that: this,
+      );
+
+  PlatformInt64 get createdAt => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetCreatedAt(that: this);
+
+  PlatformInt64 get expiresAt => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetExpiresAt(that: this);
+
+  bool get isPreconfirmed => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetIsPreconfirmed(that: this);
+
+  bool get isSpent => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetIsSpent(that: this);
+
+  bool get isSwept => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetIsSwept(that: this);
+
+  bool get isUnrolled => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetIsUnrolled(that: this);
+
+  OutPoint get outpoint => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetOutpoint(that: this);
+
+  String get script => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorGetScript(that: this);
+
+  set amount(PlatformInt64 amount) =>
+      LibArk.instance.api.crateArkUnilateralExitVtxoInfoAutoAccessorSetAmount(
+        that: this,
+        amount: amount,
+      );
+
+  set confirmationTime(PlatformInt64? confirmationTime) => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorSetConfirmationTime(
+        that: this,
+        confirmationTime: confirmationTime,
+      );
+
+  set createdAt(PlatformInt64 createdAt) => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorSetCreatedAt(
+        that: this,
+        createdAt: createdAt,
+      );
+
+  set expiresAt(PlatformInt64 expiresAt) => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorSetExpiresAt(
+        that: this,
+        expiresAt: expiresAt,
+      );
+
+  set isPreconfirmed(bool isPreconfirmed) => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorSetIsPreconfirmed(
+        that: this,
+        isPreconfirmed: isPreconfirmed,
+      );
+
+  set isSpent(bool isSpent) =>
+      LibArk.instance.api.crateArkUnilateralExitVtxoInfoAutoAccessorSetIsSpent(
+        that: this,
+        isSpent: isSpent,
+      );
+
+  set isSwept(bool isSwept) =>
+      LibArk.instance.api.crateArkUnilateralExitVtxoInfoAutoAccessorSetIsSwept(
+        that: this,
+        isSwept: isSwept,
+      );
+
+  set isUnrolled(bool isUnrolled) => LibArk.instance.api
+      .crateArkUnilateralExitVtxoInfoAutoAccessorSetIsUnrolled(
+        that: this,
+        isUnrolled: isUnrolled,
+      );
+
+  set outpoint(OutPoint outpoint) =>
+      LibArk.instance.api.crateArkUnilateralExitVtxoInfoAutoAccessorSetOutpoint(
+        that: this,
+        outpoint: outpoint,
+      );
+
+  set script(String script) =>
+      LibArk.instance.api.crateArkUnilateralExitVtxoInfoAutoAccessorSetScript(
+        that: this,
+        script: script,
+      );
 }
