@@ -27,18 +27,9 @@ void main() {
       final balance = await client.balance();
 
       // Check that balance object has all expected properties
-      expect(balance.pending, isA<int>());
-      expect(balance.confirmed, isA<int>());
+      expect(balance.available, isA<int>());
+      expect(balance.boarding, isA<int>());
       expect(balance.total, isA<int>());
-
-      // Check that properties are accessible
-      final pending = balance.pending;
-      final confirmed = balance.confirmed;
-      final total = balance.total;
-
-      expect(pending, isNotNull);
-      expect(confirmed, isNotNull);
-      expect(total, isNotNull);
     });
 
     test('Transaction objects have correct structure', () async {

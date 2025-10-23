@@ -57,8 +57,8 @@ class _HomePageState extends State<HomePage> {
       _txs = await _client.transactionHistory();
 
       final balance = await _client.balance();
-      _balancePending = balance.pending.toInt();
-      _balanceConfirmed = balance.confirmed.toInt();
+      _balancePending = balance.available.toInt();
+      _balanceConfirmed = balance.boarding.confirmed.toInt();
       _balanceTotal = balance.total.toInt();
 
       _arkAddress = _client.offchainAddress();
