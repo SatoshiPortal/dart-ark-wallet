@@ -36,7 +36,7 @@ impl ArkWallet {
         esplora.check_connection().await?;
 
         let client = OfflineClient::new(
-            "azad".to_string(),
+            "Bull Bitcoin".to_string(),
             kp,
             Arc::new(esplora),
             wallet,

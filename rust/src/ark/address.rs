@@ -26,4 +26,15 @@ impl ArkWallet {
 
         Ok(boarding_address.to_string())
     }
+
+    #[frb(sync)]
+    pub fn onchain_address(&self) -> Result<String> {
+        // Get the general onchain Bitcoin address for the wallet
+        let onchain_address = self
+            .inner
+            .get_onchain_address()
+            .map_err(|error| anyhow!("Could not get onchain address {error:#}"))?;
+
+        Ok(onchain_address.to_string())
+    }
 }

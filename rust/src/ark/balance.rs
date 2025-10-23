@@ -28,11 +28,10 @@ impl ArkWallet {
 
         let preconfirmed = offchain_balance.pending().to_sat() as i64;
         let settled = offchain_balance.confirmed().to_sat() as i64;
-        let available = settled + preconfirmed;
+        let available = settled;
         let recoverable = offchain_balance.pending().to_sat() as i64;
         let total = available + recoverable;
 
-        // Calculate boarding balance from transaction history
         let boarding_balance = self.calculate_boarding_balance().await?;
 
         Ok(Balance {
