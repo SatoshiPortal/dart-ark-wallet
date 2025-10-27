@@ -1,6 +1,6 @@
 // use crate::ark::client::ArkWallet;
 // use anyhow::{anyhow, Result};
-// use bitcoin::{OutPoint, Transaction};
+// use bitcoin::OutPoint;
 
 // pub struct VtxoInfo {
 //     pub outpoint: OutPoint,
@@ -13,55 +13,6 @@
 //     pub is_preconfirmed: bool,
 //     pub is_swept: bool,
 //     pub is_unrolled: bool,
-// }
-
-// pub struct VtxoTreeInfo {
-//     pub vtxo_outpoint: String,
-//     pub tree_height: usize,
-//     pub total_vtxos: usize,
-//     pub spendable_vtxos: usize,
-//     pub spent_vtxos: usize,
-//     pub tree_structure: Vec<String>, // Tree path as string representation
-// }
-
-// pub struct PresignedTransaction {
-//     pub transaction_hex: String,
-//     pub txid: String,
-//     pub vtxo_outpoints: Vec<String>,
-//     pub total_amount: i64,
-//     pub fee_amount: i64,
-// }
-
-// pub struct UnilateralExitInfo {
-//     pub vtxos: Vec<VtxoInfo>,
-//     pub presigned_tx: Option<PresignedTransaction>,
-//     pub can_exit: bool,
-//     pub exit_delay: u32,
-// }
-
-// pub struct TransactionSignatureInfo {
-//     pub branch_index: usize,
-//     pub tx_index: usize,
-//     pub txid: String,
-//     pub is_signed: bool,
-//     pub input_count: usize,
-//     pub output_count: usize,
-//     pub total_size: usize,
-// }
-
-// pub struct TransactionInfo {
-//     pub txid: String,
-//     pub is_signed: bool,
-//     pub input_count: usize,
-//     pub output_count: usize,
-//     pub total_size: usize,
-// }
-
-// pub struct VtxoChainInfo {
-//     pub outpoint: OutPoint,
-//     pub chain_height: usize,
-//     pub transaction_count: usize,
-//     pub transactions: Vec<TransactionInfo>,
 // }
 
 // impl ArkWallet {
@@ -109,14 +60,5 @@
 //         }
 
 //         Ok(vtxos)
-//     }
-
-//     pub async fn get_presigned_transactions(&self) -> Result<Vec<Vec<Transaction>>> {
-//         let presigned_transactions = self
-//             .inner
-//             .build_unilateral_exit_trees()
-//             .await
-//             .map_err(|e| anyhow!("Failed to build unilateral exit trees: {e:#}"))?;
-//         Ok(presigned_transactions)
 //     }
 // }

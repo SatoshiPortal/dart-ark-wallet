@@ -6,29 +6,8 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `PresignedTransaction`, `TransactionSignatureInfo`, `UnilateralExitInfo`, `VtxoTreeInfo`
-
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OutPoint>>
 abstract class OutPoint implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<VtxoChainInfo>>
-abstract class VtxoChainInfo implements RustOpaqueInterface {
-  BigInt get chainHeight;
-
-  OutPoint get outpoint;
-
-  BigInt get transactionCount;
-
-  List<TransactionInfo> get transactions;
-
-  set chainHeight(BigInt chainHeight);
-
-  set outpoint(OutPoint outpoint);
-
-  set transactionCount(BigInt transactionCount);
-
-  set transactions(List<TransactionInfo> transactions);
-}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<VtxoInfo>>
 abstract class VtxoInfo implements RustOpaqueInterface {
@@ -71,39 +50,4 @@ abstract class VtxoInfo implements RustOpaqueInterface {
   set outpoint(OutPoint outpoint);
 
   set script(String script);
-}
-
-class TransactionInfo {
-  final String txid;
-  final bool isSigned;
-  final BigInt inputCount;
-  final BigInt outputCount;
-  final BigInt totalSize;
-
-  const TransactionInfo({
-    required this.txid,
-    required this.isSigned,
-    required this.inputCount,
-    required this.outputCount,
-    required this.totalSize,
-  });
-
-  @override
-  int get hashCode =>
-      txid.hashCode ^
-      isSigned.hashCode ^
-      inputCount.hashCode ^
-      outputCount.hashCode ^
-      totalSize.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is TransactionInfo &&
-          runtimeType == other.runtimeType &&
-          txid == other.txid &&
-          isSigned == other.isSigned &&
-          inputCount == other.inputCount &&
-          outputCount == other.outputCount &&
-          totalSize == other.totalSize;
 }

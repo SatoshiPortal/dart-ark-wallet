@@ -16,7 +16,9 @@ pub mod utils;
 
 //     fn derive_key_from_mnemonic(mnemonic_phrase: &str) -> Vec<u8> {
 //         use bip39::{Language, Mnemonic};
-
+//         use bitcoin::bip32::{DerivationPath, Xpriv};
+//         use bitcoin::Network;
+//         use std::str::FromStr;
 //         // Parse the mnemonic phrase
 //         let mnemonic = Mnemonic::parse_in(Language::English, mnemonic_phrase)
 //             .expect("Invalid mnemonic phrase");
@@ -24,9 +26,66 @@ pub mod utils;
 //         // Generate seed from mnemonic (no passphrase)
 //         let seed = mnemonic.to_seed("");
 
-//         // Use the first 32 bytes of the seed as the private key
-//         // This is a simplified approach - in production you'd want proper BIP32 derivation
+//         // // Create secp256k1 context
+//         // let secp = bitcoin::secp256k1::Secp256k1::new();
+
+//         // // Create master key from seed
+//         // let master_key =
+//         //     Xpriv::new_master(Network::Bitcoin, &seed).expect("Failed to create master key");
+
+//         // // Derive key at BIP84 path: m/84'/0'/0'
+//         // let derivation_path =
+//         //     DerivationPath::from_str("m/84'/0'/0'").expect("Invalid derivation path");
+
+//         // let derived_key = master_key
+//         //     .derive_priv(&secp, &derivation_path)
+//         //     .expect("Failed to derive key");
+
+//         // // Return the private key bytes
+//         // derived_key.private_key.secret_bytes().to_vec()
 //         seed[..32].to_vec()
+//     }
+
+//     #[tokio::test]
+//     async fn test_onchain_address_and_sync() {
+//         // This test requires a real network connection, so we'll skip it in CI
+//         if std::env::var("CI").is_ok() {
+//             return;
+//         }
+
+//         let secret_key = derive_key_from_mnemonic(
+//             "fetch total mutual sword learn anger trick grass fix album attack illness",
+//         );
+
+//         let wallet = ArkWallet::init(
+//             secret_key,
+//             "bitcoin".to_string(),
+//             "https://mempool.bullbitcoin.com/api".to_string(),
+//             "https://arkade.computer".to_string(),
+//             "https://api.boltz.exchange".to_string(),
+//         )
+//         .await
+//         .expect("Failed to create wallet");
+
+//         println!("=== Testing Onchain Address and Sync ===");
+
+//         // Test onchain address
+//         let onchain_address = wallet
+//             .onchain_address()
+//             .expect("Failed to get onchain address");
+//         println!("Onchain address: {}", onchain_address);
+//         assert!(!onchain_address.is_empty());
+
+//         // Test sync
+//         println!("Syncing wallet...");
+//         // wallet.sync().await.expect("Failed to sync wallet");
+//         println!("Wallet synced successfully");
+
+//         // Test balance after sync
+//         let balance = wallet.balance().await.expect("Failed to get balance");
+//         println!("Balance after sync: {} sats", balance.total);
+
+//         println!("=====================================");
 //     }
 
 //     #[tokio::test]
@@ -37,14 +96,15 @@ pub mod utils;
 //         }
 
 //         // Replace with your actual mnemonic phrase
-//         let mnemonic_phrase = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
-
-//         let secret_key = derive_key_from_mnemonic(mnemonic_phrase);
+//         let mnemonic_phrase_2 = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
+//         let mnemonic_phrase_1 =
+//             "fetch total mutual sword learn anger trick grass fix album attack illness";
+//         let secret_key = derive_key_from_mnemonic(mnemonic_phrase_2);
 
 //         let wallet = ArkWallet::init(
 //             secret_key,
 //             "bitcoin".to_string(),
-//             "https://mempool.space/api".to_string(),
+//             "https://mempool.bullbitcoin.com/api".to_string(),
 //             "https://arkade.computer".to_string(),
 //             "https://api.boltz.exchange".to_string(),
 //         )
@@ -70,7 +130,10 @@ pub mod utils;
 //             .boarding_address()
 //             .expect("Failed to get boarding address");
 //         println!("Boarding Address: {}", boarding_address);
-
+//         let normal_address = wallet
+//             .onchain_address()
+//             .expect("Failed to get onchain address");
+//         println!("Normal Address: {}", normal_address);
 //         // Check boarding settlement status
 //         let boarding_status = wallet
 //             .get_boarding_status()
@@ -90,31 +153,31 @@ pub mod utils;
 //         );
 
 //         // Settle pending boarding transactions if any exist
-//         if boarding_status.confirmed_count > 0 {
-//             println!(
-//                 "Settling {} confirmed boarding transactions...",
-//                 boarding_status.confirmed_count
-//             );
-//             let settlement_result = wallet
-//                 .settle_boarding_transactions(true)
-//                 .await
-//                 .expect("Failed to settle boarding transactions");
+//         // if boarding_status.confirmed_count > 0 {
+//         //     println!(
+//         //         "Settling {} confirmed boarding transactions...",
+//         //         boarding_status.confirmed_count
+//         //     );
+//         //     let settlement_result = wallet
+//         //         .settle_boarding_transactions(true)
+//         //         .await
+//         //         .expect("Failed to settle boarding transactions");
 
-//             println!("Settlement completed:");
-//             println!("  Pending after: {}", settlement_result.pending_count);
-//             println!("  Confirmed after: {}", settlement_result.confirmed_count);
-//             println!(
-//                 "  Confirmed amount: {}",
-//                 settlement_result.total_confirmed_sats
-//             );
-//             println!("  Pending amount: {}", settlement_result.total_pending_sats);
-//         } else {
-//             println!("No confirmed boarding transactions to settle");
-//         }
+//         //     println!("Settlement completed:");
+//         //     println!("  Pending after: {}", settlement_result.pending_count);
+//         //     println!("  Confirmed after: {}", settlement_result.confirmed_count);
+//         //     println!(
+//         //         "  Confirmed amount: {}",
+//         //         settlement_result.total_confirmed_sats
+//         //     );
+//         //     println!("  Pending amount: {}", settlement_result.total_pending_sats);
+//         // } else {
+//         //     println!("No confirmed boarding transactions to settle");
+//         // }
 //         println!("==================================");
 
 //         // Test unilateral exit functionality
-//         println!("=== Unilateral Exit Test ===");
+//         // println!("=== Unilateral Exit Test ===");
 //         let vtxos = wallet.get_vtxos().await.expect("Failed to get VTXOs");
 
 //         println!("Found {} VTXOs", vtxos.len());
@@ -166,19 +229,19 @@ pub mod utils;
 
 //             if balance.available > 0 {
 //                 // Check if we have any confirmed boarding transactions (Bitcoin UTXOs) for fees
-//                 if boarding_status.confirmed_count == 0 {
-//                     println!("WARNING: No confirmed boarding transactions available.");
-//                     println!("Unilateral exit requires Bitcoin UTXOs to pay for anchor transaction fees.");
-//                     println!("You need to wait for boarding transactions to confirm first.");
-//                     println!("Skipping unilateral exit test.");
-//                 } else {
-//                     println!("Initiating unilateral exit for all available VTXOs...");
-//                     let txid = wallet
-//                         .send_unilateral_exit(exit_address.to_string(), balance.available as u64)
-//                         .await
-//                         .expect("Failed to initiate unilateral exit");
-//                     println!("Unilateral exit completed. Last transaction: {}", txid);
-//                 }
+//                 // if boarding_status.confirmed_count == 0 {
+//                 //     println!("WARNING: No confirmed boarding transactions available.");
+//                 //     println!("Unilateral exit requires Bitcoin UTXOs to pay for anchor transaction fees.");
+//                 //     println!("You need to wait for boarding transactions to confirm first.");
+//                 //     println!("Skipping unilateral exit test.");
+//                 // } else {
+//                 println!("Initiating unilateral exit for all available VTXOs...");
+//                 let txid = wallet
+//                     .send_unilateral_exit(exit_address.to_string(), balance.available as u64)
+//                     .await
+//                     .expect("Failed to initiate unilateral exit");
+//                 println!("Unilateral exit completed. Last transaction: {}", txid);
+//                 // }
 //             } else {
 //                 println!("No available balance for unilateral exit");
 //             }

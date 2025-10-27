@@ -1,12 +1,12 @@
 use crate::ark::esplora::EsploraClient;
 use crate::ark::storage::InMemoryDb;
 use anyhow::{anyhow, Result};
+use ark_client::wallet::OnchainWallet;
 use bitcoin::secp256k1::{Keypair, Secp256k1};
 use bitcoin::Network;
 use std::str::FromStr;
 use std::sync::Arc;
 use std::time::Duration;
-
 // Re-export types that flutter_rust_bridge needs
 pub use ark_bdk_wallet::Wallet;
 pub use ark_client::{Client, InMemorySwapStorage, OfflineClient};
@@ -30,6 +30,7 @@ impl ArkWallet {
 
         let db = InMemoryDb::default();
         let wallet = ark_bdk_wallet::Wallet::new(kp, secp, network, esplora.as_str(), db)?;
+        // wallet.sync().await?;
         let wallet = Arc::new(wallet);
 
         let esplora = EsploraClient::new(esplora.as_str())?;

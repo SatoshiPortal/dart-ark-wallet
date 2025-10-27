@@ -34,7 +34,6 @@ impl ArkWallet {
             .inner
             .get_onchain_address()
             .map_err(|error| anyhow!("Could not get onchain address {error:#}"))?;
-
         Ok(onchain_address.to_string())
     }
 }
