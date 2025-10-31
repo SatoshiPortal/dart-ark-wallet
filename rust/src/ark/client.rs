@@ -1,7 +1,7 @@
 use crate::ark::esplora::EsploraClient;
 use crate::ark::storage::InMemoryDb;
 use anyhow::{anyhow, Result};
-use ark_client::wallet::OnchainWallet;
+// use ark_client::wallet::OnchainWallet;
 use bitcoin::secp256k1::{Keypair, Secp256k1};
 use bitcoin::Network;
 use std::str::FromStr;
